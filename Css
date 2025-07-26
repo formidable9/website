@@ -12,7 +12,7 @@ body {
 .hero {
   position: relative;
   min-height: 100vh;
-  background-image: url("background.jpg");
+  background-image: url("Background%20.PNG");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover; /* Scales the background to cover the whole area [oai_citation:0‡w3schools.com](https://www.w3schools.com/howto/howto_css_full_page.asp#:~:text=%2F,image%3A%20url%28%22img_girl.jpg) */
