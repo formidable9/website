@@ -62,13 +62,31 @@
       width: 80px;
       margin-bottom: 20px;
     }
-    footer {
-      background-color: #111;
-      color: #ccc;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.9em;
+      footer {
+        background-color: #111;
+        color: #ccc;
+        padding: 20px;
+        text-align: center;
+        font-size: 0.9em;
+      }
+
+       /* Responsive scaling for consistent layout across devices */
+      .hero h1 {
+        font-size: clamp(2rem, 6vw, 3rem);
+      }
+      .hero p {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        max-width: 90%;
+        margin: 0 auto;
+      }
+      .cta-button {
+        font-size: clamp(0.8rem, 2vw, 1rem);
+        padding: clamp(0.6rem, 1.5vw, 0.8rem) clamp(1.5rem, 4vw, 2rem);
+        margin-top: 1rem;
+      }
     }
+   
+    
   </style>
 </head>
 <body>
