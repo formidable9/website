@@ -178,3 +178,28 @@ body {
   animation: pulse 3s infinite;
 }
 
+/* Ask AI section styles */
+.ask-ai {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  margin-top: 2rem;
+  border-radius: 8px;
+}
+
+.ask-ai h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.ask-ai p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ai-logo {
+  width: 150px;
+  height: auto;
+  display: block;
+  margin: 0 auto 1rem auto;
+]
