@@ -19,32 +19,35 @@
     .logo {
       max-width: 150px;
     }
- .hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 20px;
-  text-align: center;
-  background-image: url('Background%20.PNG');
-  background-size: cover;
-  background-position: center;
-}
-;
- .hero h1 {
-  font-size: clamp(2rem, 6vw, 3rem);
-  margin-bottom: 1rem;
-  max-width: 90%;
-}
-
- .hero p {
-  font-size: clamp(1rem, 3vw, 1.2rem);
-  max-width: 90%;
-  margin: 0 auto;
-  margin-bottom: 1rem;
-}
-
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      animation: slideShow 20s infinite;
+    }
+    @keyframes slideShow {
+      0% { background-image: url('bg1.jpg'); }
+      33% { background-image: url('bg2.jpg'); }
+      66% { background-image: url('bg3.jpg'); }
+      100% { background-image: url('bg1.jpg'); }
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      margin-bottom: 1rem;
+      max-width: 90%;
+    }
+    .hero p {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      max-width: 90%;
+      margin: 0 auto;
+      margin-bottom: 1rem;
+    }
     .cta-button {
       margin-top: 20px;
       background-color: crimson;
@@ -55,16 +58,16 @@
       text-decoration: none;
       font-weight: bold;
     }
-    .ask-ai {
+    .ask-ai, .spotify-section {
       background-color: #111;
       padding: 60px 20px;
       text-align: center;
     }
-    .ask-ai h2 {
+    .ask-ai h2, .spotify-section h2 {
       font-size: 2.5em;
       margin-bottom: 10px;
     }
-    .ask-ai p {
+    .ask-ai p, .spotify-section p {
       font-size: 1.1em;
       margin-bottom: 20px;
     }
@@ -72,84 +75,54 @@
       width: 80px;
       margin-bottom: 20px;
     }
-      footer {
-        background-color: #111;
-        color: #ccc;
-        padding: 20px;
-        text-align: center;
-        font-size: 0.9em;
-      }
-
-       /* Responsive scaling for consistent layout across devices */
-      .hero h1 {
-        font-size: clamp(2rem, 6vw, 3rem);
-      }
-      .hero p {
-    >
-
-        font-size: clamp(1rem, 2.5vw, 1.2rem);
-        max-width: 90%;
-        margin: 0 auto;
-      }
-      .cta-button {
-        font-size: clamp(0.8rem, 2vw, 1rem);
-        padding: clamp(0.6rem, 1.5vw, 0.8rem) clamp(1.5rem, 4vw, 2rem);
-        margin-top: 1rem;
-      }
+    footer {
+      background-color: #111;
+      color: #ccc;
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9em;
     }
-      /* Services section styles */
-  
-   
-
-.services {
-    background-color: #111;
-    padding: 60px 20px;
-    text-align: center;
-  }
-
-  .services h2 {
-    font-size: 2.5em;
-    margin-bottom: 1rem;
-  }
-
-  .service-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-  }
-
-  .service-item {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 8px;
-    width: 220px;
-  }
-
-  .service-item h3 {
-    margin: 0 0 10px;
-    font-size: 1.3em;
-  }
-
-  .service-item p {
-    font-size: 1em;
-  }
-
-  @media (max-width: 600px) {
+    .services {
+      background-color: #111;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .services h2 {
+      font-size: 2.5em;
+      margin-bottom: 1rem;
+    }
     .service-list {
-      flex-direction: column;
-      align-items: center;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
     }
     .service-item {
-      width: 100%;
-      max-width: 280px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+      width: 220px;
     }
-  }
-
-<
+    .service-item h3 {
+      margin: 0 0 10px;
+      font-size: 1.3em;
+    }
+    .service-item p {
+      font-size: 1em;
+    }
+    @media (max-width: 600px) {
+      .service-list {
+        flex-direction: column;
+        align-items: center;
+      }
+      .service-item {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -160,25 +133,23 @@
   <section class="hero">
     <h1>Echo Unfiltered</h1>
     <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank">
-      Watch on YouTube
-    </a>
+    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank">Watch on YouTube</a>
   </section>
 
   <section class="ask-ai">
     <img src="https://img.icons8.com/color/96/artificial-intelligence.png" alt="Ask AI Logo" class="ai-logo"/>
     <h2>Ask AI</h2>
-    <p>
-      Curious about this website, the YouTube channel, how AI works, or who Skyboi Formidable is? Ask AI anything!
-    </p>
-    <a href="mailto:skyboiformidable@gmail.com?subject=Ask%20AI" class="cta-button">
-      Ask Now
-    </a>
+    <p>Curious about this website, the YouTube channel, how AI works, or who Skyboi Formidable is? Ask AI anything!</p>
+    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
   </section>
 
+  <section class="spotify-section">
+    <h2>🎧 Listen on Spotify</h2>
+    <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
+    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=foiMAx6AStGtfy8ZvaeUow" class="cta-button" target="_blank">Visit Spotify</a>
+  </section>
 
- 
-   <section class="services">
+  <section class="services">
     <h2>Our Services</h2>
     <ul class="service-list">
       <li class="service-item">
@@ -209,6 +180,18 @@
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
 
-  </body>
- 
+  <script>
+    function startVoiceAI() {
+      const synth = window.speechSynthesis;
+      const welcome = new SpeechSynthesisUtterance("Welcome to Echo Unfiltered. Ask your question and I’ll answer with my voice.");
+      welcome.voice = speechSynthesis.getVoices().find(v => v.name.includes("Female") || v.name.includes("Google") || v.name.includes("Jenny"));
+      synth.speak(welcome);
+    }
+
+    // Auto start on page load
+    window.onload = () => {
+      setTimeout(() => startVoiceAI(), 1000);
+    }
+  </script>
+</body>
 </html>
