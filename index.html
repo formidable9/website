@@ -148,6 +148,8 @@
     <p>Ask Echo a question with your voice and hear her response.</p>
     <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
     <div id="ai-response"></div>
+    <br><br>
+    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" class="cta-button">Enter Echo Battle Arena</a>
   </section>
 
   <section class="spotify-section">
@@ -182,79 +184,75 @@
     </ul>
   </section>
 
-  <section class="spotify-section">
-    <h2>🔥 Echo Battle Arena</h2>
-    <p>Drop your bars. Echo claps back in real time.</p>
-    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" class="cta-button">Launch Battle Arena</a>
-  </section>
-
   <footer>
-    Contact us: <a href="tel:081263323131">081263323131</a>, <a href="tel:08137961537">08137961537</a><br/>
+    Contact us: 081263323131, 08137961537<br/>
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
 
-<script>
-  function getEchoVoice() {
-    return new Promise((resolve) => {
-      const voices = speechSynthesis.getVoices();
-      if (voices.length) {
-        resolve(voices);
-      } else {
-        speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
-      }
-    });
-  }
+  <script>
+    function getEchoVoice() {
+      return new Promise((resolve) => {
+        const voices = speechSynthesis.getVoices();
+        if (voices.length) {
+          resolve(voices);
+        } else {
+          speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
+        }
+      });
+    }
 
-  async function startVoiceAI() {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'en-US';
-    recognition.start();
+    async function startVoiceAI() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-US';
+      recognition.continuous = true;
+      recognition.interimResults = false;
+      recognition.start();
 
-    recognition.onresult = async function(event) {
-      const transcript = event.results[0][0].transcript;
-      document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
+      recognition.onresult = async function(event) {
+        const transcript = event.results[event.results.length - 1][0].transcript;
+        document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
 
-      try {
-        const reply = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer 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"
-          },
-          body: JSON.stringify({
-            model: "llama3-70b-8192",
-            messages: [
-              { role: "system", content: "You are Echo, a wise, confident female AI who responds with clarity." },
-              { role: "user", content: transcript }
-            ]
-          })
-        });
+        try {
+          const reply = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer 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"
+            },
+            body: JSON.stringify({
+              model: "llama3-70b-8192",
+              messages: [
+                { role: "system", content: "You are Echo, a wise, confident female AI who responds with clarity." },
+                { role: "user", content: transcript }
+              ]
+            })
+          });
 
-        const data = await reply.json();
-        const responseText = data.choices[0].message.content;
-        document.getElementById('ai-response').innerText = responseText;
+          const data = await reply.json();
+          const responseText = data.choices[0].message.content;
+          document.getElementById('ai-response').innerText = responseText;
 
-        const voices = await getEchoVoice();
-        const echoVoice = new SpeechSynthesisUtterance(responseText);
-        echoVoice.voice = voices.find(v =>
-          v.name.toLowerCase().includes("female") ||
-          v.name.toLowerCase().includes("google") ||
-          v.name.toLowerCase().includes("jenny")
-        ) || voices[0];
+          const voices = await getEchoVoice();
+          const echoVoice = new SpeechSynthesisUtterance(responseText);
+          echoVoice.voice = voices.find(v =>
+            v.name.toLowerCase().includes("female") ||
+            v.name.toLowerCase().includes("google") ||
+            v.name.toLowerCase().includes("jenny")
+          ) || voices[0];
+          echoVoice.rate = 1;
+          echoVoice.pitch = 1.1;
+          echoVoice.volume = 1;
 
-        echoVoice.rate = 1;
-        echoVoice.pitch = 1.1;
-        echoVoice.volume = 1;
+          setTimeout(() => {
+            speechSynthesis.speak(echoVoice);
+          }, 300);
+        } catch (err) {
+          console.error("Echo voice error:", err);
+          document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
+        }
+      };
+    }
+  </script>
 
-        setTimeout(() => {
-          speechSynthesis.speak(echoVoice);
-        }, 400);
-      } catch (err) {
-        console.error("Echo voice error:", err);
-        document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
-      }
-    };
-  }
-</script>
 </body>
 </html>
