@@ -58,16 +58,16 @@
       text-decoration: none;
       font-weight: bold;
     }
-    .ask-ai, .spotify-section, .battle-arena {
+    .ask-ai, .spotify-section {
       background-color: #111;
       padding: 60px 20px;
       text-align: center;
     }
-    .ask-ai h2, .spotify-section h2, .battle-arena h2 {
+    .ask-ai h2, .spotify-section h2 {
       font-size: 2.5em;
       margin-bottom: 10px;
     }
-    .ask-ai p, .spotify-section p, .battle-arena p {
+    .ask-ai p, .spotify-section p {
       font-size: 1.1em;
       margin-bottom: 20px;
     }
@@ -139,13 +139,14 @@
     <h1>Echo Unfiltered</h1>
     <p>A live interview with my AI called Echo</p>
     <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank">Watch on YouTube</a>
+    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" class="cta-button" target="_blank">🎤 Enter Battle Arena</a>
   </section>
 
   <section class="ask-ai">
     <img src="https://img.icons8.com/color/96/artificial-intelligence.png" alt="Ask AI Logo" class="ai-logo"/>
     <h2>Ask AI</h2>
     <p>Ask Echo a question with your voice and hear her response.</p>
-    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
+    <button class="cta-button" onclick="startContinuousListening()">Ask with Your Voice</button>
     <div id="ai-response"></div>
   </section>
 
@@ -153,12 +154,6 @@
     <h2>🎧 Listen on Spotify</h2>
     <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
     <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=foiMAx6AStGtfy8ZvaeUow" class="cta-button" target="_blank">Visit Spotify</a>
-  </section>
-
-  <section class="battle-arena">
-    <h2>🔥 Echo Battle Arena</h2>
-    <p>Step into the ring. Face Echo in live freestyle battles.</p>
-    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" class="cta-button" target="_blank">Launch Battle Arena</a>
   </section>
 
   <section class="services">
@@ -204,55 +199,64 @@
       });
     }
 
-    async function startVoiceAI() {
+    async function processTranscript(transcript) {
+      document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
+
+      try {
+        const reply = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer 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"
+          },
+          body: JSON.stringify({
+            model: "llama3-70b-8192",
+            messages: [
+              { role: "system", content: "You are Echo, a confident, smart, female AI who responds clearly." },
+              { role: "user", content: transcript }
+            ]
+          })
+        });
+
+        const data = await reply.json();
+        const responseText = data.choices[0].message.content;
+        document.getElementById('ai-response').innerText = responseText;
+
+        const voices = await getEchoVoice();
+        const echoVoice = new SpeechSynthesisUtterance(responseText);
+        echoVoice.voice = voices.find(v =>
+          v.name.toLowerCase().includes("female") ||
+          v.name.toLowerCase().includes("google") ||
+          v.name.toLowerCase().includes("jenny")
+        ) || voices[0];
+
+        echoVoice.rate = 1;
+        echoVoice.pitch = 1.1;
+        echoVoice.volume = 1;
+
+        speechSynthesis.speak(echoVoice);
+      } catch (err) {
+        console.error("Echo voice error:", err);
+        document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
+      }
+    }
+
+    async function startContinuousListening() {
       const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       recognition.lang = 'en-US';
-      recognition.start();
+      recognition.continuous = true;
+      recognition.interimResults = false;
 
       recognition.onresult = async function(event) {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
-
-        try {
-          const reply = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer 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"
-            },
-            body: JSON.stringify({
-              model: "llama3-70b-8192",
-              messages: [
-                { role: "system", content: "You are Echo, a wise, confident female AI who responds with clarity." },
-                { role: "user", content: transcript }
-              ]
-            })
-          });
-
-          const data = await reply.json();
-          const responseText = data.choices[0].message.content;
-          document.getElementById('ai-response').innerText = responseText;
-
-          const voices = await getEchoVoice();
-          const echoVoice = new SpeechSynthesisUtterance(responseText);
-          echoVoice.voice = voices.find(v =>
-            v.name.toLowerCase().includes("female") ||
-            v.name.toLowerCase().includes("google") ||
-            v.name.toLowerCase().includes("jenny")
-          ) || voices[0];
-
-          echoVoice.rate = 1;
-          echoVoice.pitch = 1.1;
-          echoVoice.volume = 1;
-
-          setTimeout(() => {
-            speechSynthesis.speak(echoVoice);
-          }, 400);
-        } catch (err) {
-          console.error("Echo voice error:", err);
-          document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
-        }
+        const transcript = event.results[event.results.length - 1][0].transcript.trim();
+        await processTranscript(transcript);
       };
+
+      recognition.onerror = function(event) {
+        console.error("Speech recognition error:", event.error);
+      };
+
+      recognition.start();
     }
   </script>
 </body>
