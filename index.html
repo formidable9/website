@@ -45,7 +45,8 @@
     .hero p {
       font-size: clamp(1rem, 3vw, 1.2rem);
       max-width: 90%;
-      margin: 0 auto 1rem;
+      margin: 0 auto;
+      margin-bottom: 1rem;
     }
     .cta-button {
       margin-top: 20px;
@@ -73,11 +74,6 @@
     .ai-logo {
       width: 80px;
       margin-bottom: 20px;
-    }
-    .ai-response {
-      margin-top: 15px;
-      font-size: 1.2em;
-      color: #0f0;
     }
     footer {
       background-color: #111;
@@ -127,6 +123,11 @@
         max-width: 280px;
       }
     }
+    #ai-response {
+      font-size: 1.1em;
+      color: lime;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -144,14 +145,14 @@
     <img src="https://img.icons8.com/color/96/artificial-intelligence.png" alt="Ask AI Logo" class="ai-logo"/>
     <h2>Ask AI</h2>
     <p>Ask Echo a question with your voice and hear her response.</p>
-    <button class="cta-button" onclick="askEcho()">Ask with Your Voice</button>
-    <div id="response" class="ai-response"></div>
+    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
+    <div id="ai-response"></div>
   </section>
 
   <section class="spotify-section">
     <h2>🎧 Listen on Spotify</h2>
     <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="cta-button" target="_blank">Visit Spotify</a>
+    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=foiMAx6AStGtfy8ZvaeUow" class="cta-button" target="_blank">Visit Spotify</a>
   </section>
 
   <section class="services">
@@ -180,44 +181,44 @@
     </ul>
   </section>
 
-  <section class="ask-ai">
-    <h2>Battle Mode</h2>
-    <p>Enter Echo’s Rap Arena and test your lyrical power.</p>
-    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" class="cta-button" target="_blank">Enter Arena</a>
-  </section>
-
   <footer>
     Contact us: 081263323131, 08137961537<br/>
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
 
   <script>
-    function askEcho() {
+    async function startVoiceAI() {
       const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       recognition.lang = 'en-US';
       recognition.start();
-      recognition.onresult = async function(event) {
-        const userInput = event.results[0][0].transcript;
-        document.getElementById("response").textContent = "You said: " + userInput + "... thinking...";
 
-        const reply = await fetch("https://api.chatanywhere.com.cn/v1/chat/completions", {
-          method: "POST",
+      recognition.onresult = async function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
+
+        const reply = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer demo-key"
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer YOUR_OPENAI_API_KEY' // Replace this with your actual API key
           },
           body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: userInput }]
+            model: 'gpt-3.5-turbo',
+            messages: [
+              { role: 'system', content: 'You are a helpful assistant named Echo.' },
+              { role: 'user', content: transcript }
+            ]
           })
-        }).then(res => res.json());
+        });
 
-        const aiReply = reply.choices[0].message.content;
-        document.getElementById("response").textContent = aiReply;
-        const utter = new SpeechSynthesisUtterance(aiReply);
-        utter.voice = speechSynthesis.getVoices().find(v => v.name.includes("Female") || v.name.includes("Google") || v.name.includes("Jenny"));
-        speechSynthesis.speak(utter);
-      }
+        const data = await reply.json();
+        const responseText = data.choices[0].message.content;
+        document.getElementById('ai-response').innerText = responseText;
+
+        const echoVoice = new SpeechSynthesisUtterance(responseText);
+        echoVoice.voice = speechSynthesis.getVoices().find(v => v.name.includes("Female") || v.name.includes("Google") || v.name.includes("Jenny"));
+        speechSynthesis.speak(echoVoice);
+      };
     }
   </script>
 </body>
