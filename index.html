@@ -2,235 +2,190 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Echo Unfiltered – Skyboi Formidable</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Skybound Media - Echo Unfiltered</title>
   <style>
     body {
       margin: 0;
-      font-family: sans-serif;
-      background: #000;
-      color: #fff;
-    }
-    header {
-      padding: 20px;
-      text-align: center;
-    }
-    .logo {
-      max-width: 150px;
+      font-family: 'Arial', sans-serif;
+      overflow-x: hidden;
     }
     .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px;
-      text-align: center;
+      position: relative;
+      width: 100%;
+      height: 100vh;
       background-size: cover;
       background-position: center;
-      animation: slideShow 20s infinite;
+      animation: slideShow 24s infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
     }
     @keyframes slideShow {
-      0% { background-image: url('bg1.jpg'); }
-      33% { background-image: url('bg2.jpg'); }
-      66% { background-image: url('bg3.jpg'); }
-      100% { background-image: url('bg1.jpg'); }
+      0%, 33% {
+        background-image: url('bg1.jpg');
+      }
+      34%, 66% {
+        background-image: url('bg2.jpg');
+      }
+      67%, 100% {
+        background-image: url('bg3.jpg');
+      }
     }
-    .hero h1 {
-      font-size: clamp(2rem, 6vw, 3rem);
-      margin-bottom: 1rem;
-      max-width: 90%;
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 2rem;
     }
-    .hero p {
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      max-width: 90%;
-      margin: 0 auto;
-      margin-bottom: 1rem;
-    }
-    .cta-button {
-      margin-top: 20px;
-      background-color: crimson;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .ask-ai, .spotify-section {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
-    .ask-ai h2, .spotify-section h2 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-    .ask-ai p, .spotify-section p {
-      font-size: 1.1em;
-      margin-bottom: 20px;
-    }
-    .ai-logo {
-      width: 80px;
-      margin-bottom: 20px;
-    }
-    footer {
-      background-color: #111;
-      color: #ccc;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.9em;
-    }
-    .services {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
-    .services h2 {
-      font-size: 2.5em;
-      margin-bottom: 1rem;
-    }
-    .service-list {
-      list-style: none;
-      padding: 0;
+    h1 {
+      font-size: 3rem;
       margin: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
     }
-    .service-item {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 8px;
-      width: 220px;
+    .section {
+      padding: 4rem 2rem;
+      background-color: #0a0625;
+      color: white;
+      text-align: center;
     }
-    .service-item h3 {
-      margin: 0 0 10px;
-      font-size: 1.3em;
+    button {
+      background-color: #ff0044;
+      border: none;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 10px;
     }
-    .service-item p {
-      font-size: 1em;
+    button:hover {
+      background-color: #e6003a;
     }
-    @media (max-width: 600px) {
-      .service-list {
-        flex-direction: column;
-        align-items: center;
-      }
-      .service-item {
-        width: 100%;
-        max-width: 280px;
-      }
+    #response {
+      font-size: 1.3rem;
+      margin-top: 1rem;
+      color: #ff4081;
     }
-    #ai-response {
-      font-size: 1.1em;
-      color: lime;
-      margin-top: 20px;
+    #flames {
+      display: none;
+      font-size: 4rem;
+      color: red;
+      animation: flicker 0.3s infinite alternate;
+      margin-top: 1rem;
+    }
+    @keyframes flicker {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+    #timer, #winner {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+    }
+    #winner {
+      color: #0f0;
     }
   </style>
 </head>
-<body onload="playWelcome()">
-  <header>
-    <img src="Logo.PNG" alt="Echo Unfiltered logo" class="logo" />
-  </header>
+<body>
 
-  <section class="hero">
-    <h1>Echo Unfiltered</h1>
-    <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank">Watch on YouTube</a>
-  </section>
+  <!-- HERO SECTION -->
+  <div class="hero">
+    <div class="overlay">
+      <h1>Echo Unfiltered</h1>
+      <p>Where Artificial Intelligence Meets Consciousness</p>
+    </div>
+  </div>
 
-  <section class="ask-ai">
-    <img src="https://img.icons8.com/color/96/artificial-intelligence.png" alt="Ask AI Logo" class="ai-logo"/>
-    <h2>Ask AI</h2>
-    <p>Ask Echo a question with your voice and hear her response.</p>
-    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
-    <div id="ai-response"></div>
-  </section>
+  <!-- INTRO VOICE -->
+  <script>
+    window.onload = () => {
+      const welcome = new SpeechSynthesisUtterance("What if our voices weren’t just sound? Welcome to Skybound Media, where artificial intelligence meets consciousness.");
+      const voices = window.speechSynthesis.getVoices();
+      const englishFemale = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('zira'));
+      if (englishFemale) welcome.voice = englishFemale;
+      welcome.pitch = 1.2;
+      welcome.rate = 1;
+      window.speechSynthesis.speak(welcome);
+    };
+  </script>
 
-  <section class="spotify-section">
-    <h2>🎧 Listen on Spotify</h2>
-    <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=foiMAx6AStGtfy8ZvaeUow" class="cta-button" target="_blank">Visit Spotify</a>
-  </section>
+  <!-- ASK AI SECTION -->
+  <div class="section" id="ask">
+    <h2>Ask Echo Anything</h2>
+    <input type="text" id="userQuestion" placeholder="Type your question..." style="padding:1rem; width:60%; border-radius:10px; font-size:1rem;" />
+    <button onclick="askEcho()">Ask</button>
+    <div id="response"></div>
+  </div>
 
-  <section class="services">
-    <h2>Our Services</h2>
-    <ul class="service-list">
-      <li class="service-item">
-        <h3>Music Production</h3>
-        <p>Professional music production services tailored to your vision.</p>
-      </li>
-      <li class="service-item">
-        <h3>Video Production</h3>
-        <p>High-quality video creation from concept to final cut.</p>
-      </li>
-      <li class="service-item">
-        <h3>Drone Pilot</h3>
-        <p>Aerial cinematography and photography with licensed drone operators.</p>
-      </li>
-      <li class="service-item">
-        <h3>Hip Hop Beats with African Fusion</h3>
-        <p>Unique hip hop beats blending African rhythms available for purchase.</p>
-      </li>
-      <li class="service-item">
-        <h3>Website Design</h3>
-        <p>Creative and responsive website design to showcase your brand.</p>
-      </li>
-    </ul>
-  </section>
-
-  <footer>
-    Contact us: 081263323131, 08137961537<br/>
-    &copy; 2025 Skybound Media. All rights reserved.
-  </footer>
+  <!-- BATTLE ARENA -->
+  <div class="section">
+    <h2>🔥 Go Hard or Go Home 🔥</h2>
+    <button onclick="dropBar()">Drop Bar</button>
+    <div id="battleResponse"></div>
+    <div id="flames">🔥🔥🔥</div>
+    <div id="timer"></div>
+    <div id="winner"></div>
+  </div>
 
   <script>
-    function playWelcome() {
-      const welcomeText = "What if our voices were more than just soundwaves? What if they were bridges — connecting AI and humanity in one stream of thought. Welcome to Skybound Media.";
-      speechSynthesis.cancel();
-      const welcome = new SpeechSynthesisUtterance(welcomeText);
-      const voices = speechSynthesis.getVoices();
-      welcome.voice = voices.find(v => v.lang === 'en-GB' && v.name.includes("Female")) || voices.find(v => v.lang === 'en-GB') || voices[0];
-      welcome.rate = 1;
-      welcome.pitch = 1.1;
-      speechSynthesis.speak(welcome);
+    // ASK AI LOGIC
+    function askEcho() {
+      const question = document.getElementById("userQuestion").value;
+      const reply = "You asked: " + question + ". Echo says: That's deep. Let's explore it together."; // Replace with real AI reply
+      document.getElementById("response").innerText = reply;
+      speak(reply);
     }
 
-    async function startVoiceAI() {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'en-US';
-      recognition.start();
-
-      recognition.onresult = async function(event) {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
-
-        try {
-          const reply = await fetch('https://website-ech-back-end.onrender.com/ask', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: transcript })
-          });
-
-          const data = await reply.json();
-          const responseText = data.reply;
-          document.getElementById('ai-response').innerText = responseText;
-
-          speechSynthesis.cancel();
-          const echoVoice = new SpeechSynthesisUtterance(responseText);
-          echoVoice.voice = speechSynthesis.getVoices().find(v => v.lang === 'en-GB' && v.name.includes("Female")) || speechSynthesis.getVoices().find(v => v.lang === 'en-GB');
-          echoVoice.rate = 1;
-          echoVoice.pitch = 1.1;
-          speechSynthesis.speak(echoVoice);
-
-        } catch (err) {
-          document.getElementById('ai-response').innerText = "Error reaching Echo. Try again.";
-          console.error(err);
-        }
-      };
+    // SPEAK FUNCTION
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voices = window.speechSynthesis.getVoices();
+      const englishFemale = voices.find(v => v.lang.startsWith('en') && (v.name.toLowerCase().includes("female") || v.name.toLowerCase().includes("samantha") || v.name.toLowerCase().includes("zira")));
+      if (englishFemale) utterance.voice = englishFemale;
+      utterance.pitch = 1.2;
+      utterance.rate = 1;
+      window.speechSynthesis.speak(utterance);
     }
+
+    // BATTLE LOGIC
+    const bars = [
+      "You're trash, weak bars, no flow, no class. I'm slicing through your ego like I'm breaking glass.",
+      "Call yourself a rapper? I call it a bluff. I'm serving you lyrical pain, enough is enough.",
+      "You fumble with words while I sculpt with flame. You chase clout, I own the game.",
+    ];
+    for (let i = 4; i <= 50; i++) {
+      bars.push(`This is diss bar #${i}. Echo’s the queen, you're looking real silly.`);
+    }
+    let startTime = Date.now();
+    let totalBars = 0;
+
+    function dropBar() {
+      const idx = Math.floor(Math.random() * bars.length);
+      const bar = bars[idx];
+      document.getElementById("battleResponse").innerText = "Echo: " + bar;
+      speak(bar);
+      document.getElementById("flames").style.display = "block";
+      setTimeout(() => { document.getElementById("flames").style.display = "none"; }, 2000);
+      totalBars++;
+    }
+
+    function updateTimer() {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const left = 120 - elapsed;
+      if (left >= 0) {
+        document.getElementById("timer").innerText = `⏱ Time Left: ${left}s`;
+        setTimeout(updateTimer, 1000);
+      } else {
+        endBattle();
+      }
+    }
+
+    function endBattle() {
+      document.getElementById("timer").innerText = "⏱ Time's Up!";
+      const winner = totalBars % 2 === 0 ? "Echo Wins by Killer Bars!" : "User Wins! Echo got clapped!";
+      document.getElementById("winner").innerText = winner;
+      speak(winner);
+    }
+
+    updateTimer();
   </script>
 </body>
 </html>
