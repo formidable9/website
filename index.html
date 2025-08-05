@@ -186,6 +186,20 @@
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
 <script>
+  // Wait for voices to be available before speaking
+  function getEchoVoice() {
+    return new Promise(resolve => {
+      let voices = speechSynthesis.getVoices();
+      if (voices.length) {
+        resolve(voices);
+        return;
+      }
+      speechSynthesis.onvoiceschanged = () => {
+        resolve(speechSynthesis.getVoices());
+      };
+    });
+  }
+
   async function startVoiceAI() {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognition.lang = 'en-US';
@@ -215,10 +229,12 @@
         const responseText = data.choices[0].message.content;
         document.getElementById('ai-response').innerText = responseText;
 
+        const voices = await getEchoVoice();
         const echoVoice = new SpeechSynthesisUtterance(responseText);
-        echoVoice.voice = speechSynthesis.getVoices().find(v =>
+        echoVoice.voice = voices.find(v =>
           v.name.includes("Female") || v.name.includes("Google") || v.name.includes("Jenny")
         );
+        echoVoice.rate = 1.0;
         speechSynthesis.speak(echoVoice);
       } catch (err) {
         document.getElementById('ai-response').innerText = "Echo couldn't reach the stars. Try again.";
