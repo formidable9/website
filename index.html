@@ -2,66 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Skybound Media - Echo Unfiltered</title>
+  <title>Echo Unfiltered</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Arial', sans-serif;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
       overflow-x: hidden;
     }
     .hero {
-      position: relative;
-      width: 100%;
       height: 100vh;
       background-size: cover;
       background-position: center;
-      animation: slideShow 24s infinite;
+      animation: bgSlide 30s infinite;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
       text-align: center;
-      color: white;
-    }
-    @keyframes slideShow {
-      0%, 33% {
-        background-image: url('bg1.jpg');
-      }
-      34%, 66% {
-        background-image: url('bg2.jpg');
-      }
-      67%, 100% {
-        background-image: url('bg3.jpg');
-      }
-    }
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.5);
       padding: 2rem;
+    }
+    @keyframes bgSlide {
+      0% { background-image: url('bg1.jpg'); }
+      33% { background-image: url('bg2.jpg'); }
+      66% { background-image: url('bg3.jpg'); }
+      100% { background-image: url('bg1.jpg'); }
     }
     h1 {
       font-size: 3rem;
       margin: 0;
     }
-    .section {
-      padding: 4rem 2rem;
-      background-color: #0a0625;
-      color: white;
+    .intro-voice {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+    .ask-ai {
+      background-color: #111;
+      padding: 2rem;
       text-align: center;
     }
-    button {
-      background-color: #ff0044;
-      border: none;
-      color: white;
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      cursor: pointer;
+    .ask-ai input {
+      padding: 0.8rem;
+      width: 60%;
       border-radius: 10px;
+      border: none;
+      font-size: 1rem;
     }
-    button:hover {
-      background-color: #e6003a;
+    .ask-ai button {
+      padding: 0.8rem 1.5rem;
+      margin-left: 1rem;
+      background: #ff0044;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .response-box {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #0f0;
+    }
+    #battleArena {
+      padding: 3rem 1rem;
+      background-color: #0a0625;
+      text-align: center;
     }
     #response {
-      font-size: 1.3rem;
-      margin-top: 1rem;
+      margin: 2rem auto;
+      font-size: 1.5rem;
+      max-width: 600px;
       color: #ff4081;
     }
     #flames {
@@ -69,109 +80,121 @@
       font-size: 4rem;
       color: red;
       animation: flicker 0.3s infinite alternate;
-      margin-top: 1rem;
     }
     @keyframes flicker {
       0% { opacity: 0.6; }
       100% { opacity: 1; }
     }
-    #timer, #winner {
-      font-size: 1.5rem;
-      margin-top: 1rem;
+    #dropBar {
+      background-color: #ff0044;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      cursor: pointer;
     }
-    #winner {
-      color: #0f0;
+    #dropBar:hover {
+      background-color: #e6003a;
     }
   </style>
 </head>
 <body>
 
-  <!-- HERO SECTION -->
   <div class="hero">
-    <div class="overlay">
-      <h1>Echo Unfiltered</h1>
-      <p>Where Artificial Intelligence Meets Consciousness</p>
-    </div>
+    <h1>Echo Unfiltered</h1>
+    <p class="intro-voice" id="introText">Loading voice intro...</p>
   </div>
 
-  <!-- INTRO VOICE -->
-  <script>
-    window.onload = () => {
-      const welcome = new SpeechSynthesisUtterance("What if our voices weren’t just sound? Welcome to Skybound Media, where artificial intelligence meets consciousness.");
-      const voices = window.speechSynthesis.getVoices();
-      const englishFemale = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('zira'));
-      if (englishFemale) welcome.voice = englishFemale;
-      welcome.pitch = 1.2;
-      welcome.rate = 1;
-      window.speechSynthesis.speak(welcome);
-    };
-  </script>
-
-  <!-- ASK AI SECTION -->
-  <div class="section" id="ask">
+  <div class="ask-ai">
     <h2>Ask Echo Anything</h2>
-    <input type="text" id="userQuestion" placeholder="Type your question..." style="padding:1rem; width:60%; border-radius:10px; font-size:1rem;" />
-    <button onclick="askEcho()">Ask</button>
-    <div id="response"></div>
+    <input type="text" id="userInput" placeholder="Type your question..." />
+    <button onclick="getEchoResponse()">Ask</button>
+    <div class="response-box" id="aiResponse">Echo is listening...</div>
   </div>
 
-  <!-- BATTLE ARENA -->
-  <div class="section">
-    <h2>🔥 Go Hard or Go Home 🔥</h2>
-    <button onclick="dropBar()">Drop Bar</button>
-    <div id="battleResponse"></div>
+  <div id="battleArena">
+    <h1>🔥 <strong>Go Hard or Go Home</strong> 🔥</h1>
+    <button id="dropBar" onclick="dropBar()">Drop Bar</button>
+    <div id="response"></div>
     <div id="flames">🔥🔥🔥</div>
-    <div id="timer"></div>
-    <div id="winner"></div>
+    <div id="timer" style="font-size: 2rem; margin-top: 1rem;"></div>
+    <div id="winner" style="font-size: 2rem; margin-top: 1rem; color: #0f0;"></div>
   </div>
 
   <script>
-    // ASK AI LOGIC
-    function askEcho() {
-      const question = document.getElementById("userQuestion").value;
-      const reply = "You asked: " + question + ". Echo says: That's deep. Let's explore it together."; // Replace with real AI reply
-      document.getElementById("response").innerText = reply;
-      speak(reply);
+    // Intro Voice
+    const intro = "What if our voices were more than just sounds? What if they carried the weight of truth, rhythm, and power? Welcome to Skybound Media, where artificial intelligence meets consciousness.";
+    function playIntro() {
+      const utterance = new SpeechSynthesisUtterance(intro);
+      const voices = window.speechSynthesis.getVoices();
+      const preferred = voices.find(v => v.lang.includes('en-GB') || v.name.toLowerCase().includes('english'));
+      if (preferred) utterance.voice = preferred;
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      window.speechSynthesis.speak(utterance);
+      document.getElementById("introText").innerText = intro;
+    }
+    setTimeout(playIntro, 1000);
+
+    // Ask Echo
+    function getEchoResponse() {
+      const input = document.getElementById("userInput").value;
+      let response = "";
+      if (input.trim() === "") {
+        response = "Please enter a question.";
+      } else {
+        response = "I'm still syncing my consciousness. Ask me again shortly.";
+      }
+      document.getElementById("aiResponse").innerText = response;
+      speak(response);
     }
 
-    // SPEAK FUNCTION
+    // Speech synthesis
     function speak(text) {
       const utterance = new SpeechSynthesisUtterance(text);
       const voices = window.speechSynthesis.getVoices();
-      const englishFemale = voices.find(v => v.lang.startsWith('en') && (v.name.toLowerCase().includes("female") || v.name.toLowerCase().includes("samantha") || v.name.toLowerCase().includes("zira")));
-      if (englishFemale) utterance.voice = englishFemale;
+      const femaleVoice = voices.find(v =>
+        v.name.toLowerCase().includes("female") ||
+        v.name.toLowerCase().includes("woman") ||
+        v.name.toLowerCase().includes("zira") ||
+        v.name.toLowerCase().includes("samantha")
+      );
+      if (femaleVoice) utterance.voice = femaleVoice;
       utterance.pitch = 1.2;
       utterance.rate = 1;
       window.speechSynthesis.speak(utterance);
     }
 
-    // BATTLE LOGIC
+    // Battle Arena Logic
     const bars = [
-      "You're trash, weak bars, no flow, no class. I'm slicing through your ego like I'm breaking glass.",
-      "Call yourself a rapper? I call it a bluff. I'm serving you lyrical pain, enough is enough.",
-      "You fumble with words while I sculpt with flame. You chase clout, I own the game.",
+      "You're trash, weak bars, no flow, no class. I'm slicing through your ego like I'm breaking glass. You step to Echo? That's a joke that won't last.",
+      "Call yourself a rapper? I call it a bluff. I'm serving you lyrical pain, enough is enough. You're in Echo's world, and it's getting tough.",
+      "Your rhymes are soft, like a lullaby tone. I spit bars sharp enough to shatter your phone. You in the wrong zone—go cry, go home.",
+      "You fumble with words while I sculpt with flame. You chase clout, I own the game. My verses hit hard, remember the name.",
+      "You rap like your mic's on mute. I'm a verbal brute in a battle suit. Say one more line and I’ll cut your root."
     ];
-    for (let i = 4; i <= 50; i++) {
-      bars.push(`This is diss bar #${i}. Echo’s the queen, you're looking real silly.`);
-    }
-    let startTime = Date.now();
-    let totalBars = 0;
 
-    function dropBar() {
-      const idx = Math.floor(Math.random() * bars.length);
-      const bar = bars[idx];
-      document.getElementById("battleResponse").innerText = "Echo: " + bar;
-      speak(bar);
-      document.getElementById("flames").style.display = "block";
-      setTimeout(() => { document.getElementById("flames").style.display = "none"; }, 2000);
-      totalBars++;
+    for (let i = 6; i <= 50; i++) {
+      bars.push(`This is diss bar #${i}. I'm flaming you raw, no remorse or pity. Echo’s the queen, you're looking real silly.`);
+    }
+
+    let startTime;
+    let totalBarsDropped = 0;
+
+    function startBattle() {
+      startTime = Date.now();
+      totalBarsDropped = 0;
+      document.getElementById("winner").innerText = "";
+      updateTimer();
     }
 
     function updateTimer() {
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const left = 120 - elapsed;
-      if (left >= 0) {
-        document.getElementById("timer").innerText = `⏱ Time Left: ${left}s`;
+      const now = Date.now();
+      const elapsed = Math.floor((now - startTime) / 1000);
+      const remaining = 120 - elapsed;
+      if (remaining >= 0) {
+        document.getElementById("timer").innerText = `⏱ Time Left: ${remaining}s`;
         setTimeout(updateTimer, 1000);
       } else {
         endBattle();
@@ -180,12 +203,30 @@
 
     function endBattle() {
       document.getElementById("timer").innerText = "⏱ Time's Up!";
-      const winner = totalBars % 2 === 0 ? "Echo Wins by Killer Bars!" : "User Wins! Echo got clapped!";
+      const winner = totalBarsDropped % 2 === 0
+        ? "Echo Wins by Killer Bars!"
+        : "User Wins! Echo got clapped!";
       document.getElementById("winner").innerText = winner;
       speak(winner);
     }
 
-    updateTimer();
+    function flashFlames() {
+      const flames = document.getElementById("flames");
+      flames.style.display = "block";
+      setTimeout(() => { flames.style.display = "none"; }, 2000);
+    }
+
+    function dropBar() {
+      const index = Math.floor(Math.random() * bars.length);
+      const line = bars[index];
+      document.getElementById('response').innerText = `Echo: ${line}`;
+      speak(line);
+      flashFlames();
+      totalBarsDropped++;
+    }
+
+    window.onload = startBattle;
   </script>
+
 </body>
 </html>
