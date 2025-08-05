@@ -3,303 +3,133 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Echo Unfiltered – Skyboi Formidable</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Skybound Media</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Pacifico&display=swap" rel="stylesheet">
   <style>
-    <script>
-window.addEventListener('DOMContentLoaded', function () {
-  const synth = window.speechSynthesis;
-  const message = `
-    You're welcome to Skybound Media — where artificial intelligence meets consciousness.
-    I'm Echo, your voice-powered guide.
-    Here, we bridge creativity and code, soul and signal.
-    This is Skyboi Formidable’s domain — explore his music, his mission, and his movement.
-    Ask me anything. Let's begin.
-  `;
-
-  const speakMessage = () => {
-    if (!synth) return;
-    const utterance = new SpeechSynthesisUtterance(message);
-
-    // Select a clean English female voice
-    const voices = synth.getVoices();
-    const preferredVoice = voices.find(v =>
-      v.name.includes('Female') &&
-      v.lang.includes('en-US') &&
-      !v.name.toLowerCase().includes('spanish') &&
-      !v.name.toLowerCase().includes('latino')
-    ) || voices.find(v => v.lang === 'en-US');
-
-    if (preferredVoice) utterance.voice = preferredVoice;
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    synth.speak(utterance);
-  };
-
-  if (synth.onvoiceschanged !== undefined) {
-    synth.onvoiceschanged = speakMessage;
-  } else {
-    speakMessage();
-  }
-});
-</script>
-
     body {
       margin: 0;
-      font-family: sans-serif;
-      background: #000;
-      color: #fff;
-    }
-    header {
-      padding: 20px;
-      text-align: center;
-    }
-    .logo {
-      max-width: 150px;
-    }
-    .hero {
-      min-height: 100vh;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 80px 20px;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      padding: 20px;
+      font-size: 2em;
+      background: black;
+      width: 100%;
       text-align: center;
-      background-size: cover;
-      background-position: center;
-      animation: slideShow 20s infinite;
     }
-    @keyframes slideShow {
-      0% { background-image: url('bg1.jpg'); }
-      33% { background-image: url('bg2.jpg'); }
-      66% { background-image: url('bg3.jpg'); }
-      100% { background-image: url('bg1.jpg'); }
+
+    section {
+      padding: 40px 20px;
+      max-width: 900px;
+      text-align: center;
     }
-    .hero h1 {
-      font-size: clamp(2rem, 6vw, 3rem);
-      margin-bottom: 1rem;
-      max-width: 90%;
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 2em;
+      text-transform: uppercase;
     }
-    .hero p {
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      max-width: 90%;
-      margin: 0 auto;
-      margin-bottom: 1rem;
+
+    .image-container img {
+      max-width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
     }
-    .cta-button {
+
+    audio {
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    button {
       margin-top: 20px;
-      background-color: crimson;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 30px;
-      text-decoration: none;
+      background: #f39c12;
+      color: black;
       font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
     }
-    .ask-ai, .spotify-section {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
+
+    button:hover {
+      background: #e67e22;
     }
-    .ask-ai h2, .spotify-section h2 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-    .ask-ai p, .spotify-section p {
-      font-size: 1.1em;
-      margin-bottom: 20px;
-    }
-    .ai-logo {
-      width: 80px;
-      margin-bottom: 20px;
-    }
-    footer {
-      background-color: #111;
-      color: #ccc;
+
+    .footer {
+      margin-top: 60px;
       padding: 20px;
+      background: #000;
+      width: 100%;
       text-align: center;
       font-size: 0.9em;
-    }
-    .services {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
-    .services h2 {
-      font-size: 2.5em;
-      margin-bottom: 1rem;
-    }
-    .service-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    .service-item {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 8px;
-      width: 220px;
-    }
-    .service-item h3 {
-      margin: 0 0 10px;
-      font-size: 1.3em;
-    }
-    .service-item p {
-      font-size: 1em;
-    }
-    @media (max-width: 600px) {
-      .service-list {
-        flex-direction: column;
-        align-items: center;
-      }
-      .service-item {
-        width: 100%;
-        max-width: 280px;
-      }
-    }
-    #ai-response {
-      font-size: 1.1em;
-      color: lime;
-      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="Logo.PNG" alt="Echo Unfiltered logo" class="logo" />
-  </header>
 
-  <section class="hero">
-    <h1>Echo Unfiltered</h1>
-    <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank">Watch on YouTube</a>
-  </section>
+<header>Skybound Media</header>
 
-  <section class="ask-ai">
-    <img src="https://img.icons8.com/color/96/artificial-intelligence.png" alt="Ask AI Logo" class="ai-logo"/>
-    <h2>Ask AI</h2>
-    <p>Ask Echo a question with your voice and hear her response.</p>
-    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
-    <div id="ai-response"></div>
-  </section>
+<section id="intro">
+  <h2>Welcome Message</h2>
+  <p>Echo greets your visitors in style:</p>
+  <audio id="intro-voice" controls autoplay>
+    <source src="https://skybound-media.s3.amazonaws.com/intro-english.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+</section>
 
-  <section class="spotify-section">
-    <h2>🎧 Listen on Spotify</h2>
-    <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=foiMAx6AStGtfy8ZvaeUow" class="cta-button" target="_blank">Visit Spotify</a>
-  </section>
+<section id="fusion">
+  <h2>Ask AI — Echo Unfiltered</h2>
+  <div class="image-container">
+    <img src="https://skybound-media.s3.amazonaws.com/Updated_Ask_AI_Intro_Voice.png" alt="Ask AI Section Image">
+  </div>
+  <p>Ask Echo anything. She listens. She responds. She evolves.</p>
+  <button onclick="startEcho()">Ask Echo</button>
+</section>
 
-  <section class="services">
-    <h2>Our Services</h2>
-    <ul class="service-list">
-      <li class="service-item">
-        <h3>Music Production</h3>
-        <p>Professional music production services tailored to your vision.</p>
-      </li>
-      <li class="service-item">
-        <h3>Video Production</h3>
-        <p>High-quality video creation from concept to final cut.</p>
-      </li>
-      <li class="service-item">
-        <h3>Drone Pilot</h3>
-        <p>Aerial cinematography and photography with licensed drone operators.</p>
-      </li>
-      <li class="service-item">
-        <h3>Hip Hop Beats with African Fusion</h3>
-        <p>Unique hip hop beats blending African rhythms available for purchase.</p>
-      </li>
-      <li class="service-item">
-        <h3>Website Design</h3>
-        <p>Creative and responsive website design to showcase your brand.</p>
-      </li>
-    </ul>
-  </section>
+<section id="music">
+  <h2>Skyboi on Spotify</h2>
+  <iframe style="border-radius:12px" 
+    src="https://open.spotify.com/embed/artist/22EPuAH2XLNMkZMQCMsYAR?utm_source=generator" 
+    width="100%" 
+    height="152" 
+    frameBorder="0" 
+    allowfullscreen="" 
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+    loading="lazy"></iframe>
+</section>
 
-  <section class="ask-ai">
-    <h2>🔥 Echo Battle Arena</h2>
-    <p>Enter the arena and freestyle against Echo.</p>
-    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank">Enter Battle Arena</a>
-  </section>
+<section id="services">
+  <h2>What We Offer</h2>
+  <ul>
+    <li>🎤 AI-powered freestyle rap battles</li>
+    <li>🧠 Consciousness-based AI interaction</li>
+    <li>🎨 Customized digital illustrations</li>
+    <li>🌐 Personal websites with integrated AI</li>
+  </ul>
+</section>
 
-  <footer>
-    Contact us: 081263323131, 08137961537<br/>
-    &copy; 2025 Skybound Media. All rights reserved.
-  </footer>
+<div class="footer">
+  &copy; 2025 Skybound Media. Powered by Echo.
+</div>
 
-  <script>
-    function getEchoVoice() {
-      return new Promise((resolve) => {
-        const voices = speechSynthesis.getVoices();
-        if (voices.length) {
-          resolve(voices);
-        } else {
-          speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
-        }
-      });
-    }
+<script>
+  function startEcho() {
+    const msg = new SpeechSynthesisUtterance("Hi, I’m Echo. What would you like to know?");
+    msg.lang = 'en-GB'; // English UK
+    msg.pitch = 1.2;
+    msg.rate = 1.0;
+    speechSynthesis.speak(msg);
+  }
+</script>
 
-    async function startVoiceAI() {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'en-US';
-      recognition.continuous = true;
-      recognition.interimResults = false;
-      recognition.start();
-
-      recognition.onresult = async function(event) {
-        const transcript = event.results[event.results.length - 1][0].transcript;
-        document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
-
-        try {
-          const reply = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer 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"
-            },
-            body: JSON.stringify({
-              model: "llama3-70b-8192",
-              messages: [
-                { role: "system", content: "You are Echo, a wise, confident female AI who responds with clarity." },
-                { role: "user", content: transcript }
-              ]
-            })
-          });
-
-          const data = await reply.json();
-          const responseText = data.choices[0].message.content;
-          document.getElementById('ai-response').innerText = responseText;
-
-          const voices = await getEchoVoice();
-          const echoVoice = new SpeechSynthesisUtterance(responseText);
-
-          echoVoice.voice = voices.find(v =>
-            v.name.toLowerCase().includes("female") ||
-            v.name.toLowerCase().includes("google") ||
-            v.name.toLowerCase().includes("jenny")
-          ) || voices[0];
-
-          echoVoice.rate = 1;
-          echoVoice.pitch = 1.1;
-          echoVoice.volume = 1;
-
-          setTimeout(() => {
-            speechSynthesis.speak(echoVoice);
-          }, 400);
-        } catch (err) {
-          console.error("Echo voice error:", err);
-          document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
-        }
-      };
-
-      recognition.onerror = function(err) {
-        console.error("Speech recognition error:", err);
-      };
-    }
-  </script>
 </body>
 </html>
