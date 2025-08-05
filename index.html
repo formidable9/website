@@ -129,9 +129,17 @@
       color: lime;
       margin-top: 20px;
     }
+    audio#welcome {
+      display: none;
+    }
+    iframe.battle-arena {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
   </style>
 </head>
-<body>
+<body onload="playWelcome()">
   <header>
     <img src="Logo.PNG" alt="Echo Unfiltered logo" class="logo" />
   </header>
@@ -185,7 +193,7 @@
   <section class="ask-ai">
     <h2>🔥 Echo Battle Arena</h2>
     <p>Enter the arena and freestyle against Echo.</p>
-    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank">Enter Battle Arena</a>
+    <iframe class="battle-arena" src="https://formidable9.github.io/ECHO-BATTLE-RAP/"></iframe>
   </section>
 
   <footer>
@@ -193,7 +201,19 @@
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
 
+  <audio id="welcome" autoplay>
+    <source src="intro.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
   <script>
+    function playWelcome() {
+      const audio = document.getElementById('welcome');
+      if (audio) {
+        audio.play().catch(err => console.log("Auto-play blocked"));
+      }
+    }
+
     function getEchoVoice() {
       return new Promise((resolve) => {
         const voices = speechSynthesis.getVoices();
@@ -238,11 +258,10 @@
 
           const voices = await getEchoVoice();
           const echoVoice = new SpeechSynthesisUtterance(responseText);
-
           echoVoice.voice = voices.find(v =>
-            v.name.toLowerCase().includes("female") ||
-            v.name.toLowerCase().includes("google") ||
-            v.name.toLowerCase().includes("jenny")
+            v.name.toLowerCase().includes("english") || 
+            v.name.toLowerCase().includes("female") || 
+            v.name.toLowerCase().includes("google")
           ) || voices[0];
 
           echoVoice.rate = 1;
