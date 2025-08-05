@@ -148,8 +148,6 @@
     <p>Ask Echo a question with your voice and hear her response.</p>
     <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
     <div id="ai-response"></div>
-    <br><br>
-    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" class="cta-button">Enter Echo Battle Arena</a>
   </section>
 
   <section class="spotify-section">
@@ -182,6 +180,12 @@
         <p>Creative and responsive website design to showcase your brand.</p>
       </li>
     </ul>
+  </section>
+
+  <section class="ask-ai">
+    <h2>🔥 Echo Battle Arena</h2>
+    <p>Enter the arena and freestyle against Echo.</p>
+    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank">Enter Battle Arena</a>
   </section>
 
   <footer>
@@ -234,25 +238,30 @@
 
           const voices = await getEchoVoice();
           const echoVoice = new SpeechSynthesisUtterance(responseText);
+
           echoVoice.voice = voices.find(v =>
             v.name.toLowerCase().includes("female") ||
             v.name.toLowerCase().includes("google") ||
             v.name.toLowerCase().includes("jenny")
           ) || voices[0];
+
           echoVoice.rate = 1;
           echoVoice.pitch = 1.1;
           echoVoice.volume = 1;
 
           setTimeout(() => {
             speechSynthesis.speak(echoVoice);
-          }, 300);
+          }, 400);
         } catch (err) {
           console.error("Echo voice error:", err);
           document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
         }
       };
+
+      recognition.onerror = function(err) {
+        console.error("Speech recognition error:", err);
+      };
     }
   </script>
-
 </body>
 </html>
