@@ -185,40 +185,48 @@
     Contact us: 081263323131, 08137961537<br/>
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
+<script>
+  async function startVoiceAI() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-US';
+    recognition.start();
 
-  <script>
-    async function startVoiceAI() {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'en-US';
-      recognition.start();
+    recognition.onresult = async function(event) {
+      const transcript = event.results[0][0].transcript;
+      document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
 
-      recognition.onresult = async function(event) {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
+      try {
+        const reply = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer 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"
+          },
+          body: JSON.stringify({
+            model: "llama3-70b-8192",
+            messages: [
+              { role: "system", content: "You are a smart, helpful AI assistant named Echo." },
+              { role: "user", content: transcript }
+            ]
+          })
+        });
 
-        try {
-          const reply = await fetch('https://website-ech-back-end.onrender.com/ask', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: transcript })
-          });
+        const data = await reply.json();
+        const responseText = data.choices[0].message.content;
+        document.getElementById('ai-response').innerText = responseText;
 
-          const data = await reply.json();
-          const responseText = data.reply;
-          document.getElementById('ai-response').innerText = responseText;
-
-          const echoVoice = new SpeechSynthesisUtterance(responseText);
-          echoVoice.voice = speechSynthesis.getVoices().find(v => v.name.includes("Female") || v.name.includes("Google") || v.name.includes("Jenny"));
-          speechSynthesis.speak(echoVoice);
-
-        } catch (err) {
-          document.getElementById('ai-response').innerText = "Error reaching Echo. Try again.";
-          console.error(err);
-        }
-      };
-    }
-  </script>
+        const echoVoice = new SpeechSynthesisUtterance(responseText);
+        echoVoice.voice = speechSynthesis.getVoices().find(v =>
+          v.name.includes("Female") || v.name.includes("Google") || v.name.includes("Jenny")
+        );
+        speechSynthesis.speak(echoVoice);
+      } catch (err) {
+        document.getElementById('ai-response').innerText = "Echo couldn't reach the stars. Try again.";
+        console.error(err);
+      }
+    };
+  }
+</script>
+  
 </body>
 </html>
