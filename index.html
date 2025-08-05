@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Echo Unfiltered – Skyboi Formidable</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       margin: 0;
@@ -29,31 +28,26 @@
       text-align: center;
       background-size: cover;
       background-position: center;
-      animation: slideShow 40s infinite ease-in-out;
-      transition: background-image 1s ease-in-out;
+      animation: slideShow 40s linear infinite;
     }
-
     @keyframes slideShow {
-      0%   { background-image: url('bg1.jpg'); opacity: 1; }
-      25%  { background-image: url('bg2.jpg'); opacity: 1; }
-      50%  { background-image: url('bg3.jpg'); opacity: 1; }
-      75%  { background-image: url('bg4.jpg'); opacity: 1; }
-      100% { background-image: url('bg1.jpg'); opacity: 1; }
+      0% { background-image: url('bg1.jpg'); }
+      25% { background-image: url('bg2.jpg'); }
+      50% { background-image: url('bg3.jpg'); }
+      75% { background-image: url('bg4.jpg'); }
+      100% { background-image: url('bg1.jpg'); }
     }
-
     .hero h1 {
       font-size: clamp(2rem, 6vw, 3rem);
       margin-bottom: 1rem;
       max-width: 90%;
     }
-
     .hero p {
       font-size: clamp(1rem, 3vw, 1.2rem);
       max-width: 90%;
       margin: 0 auto;
       margin-bottom: 1rem;
     }
-
     .cta-button {
       margin-top: 20px;
       background-color: crimson;
@@ -65,49 +59,24 @@
       font-weight: bold;
       cursor: pointer;
     }
-
-    .ask-ai, .spotify-section {
+    .ask-ai, .spotify-section, .services {
       background-color: #111;
       padding: 60px 20px;
       text-align: center;
     }
-
-    .ask-ai h2, .spotify-section h2 {
+    .ask-ai h2, .spotify-section h2, .services h2 {
       font-size: 2.5em;
       margin-bottom: 10px;
     }
-
-    .ask-ai p, .spotify-section p {
+    .ask-ai p, .spotify-section p, .services p {
       font-size: 1.1em;
       margin-bottom: 20px;
     }
-
     .ai-logo {
-      width: 150px;
-      border-radius: 10px;
+      width: 80px;
       margin-bottom: 20px;
-      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+      border-radius: 8px;
     }
-
-    footer {
-      background-color: #111;
-      color: #ccc;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.9em;
-    }
-
-    .services {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .services h2 {
-      font-size: 2.5em;
-      margin-bottom: 1rem;
-    }
-
     .service-list {
       list-style: none;
       padding: 0;
@@ -117,23 +86,19 @@
       justify-content: center;
       gap: 20px;
     }
-
     .service-item {
       background: rgba(255, 255, 255, 0.1);
       padding: 20px;
       border-radius: 8px;
       width: 220px;
     }
-
     .service-item h3 {
       margin: 0 0 10px;
       font-size: 1.3em;
     }
-
     .service-item p {
       font-size: 1em;
     }
-
     @media (max-width: 600px) {
       .service-list {
         flex-direction: column;
@@ -144,15 +109,21 @@
         max-width: 280px;
       }
     }
-
     #ai-response {
       font-size: 1.1em;
       color: lime;
       margin-top: 20px;
     }
+    footer {
+      background-color: #111;
+      color: #ccc;
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9em;
+    }
   </style>
 </head>
-<body>
+<body onload="playWelcomeMessage()">
   <header>
     <img src="Logo.PNG" alt="Echo Unfiltered logo" class="logo" />
   </header>
@@ -164,7 +135,7 @@
   </section>
 
   <section class="ask-ai">
-    <img src="bg1.jpg" alt="Echo and Skyboi Together" class="ai-logo"/>
+    <img src="bg1.jpg" alt="You and Echo" class="ai-logo" />
     <h2>Ask AI</h2>
     <p>Ask Echo a question with your voice and hear her response.</p>
     <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
@@ -180,26 +151,11 @@
   <section class="services">
     <h2>Our Services</h2>
     <ul class="service-list">
-      <li class="service-item">
-        <h3>Music Production</h3>
-        <p>Professional music production services tailored to your vision.</p>
-      </li>
-      <li class="service-item">
-        <h3>Video Production</h3>
-        <p>High-quality video creation from concept to final cut.</p>
-      </li>
-      <li class="service-item">
-        <h3>Drone Pilot</h3>
-        <p>Aerial cinematography and photography with licensed drone operators.</p>
-      </li>
-      <li class="service-item">
-        <h3>Hip Hop Beats with African Fusion</h3>
-        <p>Unique hip hop beats blending African rhythms available for purchase.</p>
-      </li>
-      <li class="service-item">
-        <h3>Website Design</h3>
-        <p>Creative and responsive website design to showcase your brand.</p>
-      </li>
+      <li class="service-item"><h3>Music Production</h3><p>Professional music production tailored to your vision.</p></li>
+      <li class="service-item"><h3>Video Production</h3><p>High-quality video creation from concept to final cut.</p></li>
+      <li class="service-item"><h3>Drone Pilot</h3><p>Aerial cinematography and photography with licensed drone operators.</p></li>
+      <li class="service-item"><h3>Hip Hop Beats</h3><p>Unique hip hop beats blending African rhythms available for purchase.</p></li>
+      <li class="service-item"><h3>Website Design</h3><p>Creative and responsive web design to showcase your brand.</p></li>
     </ul>
   </section>
 
@@ -210,19 +166,27 @@
   </section>
 
   <footer>
-    Contact us: 081263323131, 08137961537<br/>
+    Contact: 081263323131, 08137961537<br/>
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
 
   <script>
+    let speaking = false;
+    let currentUtterance;
+
+    function playWelcomeMessage() {
+      const welcome = new SpeechSynthesisUtterance("What if our voices carried more than words? Welcome to Skybound Media. Echo is listening.");
+      welcome.voice = speechSynthesis.getVoices().find(v => v.lang === 'en-US' && v.name.toLowerCase().includes("female")) || speechSynthesis.getVoices()[0];
+      welcome.rate = 1;
+      welcome.pitch = 1.1;
+      speechSynthesis.speak(welcome);
+    }
+
     function getEchoVoice() {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         const voices = speechSynthesis.getVoices();
-        if (voices.length) {
-          resolve(voices);
-        } else {
-          speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
-        }
+        if (voices.length) resolve(voices);
+        else speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
       });
     }
 
@@ -234,11 +198,20 @@
       recognition.start();
 
       recognition.onresult = async function(event) {
-        const transcript = event.results[event.results.length - 1][0].transcript;
+        const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
+        if (transcript === "echo stop" || transcript === "cut it") {
+          if (speaking && currentUtterance) {
+            speechSynthesis.cancel();
+            document.getElementById('ai-response').innerText = "⛔ Interrupted.";
+            speaking = false;
+          }
+          return;
+        }
+
         document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
 
         try {
-          const reply = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -253,37 +226,28 @@
             })
           });
 
-          const data = await reply.json();
+          const data = await res.json();
           const responseText = data.choices[0].message.content;
           document.getElementById('ai-response').innerText = responseText;
 
           const voices = await getEchoVoice();
-          const echoVoice = new SpeechSynthesisUtterance(responseText);
+          currentUtterance = new SpeechSynthesisUtterance(responseText);
+          currentUtterance.voice = voices.find(v => v.name.toLowerCase().includes("female") || v.name.includes("Jenny") || v.lang === "en-US") || voices[0];
+          currentUtterance.rate = 1;
+          currentUtterance.pitch = 1.1;
+          currentUtterance.volume = 1;
+          speaking = true;
 
-          echoVoice.voice = voices.find(v =>
-            v.name.toLowerCase().includes("english") &&
-            v.lang.toLowerCase().includes("en")
-          ) || voices[0];
-
-          echoVoice.rate = 1;
-          echoVoice.pitch = 1.1;
-          echoVoice.volume = 1;
-
-          setTimeout(() => {
-            speechSynthesis.speak(echoVoice);
-          }, 300);
+          currentUtterance.onend = () => speaking = false;
+          speechSynthesis.speak(currentUtterance);
         } catch (err) {
-          console.error("Echo voice error:", err);
           document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
+          console.error("Voice error:", err);
         }
       };
 
       recognition.onerror = function(err) {
         console.error("Speech recognition error:", err);
-      };
-
-      recognition.onend = () => {
-        recognition.start(); // Restart automatically
       };
     }
   </script>
