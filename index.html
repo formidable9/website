@@ -188,15 +188,12 @@
 <script>
   function getEchoVoice() {
     return new Promise((resolve) => {
-      let voices = speechSynthesis.getVoices();
+      const voices = speechSynthesis.getVoices();
       if (voices.length) {
         resolve(voices);
-        return;
+      } else {
+        speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
       }
-      // Wait for voices to be loaded
-      speechSynthesis.onvoiceschanged = () => {
-        resolve(speechSynthesis.getVoices());
-      };
     });
   }
 
@@ -219,7 +216,7 @@
           body: JSON.stringify({
             model: "llama3-70b-8192",
             messages: [
-              { role: "system", content: "You are Echo, a sharp, helpful female AI assistant who speaks confidently." },
+              { role: "system", content: "You are Echo, a wise, confident female AI who responds with clarity." },
               { role: "user", content: transcript }
             ]
           })
@@ -231,22 +228,25 @@
 
         const voices = await getEchoVoice();
         const echoVoice = new SpeechSynthesisUtterance(responseText);
+
+        // Use ANY voice (female preferred)
         echoVoice.voice = voices.find(v =>
-          v.name.includes("Female") || v.name.includes("Google") || v.name.includes("Jenny")
-        ) || voices[0]; // fallback if no match
+          v.name.toLowerCase().includes("female") ||
+          v.name.toLowerCase().includes("google") ||
+          v.name.toLowerCase().includes("jenny")
+        ) || voices[0]; // fallback if nothing matches
 
-        echoVoice.rate = 1.0;
+        echoVoice.rate = 1;
         echoVoice.pitch = 1.1;
-        echoVoice.volume = 1.0;
+        echoVoice.volume = 1;
 
-        // Wait a bit before speaking (mobile needs it)
+        // Ensure user interaction before speaking (iOS Safari fix)
         setTimeout(() => {
           speechSynthesis.speak(echoVoice);
-        }, 500);
-
-      } catch (error) {
-        document.getElementById('ai-response').innerText = "Echo is silent... Something went wrong.";
-        console.error("Voice error:", error);
+        }, 400);
+      } catch (err) {
+        console.error("Echo voice error:", err);
+        document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
       }
     };
   }
