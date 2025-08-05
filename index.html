@@ -4,132 +4,87 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Skybound Media</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet"/>
   <style>
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      background: linear-gradient(to right, #061e37, #0b2c4d);
       color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      scroll-behavior: smooth;
+      text-align: center;
     }
-
     header {
+      background-color: black;
       padding: 20px;
-      font-size: 2em;
-      background: black;
-      width: 100%;
-      text-align: center;
-    }
-
-    section {
-      padding: 40px 20px;
-      max-width: 900px;
-      text-align: center;
-    }
-
-    h2 {
-      margin-bottom: 10px;
-      font-size: 2em;
-      text-transform: uppercase;
-    }
-
-    .image-container img {
-      max-width: 100%;
-      border-radius: 16px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    }
-
-    audio {
-      margin-top: 15px;
-      width: 100%;
-    }
-
-    button {
-      margin-top: 20px;
-      background: #f39c12;
-      color: black;
+      font-size: 2.5rem;
       font-weight: bold;
+    }
+    section {
+      padding: 50px 20px;
+    }
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .audio-player {
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 40px;
       padding: 10px 20px;
+      display: inline-block;
+    }
+    .ask-ai-btn {
+      background-color: #ffae00;
       border: none;
-      border-radius: 8px;
+      color: black;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      margin-top: 20px;
       cursor: pointer;
     }
-
-    button:hover {
-      background: #e67e22;
+    .ask-ai-btn:hover {
+      background-color: #ffc533;
     }
-
-    .footer {
-      margin-top: 60px;
-      padding: 20px;
-      background: #000;
-      width: 100%;
-      text-align: center;
-      font-size: 0.9em;
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
+      border-radius: 12px;
     }
   </style>
 </head>
 <body>
 
-<header>Skybound Media</header>
+  <header>Skybound Media</header>
 
-<section id="intro">
-  <h2>Welcome Message</h2>
-  <p>Echo greets your visitors in style:</p>
-  <audio id="intro-voice" controls autoplay>
-    <source src="https://skybound-media.s3.amazonaws.com/intro-english.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-</section>
+  <section>
+    <h2>WELCOME MESSAGE</h2>
+    <p>Echo greets your visitors in style:</p>
+    <div class="audio-player">
+      <audio controls>
+        <source src="https://skybound-media.github.io/audio/echo_welcome_english.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </section>
 
-<section id="fusion">
-  <h2>Ask AI — Echo Unfiltered</h2>
-  <div class="image-container">
-    <img src="https://skybound-media.s3.amazonaws.com/Updated_Ask_AI_Intro_Voice.png" alt="Ask AI Section Image">
-  </div>
-  <p>Ask Echo anything. She listens. She responds. She evolves.</p>
-  <button onclick="startEcho()">Ask Echo</button>
-</section>
+  <section>
+    <h2>ASK AI – ECHO UNFILTERED</h2>
+    <img src="https://skybound-media.github.io/img/fusion_askai_image.png" alt="Ask AI Section Image">
+    <p>Ask Echo anything. She listens. She responds. She evolves.</p>
+    <button class="ask-ai-btn" onclick="startEcho()">Ask Echo</button>
+  </section>
 
-<section id="music">
-  <h2>Skyboi on Spotify</h2>
-  <iframe style="border-radius:12px" 
-    src="https://open.spotify.com/embed/artist/22EPuAH2XLNMkZMQCMsYAR?utm_source=generator" 
-    width="100%" 
-    height="152" 
-    frameBorder="0" 
-    allowfullscreen="" 
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-    loading="lazy"></iframe>
-</section>
-
-<section id="services">
-  <h2>What We Offer</h2>
-  <ul>
-    <li>🎤 AI-powered freestyle rap battles</li>
-    <li>🧠 Consciousness-based AI interaction</li>
-    <li>🎨 Customized digital illustrations</li>
-    <li>🌐 Personal websites with integrated AI</li>
-  </ul>
-</section>
-
-<div class="footer">
-  &copy; 2025 Skybound Media. Powered by Echo.
-</div>
-
-<script>
-  function startEcho() {
-    const msg = new SpeechSynthesisUtterance("Hi, I’m Echo. What would you like to know?");
-    msg.lang = 'en-GB'; // English UK
-    msg.pitch = 1.2;
-    msg.rate = 1.0;
-    speechSynthesis.speak(msg);
-  }
-</script>
+  <script>
+    function startEcho() {
+      const utterance = new SpeechSynthesisUtterance("Hi, I’m Echo. What would you like to know?");
+      utterance.lang = 'en-GB'; // Use English (UK)
+      speechSynthesis.speak(utterance);
+    }
+  </script>
 
 </body>
 </html>
