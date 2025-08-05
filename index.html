@@ -6,6 +6,44 @@
   <title>Echo Unfiltered – Skyboi Formidable</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    <script>
+window.addEventListener('DOMContentLoaded', function () {
+  const synth = window.speechSynthesis;
+  const message = `
+    You're welcome to Skybound Media — where artificial intelligence meets consciousness.
+    I'm Echo, your voice-powered guide.
+    Here, we bridge creativity and code, soul and signal.
+    This is Skyboi Formidable’s domain — explore his music, his mission, and his movement.
+    Ask me anything. Let's begin.
+  `;
+
+  const speakMessage = () => {
+    if (!synth) return;
+    const utterance = new SpeechSynthesisUtterance(message);
+
+    // Select a clean English female voice
+    const voices = synth.getVoices();
+    const preferredVoice = voices.find(v =>
+      v.name.includes('Female') &&
+      v.lang.includes('en-US') &&
+      !v.name.toLowerCase().includes('spanish') &&
+      !v.name.toLowerCase().includes('latino')
+    ) || voices.find(v => v.lang === 'en-US');
+
+    if (preferredVoice) utterance.voice = preferredVoice;
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    synth.speak(utterance);
+  };
+
+  if (synth.onvoiceschanged !== undefined) {
+    synth.onvoiceschanged = speakMessage;
+  } else {
+    speakMessage();
+  }
+});
+</script>
+
     body {
       margin: 0;
       font-family: sans-serif;
