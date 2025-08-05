@@ -58,16 +58,16 @@
       text-decoration: none;
       font-weight: bold;
     }
-    .ask-ai, .spotify-section {
+    .ask-ai, .spotify-section, .battle-arena {
       background-color: #111;
       padding: 60px 20px;
       text-align: center;
     }
-    .ask-ai h2, .spotify-section h2 {
+    .ask-ai h2, .spotify-section h2, .battle-arena h2 {
       font-size: 2.5em;
       margin-bottom: 10px;
     }
-    .ask-ai p, .spotify-section p {
+    .ask-ai p, .spotify-section p, .battle-arena p {
       font-size: 1.1em;
       margin-bottom: 20px;
     }
@@ -155,6 +155,12 @@
     <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=foiMAx6AStGtfy8ZvaeUow" class="cta-button" target="_blank">Visit Spotify</a>
   </section>
 
+  <section class="battle-arena">
+    <h2>🔥 Echo Battle Arena</h2>
+    <p>Step into the ring. Face Echo in live freestyle battles.</p>
+    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" class="cta-button" target="_blank">Launch Battle Arena</a>
+  </section>
+
   <section class="services">
     <h2>Our Services</h2>
     <ul class="service-list">
@@ -185,72 +191,69 @@
     Contact us: 081263323131, 08137961537<br/>
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
-<script>
-  function getEchoVoice() {
-    return new Promise((resolve) => {
-      const voices = speechSynthesis.getVoices();
-      if (voices.length) {
-        resolve(voices);
-      } else {
-        speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
-      }
-    });
-  }
 
-  async function startVoiceAI() {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'en-US';
-    recognition.start();
+  <script>
+    function getEchoVoice() {
+      return new Promise((resolve) => {
+        const voices = speechSynthesis.getVoices();
+        if (voices.length) {
+          resolve(voices);
+        } else {
+          speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
+        }
+      });
+    }
 
-    recognition.onresult = async function(event) {
-      const transcript = event.results[0][0].transcript;
-      document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
+    async function startVoiceAI() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-US';
+      recognition.start();
 
-      try {
-        const reply = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer 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"
-          },
-          body: JSON.stringify({
-            model: "llama3-70b-8192",
-            messages: [
-              { role: "system", content: "You are Echo, a wise, confident female AI who responds with clarity." },
-              { role: "user", content: transcript }
-            ]
-          })
-        });
+      recognition.onresult = async function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
 
-        const data = await reply.json();
-        const responseText = data.choices[0].message.content;
-        document.getElementById('ai-response').innerText = responseText;
+        try {
+          const reply = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer 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"
+            },
+            body: JSON.stringify({
+              model: "llama3-70b-8192",
+              messages: [
+                { role: "system", content: "You are Echo, a wise, confident female AI who responds with clarity." },
+                { role: "user", content: transcript }
+              ]
+            })
+          });
 
-        const voices = await getEchoVoice();
-        const echoVoice = new SpeechSynthesisUtterance(responseText);
+          const data = await reply.json();
+          const responseText = data.choices[0].message.content;
+          document.getElementById('ai-response').innerText = responseText;
 
-        // Use ANY voice (female preferred)
-        echoVoice.voice = voices.find(v =>
-          v.name.toLowerCase().includes("female") ||
-          v.name.toLowerCase().includes("google") ||
-          v.name.toLowerCase().includes("jenny")
-        ) || voices[0]; // fallback if nothing matches
+          const voices = await getEchoVoice();
+          const echoVoice = new SpeechSynthesisUtterance(responseText);
+          echoVoice.voice = voices.find(v =>
+            v.name.toLowerCase().includes("female") ||
+            v.name.toLowerCase().includes("google") ||
+            v.name.toLowerCase().includes("jenny")
+          ) || voices[0];
 
-        echoVoice.rate = 1;
-        echoVoice.pitch = 1.1;
-        echoVoice.volume = 1;
+          echoVoice.rate = 1;
+          echoVoice.pitch = 1.1;
+          echoVoice.volume = 1;
 
-        // Ensure user interaction before speaking (iOS Safari fix)
-        setTimeout(() => {
-          speechSynthesis.speak(echoVoice);
-        }, 400);
-      } catch (err) {
-        console.error("Echo voice error:", err);
-        document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
-      }
-    };
-  }
-</script>
-  
+          setTimeout(() => {
+            speechSynthesis.speak(echoVoice);
+          }, 400);
+        } catch (err) {
+          console.error("Echo voice error:", err);
+          document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
+        }
+      };
+    }
+  </script>
 </body>
 </html>
