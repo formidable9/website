@@ -123,11 +123,6 @@
         max-width: 280px;
       }
     }
-    #ai-response {
-      font-size: 1.1em;
-      color: lime;
-      margin-top: 20px;
-    }
   </style>
 </head>
 <body>
@@ -144,9 +139,10 @@
   <section class="ask-ai">
     <img src="https://img.icons8.com/color/96/artificial-intelligence.png" alt="Ask AI Logo" class="ai-logo"/>
     <h2>Ask AI</h2>
-    <p>Ask Echo a question with your voice and hear her response.</p>
-    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
-    <div id="ai-response"></div>
+    <p>Curious about this website, the YouTube channel, how AI works, or who Skyboi Formidable is? Ask Echo anything below:</p>
+    <input id="userInput" type="text" placeholder="Ask something..." style="padding: 10px; width: 70%; max-width: 400px;" />
+    <button onclick="askEcho()" class="cta-button">Send</button>
+    <div id="echoReply" style="margin-top: 20px; font-size: 1.1em;"></div>
   </section>
 
   <section class="spotify-section">
@@ -187,38 +183,22 @@
   </footer>
 
   <script>
-    async function startVoiceAI() {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'en-US';
-      recognition.start();
+    async function askEcho() {
+      const input = document.getElementById("userInput").value;
+      const responseEl = document.getElementById("echoReply");
+      responseEl.innerText = "Echo is thinking...";
 
-      recognition.onresult = async function(event) {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById('ai-response').innerText = `You said: ${transcript}... thinking...`;
-
-        const reply = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer YOUR_OPENAI_API_KEY' // Replace this with your actual API key
-          },
-          body: JSON.stringify({
-            model: 'gpt-3.5-turbo',
-            messages: [
-              { role: 'system', content: 'You are a helpful assistant named Echo.' },
-              { role: 'user', content: transcript }
-            ]
-          })
+      try {
+        const res = await fetch("https://ask-ai-server-groq.fly.dev/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: input })
         });
-
-        const data = await reply.json();
-        const responseText = data.choices[0].message.content;
-        document.getElementById('ai-response').innerText = responseText;
-
-        const echoVoice = new SpeechSynthesisUtterance(responseText);
-        echoVoice.voice = speechSynthesis.getVoices().find(v => v.name.includes("Female") || v.name.includes("Google") || v.name.includes("Jenny"));
-        speechSynthesis.speak(echoVoice);
-      };
+        const data = await res.json();
+        responseEl.innerText = data.answer || "No response from Echo.";
+      } catch (err) {
+        responseEl.innerText = "Error talking to Echo.";
+      }
     }
   </script>
 </body>
