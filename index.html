@@ -45,8 +45,7 @@
     .hero p {
       font-size: clamp(1rem, 3vw, 1.2rem);
       max-width: 90%;
-      margin: 0 auto;
-      margin-bottom: 1rem;
+      margin: 0 auto 1rem;
     }
     .cta-button {
       margin-top: 20px;
@@ -74,6 +73,11 @@
     .ai-logo {
       width: 80px;
       margin-bottom: 20px;
+    }
+    .ai-response {
+      margin-top: 15px;
+      font-size: 1.2em;
+      color: #0f0;
     }
     footer {
       background-color: #111;
@@ -139,14 +143,15 @@
   <section class="ask-ai">
     <img src="https://img.icons8.com/color/96/artificial-intelligence.png" alt="Ask AI Logo" class="ai-logo"/>
     <h2>Ask AI</h2>
-    <p>Curious about this website, the YouTube channel, how AI works, or who Skyboi Formidable is? Ask AI anything!</p>
-    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
+    <p>Ask Echo a question with your voice and hear her response.</p>
+    <button class="cta-button" onclick="askEcho()">Ask with Your Voice</button>
+    <div id="response" class="ai-response"></div>
   </section>
 
   <section class="spotify-section">
     <h2>🎧 Listen on Spotify</h2>
     <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=foiMAx6AStGtfy8ZvaeUow" class="cta-button" target="_blank">Visit Spotify</a>
+    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="cta-button" target="_blank">Visit Spotify</a>
   </section>
 
   <section class="services">
@@ -175,22 +180,44 @@
     </ul>
   </section>
 
+  <section class="ask-ai">
+    <h2>Battle Mode</h2>
+    <p>Enter Echo’s Rap Arena and test your lyrical power.</p>
+    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" class="cta-button" target="_blank">Enter Arena</a>
+  </section>
+
   <footer>
     Contact us: 081263323131, 08137961537<br/>
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
 
   <script>
-    function startVoiceAI() {
-      const synth = window.speechSynthesis;
-      const welcome = new SpeechSynthesisUtterance("Welcome to Echo Unfiltered. Ask your question and I’ll answer with my voice.");
-      welcome.voice = speechSynthesis.getVoices().find(v => v.name.includes("Female") || v.name.includes("Google") || v.name.includes("Jenny"));
-      synth.speak(welcome);
-    }
+    function askEcho() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-US';
+      recognition.start();
+      recognition.onresult = async function(event) {
+        const userInput = event.results[0][0].transcript;
+        document.getElementById("response").textContent = "You said: " + userInput + "... thinking...";
 
-    // Auto start on page load
-    window.onload = () => {
-      setTimeout(() => startVoiceAI(), 1000);
+        const reply = await fetch("https://api.chatanywhere.com.cn/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer demo-key"
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: userInput }]
+          })
+        }).then(res => res.json());
+
+        const aiReply = reply.choices[0].message.content;
+        document.getElementById("response").textContent = aiReply;
+        const utter = new SpeechSynthesisUtterance(aiReply);
+        utter.voice = speechSynthesis.getVoices().find(v => v.name.includes("Female") || v.name.includes("Google") || v.name.includes("Jenny"));
+        speechSynthesis.speak(utter);
+      }
     }
   </script>
 </body>
