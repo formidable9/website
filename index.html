@@ -3,160 +3,215 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Echo Unfiltered</title>
+  <title>Echo Unfiltered | Skybound Media</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap">
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #121212;
+      font-family: 'Cinzel Decorative', cursive;
       color: white;
+      background: black;
+      overflow-x: hidden;
     }
 
-    header {
+    .slideshow {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    .slideshow img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slideshow img.active {
+      opacity: 1;
+    }
+
+    .center-text {
       text-align: center;
-      padding: 60px 20px 20px;
+      font-size: 3rem;
+      font-weight: bold;
+      margin-top: 100px;
+      animation: flyIn 2s ease-in-out forwards;
     }
 
-    header img {
-      width: 120px;
-      height: auto;
-      margin-bottom: 20px;
+    @keyframes flyIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-100px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
+    .btn {
+      display: block;
+      margin: 20px auto;
+      padding: 15px 25px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      background: #ff0055;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      text-decoration: none;
+      text-align: center;
+      width: 260px;
     }
 
-    p {
-      font-size: 18px;
-      color: #ccc;
+    .btn:hover {
+      transform: scale(1.05);
     }
 
-    .button-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .section {
+      text-align: center;
       margin-top: 30px;
     }
 
-    .button-container a {
-      text-decoration: none;
-      background-color: #ff3b3f;
-      color: white;
-      padding: 12px 24px;
+    .services {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .service-card {
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 10px;
       margin: 10px;
-      border-radius: 6px;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-
-    .button-container a:hover {
-      background-color: #e33135;
-    }
-
-    .promo {
+      padding: 20px;
+      width: 250px;
       text-align: center;
-      margin-top: 60px;
     }
 
-    .promo p {
-      color: #ccc;
-      font-size: 18px;
+    .voice-box {
+      background: rgba(0,0,0,0.6);
+      margin: 40px auto;
+      padding: 20px;
+      max-width: 600px;
+      border-radius: 10px;
+      font-size: 1.2rem;
     }
 
-    .promo a {
-      display: inline-block;
-      background-color: #ff3b3f;
+    .stop-btn {
+      background: #333;
+      border: none;
       color: white;
-      padding: 10px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 5px;
       margin-top: 10px;
     }
 
-    .services {
-      max-width: 1000px;
-      margin: 60px auto;
-      padding: 0 20px;
-    }
-
-    .services h2 {
-      text-align: center;
-      font-size: 28px;
-      margin-bottom: 30px;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background-color: #1e1e1e;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
-    .card p {
-      font-size: 15px;
-      color: #bbb;
+    .ai-image {
+      max-width: 400px;
+      margin: 30px auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 0 10px white;
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <img src="logo.png" alt="Skybound Media Logo" />
-    <h1>Echo Unfiltered</h1>
-    <p>A live interview with my AI called Echo</p>
-    <div class="button-container">
-      <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" target="_blank">Listen on Spotify</a>
-      <a href="https://www.youtube.com/@SkyboiFormidable" target="_blank">Watch on YouTube</a>
-    </div>
-  </header>
-
-  <div class="promo">
-    <p>Explore Skyboi Formidable's music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" target="_blank">Visit Spotify</a>
+  <div class="slideshow">
+    <img src="bg1.jpg" class="active">
+    <img src="bg2.jpg">
+    <img src="bg3.jpg">
+    <img src="bg4.jpg">
   </div>
 
-  <section class="services">
+  <div class="center-text" id="mainTitle">Welcome to Skybound Media</div>
+
+  <div class="section">
+    <img src="logo.png" alt="Skybound Logo" style="width:140px; margin: 20px auto; display:block;">
+    <h1>Echo Unfiltered</h1>
+    <p>A live interview with my AI called Echo</p>
+    <a class="btn" href="https://www.youtube.com/@SkyboiFormidable" target="_blank">Watch on YouTube</a>
+    <a class="btn" href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" target="_blank">Visit Spotify</a>
+    <a class="btn" href="https://formidable9.github.io/echobattlearena/" target="_blank">Echo Battle Arena</a>
+  </div>
+
+  <div class="section">
+    <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
+  </div>
+
+  <div class="section">
     <h2>Our Services</h2>
-    <div class="card-grid">
-      <div class="card">
+    <div class="services">
+      <div class="service-card">
         <h3>Music Production</h3>
         <p>Professional music production services tailored to your vision.</p>
       </div>
-      <div class="card">
+      <div class="service-card">
         <h3>Video Production</h3>
         <p>High-quality video creation from concept to final cut.</p>
       </div>
-      <div class="card">
+      <div class="service-card">
         <h3>Drone Pilot</h3>
         <p>Aerial cinematography and photography with licensed drone operators.</p>
       </div>
-      <div class="card">
+      <div class="service-card">
         <h3>Hip Hop Beats with African Fusion</h3>
         <p>Unique hip hop beats blending African rhythms available for purchase.</p>
       </div>
+      <div class="service-card">
+        <h3>Conversational AI</h3>
+        <p>Engage with cutting-edge AI experiences crafted by Skybound Media.</p>
+      </div>
     </div>
-  </section>
+  </div>
 
+  <div class="section">
+    <h2>Ask AI</h2>
+    <img src="bg1.jpg" class="ai-image" alt="Echo and Skyboi">
+    <div class="voice-box" id="aiResponse">Echo: What if our voices carried more than words? Welcome to Skybound Media.</div>
+    <button class="stop-btn" onclick="stopEcho()">Stop Echo</button>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slideshow img');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }, 8000); // 8s interval
+
+    const synth = window.speechSynthesis;
+    let utterance;
+
+    function speak(text) {
+      if (utterance) synth.cancel();
+      utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.voice = speechSynthesis.getVoices().find(v => v.name.includes("Google") || v.name.includes("Jenny") || v.lang === "en-US");
+      synth.speak(utterance);
+    }
+
+    function stopEcho() {
+      synth.cancel();
+    }
+
+    speak("What if our voices carried more than words? Welcome to Skybound Media. Created by Skyboi Formidable. You can watch on YouTube, stream on Spotify, or battle Echo now.");
+  </script>
 </body>
 </html>
