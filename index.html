@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Echo Unfiltered | Skybound Media</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0; padding: 0;
-      font-family: 'Cinzel Decorative', cursive;
+      font-family: 'Montserrat', sans-serif;
       background: black; color: white;
       overflow-x: hidden;
       text-align: center;
@@ -15,23 +16,88 @@
     .slideshow {
       position: fixed; top: 0; left: 0;
       width: 100%; height: 100vh; z-index: -1;
+      overflow: hidden;
     }
     .slideshow img {
-      position: absolute; width: 100%; height: 100%;
-      object-fit: cover; opacity: 0;
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 100vw; height: 100vh;
+      object-fit: cover;
+      transform: translate(-50%, -50%);
+      opacity: 0;
       transition: opacity 1s ease-in-out;
     }
     .slideshow img.active { opacity: 1; }
-    .centered { font-size: 3rem; font-weight: bold; margin-top: 100px; animation: slideDown 2s ease forwards; }
-    @keyframes slideDown { from {opacity:0; transform: translateY(-50px);} to {opacity:1; transform: translateY(0);} }
-    .btn { display: block; margin: 20px auto; padding: 15px 25px; font-size:1.2rem; font-weight:bold;
-           background:#ff0055; color:white; border:none; border-radius:30px; cursor:pointer; transition:0.2s; width:260px; text-decoration:none;}
+
+    .centered {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-top: 100px;
+      animation: slideDown 2s ease forwards;
+      color: white;
+    }
+    @keyframes slideDown {
+      from {opacity:0; transform: translateY(-50px);}
+      to {opacity:1; transform: translateY(0);}
+    }
+
+    .btn {
+      display: block;
+      margin: 20px auto;
+      padding: 15px 25px;
+      font-size:1.2rem;
+      font-weight:bold;
+      background:#ff0055;
+      color:white;
+      border:none;
+      border-radius:30px;
+      cursor:pointer;
+      transition:0.2s;
+      width:260px;
+      text-decoration:none;
+    }
     .btn:hover { transform: scale(1.05); }
-    .services { display: flex; flex-wrap:wrap; justify-content:center; margin:40px 0; }
-    .card { background:rgba(255,255,255,0.1); margin:10px; padding:20px; width:250px; border-radius:10px; }
-    .voice-box { background: rgba(0,0,0,0.6); padding:20px; max-width:600px; margin: 40px auto; font-size:1.2rem; border-radius:10px; }
-    .stop-btn, .ask-ai-btn { background:#333; border:none; color:white; padding:10px 20px; cursor:pointer; border-radius:5px; margin:10px;}
-    .ai-image { max-width:400px; margin:30px auto; border-radius:12px; display:block; box-shadow:0 0 10px white; }
+
+    .services {
+      display: flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin:40px 0;
+    }
+    .card {
+      background:rgba(255,255,255,0.1);
+      margin:10px;
+      padding:20px;
+      width:250px;
+      border-radius:10px;
+    }
+
+    .voice-box {
+      background: rgba(0,0,0,0.6);
+      padding:20px;
+      max-width:600px;
+      margin: 40px auto;
+      font-size:1.2rem;
+      border-radius:10px;
+    }
+
+    .stop-btn, .ask-ai-btn {
+      background:#333;
+      border:none;
+      color:white;
+      padding:10px 20px;
+      cursor:pointer;
+      border-radius:5px;
+      margin:10px;
+    }
+
+    .ai-image {
+      max-width:400px;
+      margin:30px auto;
+      border-radius:12px;
+      display:block;
+      box-shadow:0 0 10px white;
+    }
   </style>
 </head>
 <body>
@@ -47,7 +113,7 @@
 
   <header style="margin-top:60px;">
     <img src="logo.png" alt="Skybound Logo" style="width:140px; margin-bottom:20px;">
-    <h1>Echo Unfiltered</h1>
+    <h1 style="margin-bottom: 10px;">Echo Unfiltered</h1>
     <p>A live interview with my AI called Echo</p>
     <a href="https://www.youtube.com/@SkyboiFormidable" target="_blank" class="btn">Watch on YouTube</a>
     <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" target="_blank" class="btn">Visit Spotify</a>
@@ -103,7 +169,7 @@
       rec.lang = 'en-US';
       rec.interimResults = false;
 
-      el = document.getElementById('aiResponse');
+      const el = document.getElementById('aiResponse');
       speak("I am listening. Ask me anything about Skyboi Formidable, the services, or the music.");
       el.textContent = "Echo: Listening...";
 
