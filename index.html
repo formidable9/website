@@ -3,158 +3,174 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Echo Unfiltered – Skyboi Formidable</title>
+  <title>Echo Unfiltered – Skybound Media</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
   <style>
+    /* Reset & Body */
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #000;
-      color: #fff;
+      font-family:'Montserrat',sans-serif;
+      background:#000;
+      color:#fff;
+      text-align:center;
+      overflow-x:hidden;
     }
+    a { text-decoration:none; color:inherit; }
+
+    /* Header & Logo */
     header {
-      padding: 20px;
-      text-align: center;
+      background:#111; padding:20px;
     }
-    .logo {
-      max-width: 150px;
-      margin: 0 auto;
-      display: block;
+    header img {
+      height:60px;
     }
+
+    /* Hero Slideshow */
     .hero {
-      position: relative;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .slideshow-container {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      position:relative;
+      height:100vh;
+      overflow:hidden;
     }
     .slide {
-      position: absolute;
-      width: 100%; height: 100%;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 1.5s ease-in-out;
+      position:absolute; top:0; left:0;
+      width:100%; height:100%;
+      background-size:cover;
+      background-position:center;
+      opacity:0;
+      transition:opacity 1.5s ease-in-out;
     }
-    .slide.active { opacity: 1; }
+    .slide.active { opacity:1; }
     .slide::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
+      content:'';
+      position:absolute; inset:0;
+      background:rgba(0,0,0,0.4);
     }
     .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      top: 50%; transform: translateY(-50%);
-      color: #fff;
+      position:relative; z-index:2;
+      top:50%; transform:translateY(-50%);
+      padding:0 20px;
     }
     .hero-content h1 {
-      font-size: clamp(2rem,6vw,3rem);
-      margin: 0 0 1rem;
+      font-size:clamp(2rem,6vw,3rem);
+      margin-bottom:0.5em;
     }
     .hero-content p {
-      font-size: clamp(1rem,3vw,1.2rem);
-      margin: 0 0 2rem;
+      font-size:clamp(1rem,3vw,1.2rem);
+      margin-bottom:1em;
     }
-    .cta-button {
-      background: linear-gradient(45deg,#dc143c,#ff6b6b);
-      color: #fff;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(220,20,60,0.3);
-      transition: transform .3s, box-shadow .3s;
+    .cta {
+      background:linear-gradient(45deg,#dc143c,#ff6b6b);
+      padding:12px 30px;
+      border:none; border-radius:30px;
+      font-weight:700; color:#fff;
+      box-shadow:0 4px 15px rgba(220,20,60,0.3);
+      transition:transform .3s,box-shadow .3s;
+      display:inline-block;
     }
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(220,20,60,0.4);
+    .cta:hover {
+      transform:translateY(-2px);
+      box-shadow:0 6px 20px rgba(220,20,60,0.4);
     }
-    .slide-indicators {
-      position: absolute;
-      bottom: 30px; left: 50%;
-      transform: translateX(-50%);
-      display: flex; gap: 8px;
-      z-index: 3;
+    .indicators {
+      position:absolute; bottom:30px; left:50%;
+      transform:translateX(-50%); display:flex; gap:8px; z-index:3;
     }
-    .indicator {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.5);
-      cursor: pointer;
+    .dot {
+      width:12px; height:12px; border-radius:50%;
+      background:rgba(255,255,255,0.5);
+      cursor:pointer;
+      transition:background .3s;
     }
-    .indicator.active { background: #dc143c; }
-    .ask-ai, .spotify-section, .services {
-      padding: 60px 20px;
-      text-align: center;
-    }
-    .ai-logo {
-      width: 120px;
-      margin-bottom: 20px;
+    .dot.active { background:#dc143c; }
+
+    /* Sections */
+    section { padding:60px 20px; }
+    .ask-ai .ai-logo {
+      width:140px; margin-bottom:20px;
+      border-radius:10px; box-shadow:0 0 10px rgba(255,255,255,0.2);
     }
     #ai-response {
-      margin-top: 20px;
-      font-size: 1.1em;
-      color: lime;
-      min-height: 3em;
+      margin-top:20px; min-height:3em;
+      background:rgba(255,255,255,0.05);
+      padding:15px; border-radius:8px;
+      font-size:1.1rem; color:#0f0;
     }
+    #ask-btn {
+      font-size:1.8rem;
+      padding:20px;
+      border-radius:50%;
+      border:none;
+      background:#fff; color:#000;
+      cursor:pointer;
+      box-shadow:0 4px 15px rgba(0,0,0,0.3);
+      transition:transform .3s;
+    }
+    #ask-btn:hover { transform:scale(1.05); }
+
+    .services ul {
+      list-style:none;
+      display:flex; flex-wrap:wrap; justify-content:center; gap:20px;
+      padding:0;
+    }
+    .services li {
+      background:rgba(255,255,255,0.1);
+      padding:20px; width:180px; border-radius:8px;
+      transition:transform .3s;
+    }
+    .services li:hover { transform:translateY(-5px); }
+
     footer {
-      padding: 20px;
-      text-align: center;
-      background: #111;
-      color: #ccc;
-      font-size: .9em;
+      background:#111; color:#ccc;
+      padding:20px; font-size:.9rem;
     }
   </style>
 </head>
 <body>
+
+  <!-- Header -->
   <header>
-    <img src="images/logo.png" alt="Skybound Media logo" class="logo">
+    <img src="images/logo.png" alt="Skybound Media Logo">
   </header>
 
-  <section class="hero">
-    <div class="slideshow-container">
-      <div class="slide active" style="background-image:url('images/bg1.jpg')"></div>
-      <div class="slide"       style="background-image:url('images/bg2.jpg')"></div>
-      <div class="slide"       style="background-image:url('images/bg3.jpg')"></div>
-      <div class="slide"       style="background-image:url('images/bg4.jpg')"></div>
-    </div>
+  <!-- Hero Slider -->
+  <div class="hero">
+    <div class="slide active" style="background-image:url('images/bg1.jpg')"></div>
+    <div class="slide"        style="background-image:url('images/bg2.jpg')"></div>
+    <div class="slide"        style="background-image:url('images/bg3.jpg')"></div>
+    <div class="slide"        style="background-image:url('images/bg4.jpg')"></div>
     <div class="hero-content">
       <h1>Echo Unfiltered</h1>
       <p>A live interview with my AI called Echo</p>
-      <a href="https://www.youtube.com/@skyboiformidable" target="_blank" class="cta-button">Watch on YouTube</a>
+      <a href="https://www.youtube.com/@skyboiformidable" target="_blank" class="cta">Watch on YouTube</a>
     </div>
-    <div class="slide-indicators">
-      <div class="indicator active"   onclick="goTo(0)"></div>
-      <div class="indicator"          onclick="goTo(1)"></div>
-      <div class="indicator"          onclick="goTo(2)"></div>
-      <div class="indicator"          onclick="goTo(3)"></div>
+    <div class="indicators">
+      <div class="dot active" onclick="goTo(0)"></div>
+      <div class="dot"        onclick="goTo(1)"></div>
+      <div class="dot"        onclick="goTo(2)"></div>
+      <div class="dot"        onclick="goTo(3)"></div>
     </div>
-  </section>
+  </div>
 
+  <!-- Ask AI -->
   <section class="ask-ai">
     <img src="images/logo.png" alt="Echo AI Logo" class="ai-logo">
     <h2>Ask AI</h2>
-    <p>Ask Echo a question with your voice and hear her response.</p>
-    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
-    <div id="ai-response"></div>
+    <p>Press the mic and speak to Echo. She’ll reply out loud.</p>
+    <button id="ask-btn" onclick="startVoiceAI()">🎤</button>
+    <div id="ai-response">Echo awaits your question…</div>
   </section>
 
-  <section class="spotify-section">
+  <!-- Spotify -->
+  <section>
     <h2>🎧 Listen on Spotify</h2>
-    <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" target="_blank" class="cta-button">Visit Spotify</a>
+    <p>Explore Skyboi Formidable’s latest tracks.</p>
+    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" target="_blank" class="cta">Visit Spotify</a>
   </section>
 
+  <!-- Services -->
   <section class="services">
     <h2>Our Services</h2>
-    <ul style="list-style:none;padding:0;display:flex;gap:20px;flex-wrap:wrap;justify-content:center;">
+    <ul>
       <li>Music Production</li>
       <li>Video Production</li>
       <li>Drone Pilot</li>
@@ -163,65 +179,77 @@
     </ul>
   </section>
 
-  <section class="battle">
+  <!-- Battle Arena -->
+  <section>
     <h2>🔥 Echo Battle Arena</h2>
-    <p>Enter the arena and freestyle against Echo.</p>
-    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" class="cta-button">Enter Battle Arena</a>
+    <p>Drop your bars. Echo claps back in real time.</p>
+    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" class="cta">Enter Battle Arena</a>
   </section>
 
+  <!-- Footer -->
   <footer>
-    Contact us: 081263323131, 08137961537<br>
+    Contact us: 081263323131 | 08137961537<br>
     &copy; 2025 Skybound Media
   </footer>
 
+  <!-- Scripts -->
   <script>
-    // slideshow
+    // Slideshow
     let idx = 0;
-    const slides      = document.querySelectorAll('.slide');
-    const indicators  = document.querySelectorAll('.indicator');
-    setInterval(() => changeSlide(1), 6000);
-    function changeSlide(d) {
-      slides[idx].classList.remove('active');
-      indicators[idx].classList.remove('active');
-      idx = (idx + d + slides.length) % slides.length;
-      slides[idx].classList.add('active');
-      indicators[idx].classList.add('active');
-    }
-    function goTo(i) {
-      changeSlide(i - idx);
-    }
+    const slides = document.querySelectorAll('.slide');
+    const dots   = document.querySelectorAll('.dot');
+    setInterval(()=>showSlide(idx+1),8000);
 
-    // voice AI
+    function showSlide(n) {
+      slides[idx].classList.remove('active');
+      dots  [idx].classList.remove('active');
+      idx = (n + slides.length) % slides.length;
+      slides[idx].classList.add('active');
+      dots  [idx].classList.add('active');
+    }
+    function goTo(i) { showSlide(i); }
+
+    // Voice AI
     async function startVoiceAI() {
-      const respEl = document.getElementById('ai-response');
-      respEl.textContent = '🎤 Listening…';
-      const recog = new (window.SpeechRecognition||window.webkitSpeechRecognition)();
-      recog.lang = 'en-US'; recog.interimResults = false; recog.continuous = false;
-      recog.start();
-      recog.onresult = async e => {
-        const text = e.results[0][0].transcript.trim();
-        respEl.textContent = `You said: "${text}"\n🤔 Thinking…`;
-        if (/stop talking/i.test(text)) {
+      const out = document.getElementById('ai-response');
+      out.textContent = '🎤 Listening…';
+      const rec = new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+      rec.lang = 'en-GB'; rec.interimResults = false; rec.continuous = false;
+      rec.start();
+
+      rec.onresult = async e => {
+        const q = e.results[0][0].transcript.trim();
+        out.textContent = `You: “${q}”\n🤔 Thinking…`;
+        if (/stop talking/i.test(q)) {
           speechSynthesis.cancel();
-          return respEl.textContent = 'Echo interrupted.';
+          return out.textContent = 'Echo interrupted.';
         }
+        let reply;
         try {
-          const res = await fetch('/.netlify/functions/chat', {
-            method: 'POST',
+          const r = await fetch('/api/chat', {
+            method:'POST',
             headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ message: text })
+            body: JSON.stringify({ message: q })
           });
-          if (!res.ok) throw new Error('status:'+res.status);
-          const data = await res.json();
-          respEl.textContent = `Echo: ${data.response}`;
-          const ut = new SpeechSynthesisUtterance(data.response);
-          ut.lang = 'en-US'; ut.rate = 1; ut.pitch = 1.1;
-          speechSynthesis.speak(ut);
+          if (!r.ok) throw new Error(r.status);
+          const j = await r.json();
+          reply = j.response;
         } catch(err) {
-          respEl.innerHTML = `❌ Echo couldn't respond: ${err.message}`;
+          reply = "🔧 Demo mode—AI endpoint unavailable.";
         }
+        out.textContent = `Echo: ${reply}`;
+        const U = new SpeechSynthesisUtterance(reply);
+        U.lang = 'en-GB'; U.rate = 1; U.pitch = 1.1;
+        const voice = speechSynthesis.getVoices()
+                       .find(v=>v.lang==='en-GB'&&/female/i.test(v.name));
+        if (voice) U.voice = voice;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(U);
       };
-      recog.onerror = () => { respEl.textContent = '🎤 Recognition failed.'; };
+
+      rec.onerror = () => {
+        out.textContent = '❌ Recognition failed.';
+      };
     }
   </script>
 </body>
