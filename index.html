@@ -3,192 +3,192 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Echo Unfiltered | Skybound Media</title>
+  <title>Echo Unfiltered – Skybound Media</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0; padding: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: black; color: white;
-      overflow-x: hidden;
-      text-align: center;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .slideshow {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100vh; z-index: -1;
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: white;
+      background-color: #000;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      height: 100vh;
       overflow: hidden;
     }
-    .slideshow img {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 100vw; height: 100vh;
-      object-fit: cover;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-    }
-    .slideshow img.active { opacity: 1; }
 
-    .centered {
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      animation: slideShow 32s infinite;
+      background-size: cover;
+      background-position: center;
+    }
+
+    @keyframes slideShow {
+      0% { background-image: url('bg1.jpg'); }
+      25% { background-image: url('bg2.jpg'); }
+      50% { background-image: url('bg3.jpg'); }
+      75% { background-image: url('bg4.jpg'); }
+      100% { background-image: url('bg1.jpg'); }
+    }
+
+    .center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       font-size: 3rem;
       font-weight: 700;
-      margin-top: 100px;
-      animation: slideDown 2s ease forwards;
-      color: white;
-    }
-    @keyframes slideDown {
-      from {opacity:0; transform: translateY(-50px);}
-      to {opacity:1; transform: translateY(0);}
+      text-align: center;
+      animation: flyIn 1s ease-out forwards;
     }
 
-    .btn {
+    @keyframes flyIn {
+      0% { opacity: 0; transform: translate(-100vw, -100vh); }
+      100% { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .mic-button {
+      font-size: 2.5rem;
+      padding: 20px;
+      border-radius: 50%;
+      border: none;
+      background-color: #fff;
+      color: #000;
+      cursor: pointer;
+      margin: 20px auto;
+      display: block;
+    }
+
+    #response {
+      max-width: 90%;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    img.ask-img {
+      width: 300px;
+      max-width: 90%;
       display: block;
       margin: 20px auto;
-      padding: 15px 25px;
-      font-size:1.2rem;
-      font-weight:bold;
-      background:#ff0055;
-      color:white;
-      border:none;
-      border-radius:30px;
-      cursor:pointer;
-      transition:0.2s;
-      width:260px;
-      text-decoration:none;
-    }
-    .btn:hover { transform: scale(1.05); }
-
-    .services {
-      display: flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin:40px 0;
-    }
-    .card {
-      background:rgba(255,255,255,0.1);
-      margin:10px;
-      padding:20px;
-      width:250px;
-      border-radius:10px;
+      border-radius: 10px;
     }
 
-    .voice-box {
-      background: rgba(0,0,0,0.6);
-      padding:20px;
-      max-width:600px;
-      margin: 40px auto;
-      font-size:1.2rem;
-      border-radius:10px;
+    .btn-group {
+      margin-top: 30px;
     }
 
-    .stop-btn, .ask-ai-btn {
-      background:#333;
-      border:none;
-      color:white;
-      padding:10px 20px;
-      cursor:pointer;
-      border-radius:5px;
-      margin:10px;
+    .btn-group a {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 24px;
+      background: #fff;
+      color: #000;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
     }
 
-    .ai-image {
-      max-width:400px;
-      margin:30px auto;
-      border-radius:12px;
-      display:block;
-      box-shadow:0 0 10px white;
+    .service-list {
+      list-style: none;
+      padding: 0;
+      font-size: 1.1rem;
+    }
+
+    .service-list li {
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
-
-  <div class="slideshow">
-    <img src="bg1.jpg" class="active" />
-    <img src="bg2.jpg" />
-    <img src="bg3.jpg" />
-    <img src="bg4.jpg" />
+  <div class="hero">
+    <div class="background"></div>
+    <div class="center-text">Welcome to Skybound Media</div>
   </div>
 
-  <div class="centered">Welcome to Skybound Media</div>
+  <div class="section">
+    <h2>Ask AI</h2>
+    <img src="ask-ai.jpg" alt="Echo & You" class="ask-img">
+    <button class="mic-button" onclick="startListening()">🎤</button>
+    <div id="response">Echo is listening...</div>
+  </div>
 
-  <header style="margin-top:60px;">
-    <img src="logo.png" alt="Skybound Logo" style="width:140px; margin-bottom:20px;">
-    <h1 style="margin-bottom: 10px;">Echo Unfiltered</h1>
-    <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@SkyboiFormidable" target="_blank" class="btn">Watch on YouTube</a>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" target="_blank" class="btn">Visit Spotify</a>
-    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" class="btn">Echo Battle Arena</a>
-  </header>
+  <div class="section">
+    <h2>Our Services</h2>
+    <ul class="service-list">
+      <li>Custom Websites</li>
+      <li>Music Promotion</li>
+      <li>AI Development</li>
+      <li>Conversational AI</li>
+    </ul>
+  </div>
 
-  <section class="services">
-    <div class="card"><h3>Music Production</h3><p>Professional music production services tailored to your vision.</p></div>
-    <div class="card"><h3>Video Production</h3><p>High-quality video creation from concept to final cut.</p></div>
-    <div class="card"><h3>Drone Pilot</h3><p>Aerial cinematography and photography with licensed drone operators.</p></div>
-    <div class="card"><h3>Hip Hop Beats with African Fusion</h3><p>Unique hip hop beats blending African rhythms available for purchase.</p></div>
-    <div class="card"><h3>Conversational AI</h3><p>Engage with cutting‑edge AI experiences crafted by Skybound Media.</p></div>
-  </section>
-
-  <section id="ask-section">
-    <h2>Ask Echo</h2>
-    <img src="you-and-echo.jpg" alt="Echo and You" class="ai-image" />
-    <div>
-      <button class="ask-ai-btn" onclick="startListening()">🎙️ Ask Echo</button>
-    </div>
-    <div class="voice-box" id="aiResponse">Echo: Waiting for your question…</div>
-    <button class="stop-btn" onclick="stopEcho()">🛑 Stop Echo</button>
-  </section>
+  <div class="section btn-group">
+    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=0O2J6VX1RM2WpfaBC-8Ypw" target="_blank">Spotify</a>
+    <a href="https://www.youtube.com/@skyboiformidable" target="_blank">YouTube</a>
+    <a href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank">Echo Battle Arena</a>
+  </div>
 
   <script>
-    const slides = document.querySelectorAll('.slideshow img');
-    let idx = 0;
-    setInterval(() => {
-      slides[idx].classList.remove('active');
-      idx = (idx + 1) % slides.length;
-      slides[idx].classList.add('active');
-    }, 8000);
-
     const synth = window.speechSynthesis;
-    let rec, ut;
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.continuous = true;
+    recognition.lang = 'en-US';
+
+    let first = true;
 
     function speak(text) {
-      if (ut) synth.cancel();
-      ut = new SpeechSynthesisUtterance(text);
-      ut.lang = 'en-US';
-      ut.voice = synth.getVoices().find(v => /jenny|google/i.test(v.name)) || synth.getVoices()[0];
-      synth.speak(ut);
-    }
-
-    function stopEcho() {
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voice = synth.getVoices().find(v => v.name.includes('Google US English') && v.lang === 'en-US');
+      if (voice) utterance.voice = voice;
       synth.cancel();
-      if (rec) rec.stop();
+      synth.speak(utterance);
     }
 
     function startListening() {
-      rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      rec.continuous = false;
-      rec.lang = 'en-US';
-      rec.interimResults = false;
-
-      const el = document.getElementById('aiResponse');
-      speak("I am listening. Ask me anything about Skyboi Formidable, the services, or the music.");
-      el.textContent = "Echo: Listening...";
-
-      rec.onresult = (e) => {
-        const q = e.results[0][0].transcript.trim();
-        let resp = "I'm Echo, your guide through Skybound Media.";
-        const lq = q.toLowerCase();
-        if (lq.includes("who") && lq.includes("skyboi")) resp = "Skyboi Formidable is the artist and founder behind Skybound Media.";
-        else if (lq.includes("music") || lq.includes("spotify")) resp = "Check out his music on Spotify and YouTube.";
-        else if (lq.includes("echo") || lq.includes("ai")) resp = "I'm Echo, a conversational AI assistant powered by Skybound Media.";
-        speak(resp);
-        el.textContent = "Echo: " + resp;
-      };
-
-      rec.onerror = () => speak("Sorry, I couldn't hear that clearly.");
-      rec.onend = () => { rec = undefined; };
-
-      rec.start();
+      recognition.start();
     }
+
+    recognition.onresult = (event) => {
+      const last = event.results.length - 1;
+      const text = event.results[last][0].transcript;
+      document.getElementById('response').innerText = "You: " + text;
+
+      let echoResponse = '';
+
+      if (first) {
+        echoResponse = "Welcome to Skybound Media, home of Skyboi Formidable. I’m Echo, your AI guide. How can I assist you today?";
+        first = false;
+      } else {
+        echoResponse = "Thanks for sharing. While we chat, don’t forget to check out Skyboi Formidable on Spotify and YouTube!";
+      }
+
+      speak(echoResponse);
+      document.getElementById('response').innerText += "\nEcho: " + echoResponse;
+    }
+
+    // Auto intro on page load
+    window.onload = () => {
+      speak("What if our voices carried more than words? Welcome to Skybound Media.");
+    };
   </script>
 </body>
 </html>
