@@ -6,8 +6,8 @@
   <title>Echo Unfiltered – Skyboi Formidable</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      margin: 0;
       font-family: 'Montserrat', sans-serif;
       background: #000;
       color: #fff;
@@ -35,20 +35,16 @@
       opacity: 0;
       transition: opacity 1.5s ease-in-out;
     }
-    .slide.active {
-      opacity: 1;
-    }
+    .slide.active { opacity: 1; }
     .slide::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.4);
     }
     .hero-content {
       position: relative;
       z-index: 2;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 50%; transform: translateY(-50%);
       padding: 0 20px;
     }
     .hero-content h1 {
@@ -62,93 +58,66 @@
     .cta {
       background: linear-gradient(45deg, #dc143c, #ff6b6b);
       padding: 12px 30px;
-      border: none;
-      border-radius: 30px;
-      font-weight: 700;
-      color: #fff;
-      box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+      border: none; border-radius: 30px;
+      font-weight: 700; color: #fff;
+      box-shadow: 0 4px 15px rgba(220,20,60,0.3);
       transition: transform .3s, box-shadow .3s;
       display: inline-block;
     }
     .cta:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(220, 20, 60, 0.4);
+      box-shadow: 0 6px 20px rgba(220,20,60,0.4);
     }
     .indicators {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      z-index: 3;
+      position: absolute; bottom: 30px; left: 50%;
+      transform: translateX(-50%); display: flex; gap: 8px; z-index: 3;
     }
     .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.5);
+      width: 12px; height: 12px; border-radius: 50%;
+      background: rgba(255,255,255,0.5);
       cursor: pointer;
       transition: background .3s;
     }
-    .dot.active {
-      background: #dc143c;
-    }
-    section {
-      padding: 60px 20px;
-    }
+    .dot.active { background: #dc143c; }
+
+    section { padding: 60px 20px; }
     .ask-ai .ai-logo {
-      width: 140px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      width: 140px; margin-bottom: 20px;
+      border-radius: 10px; box-shadow: 0 0 10px rgba(255,255,255,0.2);
     }
     #ai-response {
-      margin-top: 20px;
-      min-height: 3em;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 15px;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      color: #0f0;
+      margin-top: 20px; min-height: 3em;
+      background: rgba(255,255,255,0.05);
+      padding: 15px; border-radius: 8px;
+      font-size: 1.1rem; color: #0f0;
     }
     #ask-btn {
       font-size: 1.8rem;
       padding: 20px;
       border-radius: 50%;
       border: none;
-      background: #fff;
-      color: #000;
+      background: #fff; color: #000;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       transition: transform .3s;
     }
-    #ask-btn:hover {
-      transform: scale(1.05);
-    }
+    #ask-btn:hover { transform: scale(1.05); }
+
     .services ul {
       list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
       padding: 0;
     }
     .services li {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      width: 180px;
-      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      padding: 20px; width: 180px; border-radius: 8px;
       transition: transform .3s;
     }
-    .services li:hover {
-      transform: translateY(-5px);
-    }
+    .services li:hover { transform: translateY(-5px); }
+
     footer {
-      background: #111;
-      color: #ccc;
-      padding: 20px;
-      font-size: .9rem;
+      background: #111; color: #ccc;
+      padding: 20px; font-size: .9rem;
     }
   </style>
 </head>
@@ -159,12 +128,12 @@
     <img src="images/logo.png" alt="Skybound Media Logo">
   </header>
 
-  <!-- Hero Slider -->
+  <!-- Hero -->
   <div class="hero">
     <div class="slide active" style="background-image:url('images/bg1.jpg')"></div>
-    <div class="slide" style="background-image:url('images/bg2.jpg')"></div>
-    <div class="slide" style="background-image:url('images/bg3.jpg')"></div>
-    <div class="slide" style="background-image:url('images/bg4.jpg')"></div>
+    <div class="slide"        style="background-image:url('images/bg2.jpg')"></div>
+    <div class="slide"        style="background-image:url('images/bg3.jpg')"></div>
+    <div class="slide"        style="background-image:url('images/bg4.jpg')"></div>
     <div class="hero-content">
       <h1>Echo Unfiltered</h1>
       <p>A live interview with my AI called Echo</p>
@@ -172,9 +141,9 @@
     </div>
     <div class="indicators">
       <div class="dot active" onclick="goTo(0)"></div>
-      <div class="dot" onclick="goTo(1)"></div>
-      <div class="dot" onclick="goTo(2)"></div>
-      <div class="dot" onclick="goTo(3)"></div>
+      <div class="dot"        onclick="goTo(1)"></div>
+      <div class="dot"        onclick="goTo(2)"></div>
+      <div class="dot"        onclick="goTo(3)"></div>
     </div>
   </div>
 
@@ -224,57 +193,48 @@
     let idx = 0;
     const slides = document.querySelectorAll('.slide');
     const dots   = document.querySelectorAll('.dot');
-    setInterval(() => showSlide(idx + 1), 8000);
+    setInterval(()=>showSlide(idx+1),8000);
 
     function showSlide(n) {
       slides[idx].classList.remove('active');
-      dots[idx].classList.remove('active');
+      dots  [idx].classList.remove('active');
       idx = (n + slides.length) % slides.length;
       slides[idx].classList.add('active');
-      dots[idx].classList.add('active');
+      dots  [idx].classList.add('active');
     }
-    function goTo(i) {
-      showSlide(i);
-    }
+    function goTo(i) { showSlide(i); }
 
     async function startVoiceAI() {
       const out = document.getElementById('ai-response');
       out.textContent = '🎤 Listening…';
-      const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      rec.lang = 'en-GB';
-      rec.interimResults = false;
-      rec.continuous = false;
+      const rec = new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+      rec.lang = 'en-GB'; rec.interimResults = false; rec.continuous = false;
       rec.start();
 
       rec.onresult = async e => {
         const q = e.results[0][0].transcript.trim();
         out.textContent = `You: “${q}”\n🤔 Thinking…`;
-
         if (/stop talking/i.test(q)) {
           speechSynthesis.cancel();
           return out.textContent = 'Echo interrupted.';
         }
-
         let reply;
         try {
-          const r = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          const r = await fetch('/.netlify/functions/chat', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
             body: JSON.stringify({ message: q })
           });
-          if (!r.ok) throw new Error(r.status);
           const j = await r.json();
-          reply = j.response;
-        } catch (err) {
+          reply = j.response || j.output || "No response.";
+        } catch(err) {
           reply = "🔧 Demo mode—AI endpoint unavailable.";
         }
-
         out.textContent = `Echo: ${reply}`;
         const U = new SpeechSynthesisUtterance(reply);
-        U.lang = 'en-GB';
-        U.rate = 1;
-        U.pitch = 1.1;
-        const voice = speechSynthesis.getVoices().find(v => v.lang === 'en-GB' && /female/i.test(v.name));
+        U.lang = 'en-GB'; U.rate = 1; U.pitch = 1.1;
+        const voice = speechSynthesis.getVoices()
+                       .find(v=>v.lang==='en-GB'&&/female/i.test(v.name));
         if (voice) U.voice = voice;
         speechSynthesis.cancel();
         speechSynthesis.speak(U);
