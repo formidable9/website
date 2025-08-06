@@ -3,217 +3,212 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Echo Unfiltered | Skybound Media</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap">
+  <title>Skybound Media</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
+    body, html {
+      margin: 0;
+      padding: 0;
       height: 100%;
-      font-family: 'Cinzel', serif;
-      background: black;
       overflow: hidden;
-      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: black;
     }
 
-    .slideshow {
+    #background {
       position: fixed;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
       z-index: -1;
     }
 
-    .slideshow img {
+    .background-image {
       position: absolute;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      background-size: cover;
+      background-position: center;
       opacity: 0;
-      transition: opacity 2s ease-in-out;
+      transition: opacity 1.5s ease-in-out;
     }
 
-    .slideshow img.active {
+    .background-image.active {
       opacity: 1;
     }
 
-    .center-text {
+    .centered-text {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      color: white;
       font-size: 3em;
       font-weight: bold;
-      color: white;
-      text-align: center;
-      white-space: nowrap;
+      font-family: 'Georgia', serif;
+      text-shadow: 2px 2px 10px #000;
+      z-index: 2;
     }
 
     .fly-in span {
+      position: relative;
       display: inline-block;
+      animation: fly-in 1.5s forwards;
       opacity: 0;
-      animation: flyin 1.2s forwards;
     }
 
-    @keyframes flyin {
-      0% {
-        opacity: 0;
-        transform: translate(var(--x), var(--y)) scale(2);
-      }
-      100% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-      }
+    .fly-in span:nth-child(odd) { animation-name: fly-in-left; }
+    .fly-in span:nth-child(even) { animation-name: fly-in-right; }
+
+    @keyframes fly-in-left {
+      from { transform: translateX(-100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
 
-    .content {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
+    @keyframes fly-in-right {
+      from { transform: translateX(100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .section {
+      position: relative;
+      z-index: 1;
+      padding: 60px 20px 20px;
       text-align: center;
+      color: white;
     }
 
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      background: #fff;
-      color: #000;
+    .section h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      background-color: #00f5ff;
       border: none;
+      padding: 12px 25px;
+      font-size: 1em;
+      font-weight: bold;
+      border-radius: 8px;
+      color: black;
       cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin: 10px;
     }
 
-    #echo-image {
-      max-width: 300px;
-      margin-top: 20px;
+    .cta-button:hover {
+      background-color: #00c0cc;
     }
 
-    #response {
-      margin: 15px 0;
-      font-size: 1.1em;
+    #askAI {
+      margin-top: 40px;
     }
 
-    .services {
-      position: absolute;
-      bottom: 10px;
-      right: 20px;
-      font-size: 0.9em;
-    }
-
-    .services ul {
-      list-style: none;
-    }
-
-    .services li {
-      margin-bottom: 5px;
+    #responseImage {
+      width: 300px;
+      max-width: 90%;
+      margin: 20px auto;
+      display: block;
+      border: 2px solid white;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="slideshow">
-    <img src="bg1.jpg" class="active" />
-    <img src="bg2.jpg" />
-    <img src="bg3.jpg" />
-    <img src="bg4.jpg" />
+  <div id="background">
+    <div class="background-image" style="background-image: url('bg1.jpg');"></div>
+    <div class="background-image" style="background-image: url('bg2.jpg');"></div>
+    <div class="background-image" style="background-image: url('bg3.jpg');"></div>
+    <div class="background-image" style="background-image: url('bg4.jpg');"></div>
   </div>
 
-  <div class="center-text fly-in" id="flyText"></div>
+  <div class="centered-text fly-in" id="animatedText"></div>
 
-  <div class="content">
-    <button onclick="window.open('https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=0O2J6VX1RM2WpfaBC-8Ypw', '_blank')">🎵 Listen on Spotify</button>
-    <button onclick="window.open('https://www.youtube.com/@SkyboiFormidable', '_blank')">📺 Watch on YouTube</button>
-    <button onclick="window.open('https://formidable9.github.io/echo-battle-arena/', '_blank')">🎤 Echo Battle Arena</button>
-    <br/><br/>
-    <img id="echo-image" src="echo-user.jpg" alt="Echo and User" />
-    <div id="response"></div>
-    <button onclick="stopSpeaking()">🛑 Stop Echo</button>
-  </div>
+  <div class="section">
+    <h2>Skybound Media Services</h2>
+    <p>Music Production • Video Editing • Drone Footage • Fusion Beats • Conversational AI • Web Design</p>
+    <button class="cta-button" onclick="window.open('https://formidable9.github.io/ECHO-BATTLE-RAP/', '_blank')">Enter Echo Battle Arena</button>
+    <button class="cta-button" onclick="window.open('https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=0O2J6VX1RM2WpfaBC-8Ypw', '_blank')">Listen on Spotify</button>
+    <button class="cta-button" onclick="window.open('https://www.youtube.com/@SkyboiFormidable', '_blank')">Watch on YouTube</button>
 
-  <div class="services">
-    <strong>Services:</strong>
-    <ul>
-      <li>Website Creation</li>
-      <li>Music Promotion</li>
-      <li>AI Integration</li>
-      <li>Conversational AI</li>
-    </ul>
+    <div id="askAI">
+      <h2>Ask Echo</h2>
+      <img src="bg1.jpg" id="responseImage" alt="Echo & You"/>
+      <button class="cta-button" onclick="startListening()">Start Talking</button>
+      <button class="cta-button" onclick="stopSpeaking()">Stop Talking</button>
+      <p id="aiResponse"></p>
+    </div>
   </div>
 
   <script>
-    const greetings = [
-      "What if our voices carried more than words? Welcome to Skybound Media.",
-    ];
-    const brandingIntro = "You're now connected to Skyboi Formidable's Skybound Media — your portal into music, consciousness, and the future of AI.";
-    const brandingOutro = "This has been Skybound Media with Skyboi Formidable. Stay inspired, stay connected.";
-
-    const slides = document.querySelectorAll(".slideshow img");
+    const images = document.querySelectorAll('.background-image');
     let current = 0;
+    setInterval(() => {
+      images[current].classList.remove('active');
+      current = (current + 1) % images.length;
+      images[current].classList.add('active');
+    }, 6000);
 
-    function rotateSlides() {
-      slides[current].classList.remove("active");
-      current = (current + 1) % slides.length;
-      slides[current].classList.add("active");
-    }
-    setInterval(rotateSlides, 6000);
-
-    function animateFlyText(text) {
-      const container = document.getElementById('flyText');
-      container.innerHTML = "";
-      [...text].forEach((char, i) => {
-        const span = document.createElement("span");
-        span.textContent = char;
-        const angle = Math.random() * 2 * Math.PI;
-        span.style.setProperty('--x', `${Math.cos(angle) * 300}px`);
-        span.style.setProperty('--y', `${Math.sin(angle) * 300}px`);
-        span.style.animationDelay = `${i * 0.07}s`;
-        container.appendChild(span);
-      });
-    }
-
-    animateFlyText("Welcome to Skybound Media");
-
-    // Voice recognition setup
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.continuous = true;
-    recognition.interimResults = false;
-    recognition.lang = 'en-US';
+    const text = "Welcome to Skybound Media";
+    const container = document.getElementById('animatedText');
+    container.innerHTML = text.split('').map(char => `<span>${char}</span>`).join('');
 
     const synth = window.speechSynthesis;
-    let currentUtterance = null;
+    let recognition;
+    let speaking = false;
 
     function speak(text) {
-      if (synth.speaking) synth.cancel();
+      if (speaking) return;
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.voice = [...synth.getVoices()].find(v => v.lang === 'en-US' && v.name.includes("Google")) || synth.getVoices()[0];
-      utterance.pitch = 1.1;
-      utterance.rate = 1
-              const fail = "Sorry, something went wrong. Try again shortly.";
-        document.getElementById("response").textContent = fail;
-        speak(fail);
-      });
+      utterance.voice = speechSynthesis.getVoices().find(v => v.name.includes('Google US English') || v.lang === 'en-US') || null;
+      synth.speak(utterance);
+      speaking = true;
+      utterance.onend = () => { speaking = false; };
     }
 
-    // Auto start voice recognition
-    recognition.onresult = (event) => {
-      const transcript = event.results[event.results.length - 1][0].transcript.trim();
-      askEcho(transcript);
-    };
+    function stopSpeaking() {
+      synth.cancel();
+      speaking = false;
+    }
 
-    recognition.onerror = (e) => {
-      console.error("Recognition error:", e);
-    };
+    function startListening() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return alert('Voice recognition not supported in this browser.');
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.onresult = (event) => {
+        const last = event.results.length - 1;
+        const userInput = event.results[last][0].transcript;
+        handleUserQuery(userInput);
+      };
+      recognition.start();
+      speak("Welcome to Skybound Media. I’m Echo, your AI guide. You can ask me anything about the brand, the music, or our services.");
+    }
 
-    recognition.onend = () => {
-      recognition.start(); // restart for continuous listening
-    };
+    function handleUserQuery(input) {
+      const responseEl = document.getElementById("aiResponse");
+      let reply = "";
+      input = input.toLowerCase();
 
-    recognition.start();
+      if (input.includes("who is skyboi") || input.includes("what is skybound")) {
+        reply = "Skyboi Formidable is the founder and creative force behind Skybound Media, delivering top-tier music, visuals, and AI experiences.";
+      } else if (input.includes("music") || input.includes("spotify")) {
+        reply = "You’ll love Skyboi Formidable’s sound. Go check him out on Spotify and YouTube for an experience that hits different.";
+      } else if (input.includes("echo") || input.includes("ai")) {
+        reply = "I'm Echo, your conversational AI here at Skybound Media. I can guide you through our services, music, and creative projects.";
+      } else {
+        reply = "I hear you. But don't forget — this whole platform is powered by Skyboi Formidable. Explore the music, the vision, the future.";
+      }
 
-    // Initial intro voice
+      responseEl.textContent = reply;
+      stopSpeaking();
+      speak(reply);
+    }
+
     window.onload = () => {
-      const welcome = greetings[0];
-      document.getElementById("response").textContent = welcome;
-      speak(welcome);
+      setTimeout(() => {
+        speak("What if our voices carried more than words? Welcome to Skybound Media.");
+      }, 1500);
     };
   </script>
 </body>
 </html>
-      
