@@ -1,10 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Echo Unfiltered – Skyboi Formidable</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       margin: 0;
@@ -13,169 +13,307 @@
       color: #fff;
     }
 
-    header {
-      padding: 20px;
-      text-align: center;
-    }
+```
+header {
+  padding: 20px;
+  text-align: center;
+}
 
-    .logo {
-      max-width: 150px;
-    }
+.logo {
+  max-width: 150px;
+}
 
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px;
-      text-align: center;
-      background-size: cover;
-      background-position: center;
-      animation: slideShow 40s infinite;
-    }
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
 
-    @keyframes slideShow {
-      0% { background-image: url('bg1.jpg'); }
-      25% { background-image: url('bg2.jpg'); }
-      50% { background-image: url('bg3.jpg'); }
-      75% { background-image: url('bg4.jpg'); }
-      100% { background-image: url('bg1.jpg'); }
-    }
+.slideshow-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 
-    .hero h1 {
-      font-size: clamp(2rem, 6vw, 3rem);
-      margin-bottom: 1rem;
-      max-width: 90%;
-    }
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
 
-    .hero p {
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      max-width: 90%;
-      margin: 0 auto;
-      margin-bottom: 1rem;
-    }
+.slide.active {
+  opacity: 1;
+}
 
-    .cta-button {
-      margin-top: 20px;
-      background-color: crimson;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.slide::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
 
-    .ask-ai, .spotify-section {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
 
-    .ask-ai h2, .spotify-section h2 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
+.hero h1 {
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
 
-    .ask-ai p, .spotify-section p {
-      font-size: 1.1em;
-      margin-bottom: 20px;
-    }
+.hero p {
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
 
-    .ai-logo {
-      width: 200px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
+.cta-button {
+  background: linear-gradient(45deg, #dc143c, #ff6b6b);
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+}
 
-    footer {
-      background-color: #111;
-      color: #ccc;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.9em;
-    }
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 20, 60, 0.4);
+}
 
-    .services {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
+.slide-indicators {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 3;
+}
 
-    .services h2 {
-      font-size: 2.5em;
-      margin-bottom: 1rem;
-    }
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
 
-    .service-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
+.indicator.active {
+  background: #dc143c;
+}
 
-    .service-item {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 8px;
-      width: 220px;
-    }
+.slide-controls {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.3s ease;
+  z-index: 3;
+}
 
-    .service-item h3 {
-      margin: 0 0 10px;
-      font-size: 1.3em;
-    }
+.slide-controls:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
 
-    .service-item p {
-      font-size: 1em;
-    }
+.prev {
+  left: 20px;
+}
 
-    @media (max-width: 600px) {
-      .service-list {
-        flex-direction: column;
-        align-items: center;
-      }
-      .service-item {
-        width: 100%;
-        max-width: 280px;
-      }
-    }
+.next {
+  right: 20px;
+}
 
-    #ai-response {
-      font-size: 1.1em;
-      color: lime;
-      margin-top: 20px;
-    }
+.ask-ai, .spotify-section {
+  background-color: #111;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.ask-ai h2, .spotify-section h2 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.ask-ai p, .spotify-section p {
+  font-size: 1.1em;
+  margin-bottom: 20px;
+}
+
+.ai-logo {
+  width: 200px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+footer {
+  background-color: #111;
+  color: #ccc;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.services {
+  background-color: #111;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.services h2 {
+  font-size: 2.5em;
+  margin-bottom: 1rem;
+}
+
+.service-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.service-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+  width: 220px;
+  transition: transform 0.3s ease;
+}
+
+.service-item:hover {
+  transform: translateY(-5px);
+}
+
+.service-item h3 {
+  margin: 0 0 10px;
+  font-size: 1.3em;
+}
+
+.service-item p {
+  font-size: 1em;
+}
+
+@media (max-width: 768px) {
+  .slide-controls {
+    display: none;
+  }
+  
+  .service-list {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .service-item {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+#ai-response {
+  font-size: 1.1em;
+  color: lime;
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  min-height: 50px;
+}
+
+.security-warning {
+  background: linear-gradient(135deg, #ff4444, #cc0000);
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+```
+
   </style>
 </head>
 
 <body>
+  <div class="security-warning" style="background: linear-gradient(135deg, #28a745, #20c997);">
+    ✅ SECURE VERSION: API key is now safely stored in backend. Deploy to Netlify to enable AI features.
+  </div>
+
   <header>
-    <img src="Logo.PNG" alt="Echo Unfiltered logo" class="logo" />
+    <img src="images/logo.png" alt="Echo Unfiltered logo" class="logo" />
   </header>
 
   <section class="hero">
-    <h1>Echo Unfiltered</h1>
-    <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank">Watch on YouTube</a>
+    <div class="slideshow-container">
+      <div class="slide active" style="background-image: url('images/bg1.jpg')"></div>
+      <div class="slide" style="background-image: url('images/bg2.jpg')"></div>
+      <div class="slide" style="background-image: url('images/bg3.jpg')"></div>
+      <div class="slide" style="background-image: url('images/bg4.jpg')"></div>
+    </div>
+
+```
+<button class="slide-controls prev" onclick="changeSlide(-1)">❮</button>
+<button class="slide-controls next" onclick="changeSlide(1)">❯</button>
+
+<div class="hero-content">
+  <h1>Echo Unfiltered</h1>
+  <p>A live interview with my AI called Echo</p>
+  <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank">Watch on YouTube</a>
+</div>
+
+<div class="slide-indicators">
+  <div class="indicator active" onclick="currentSlide(1)"></div>
+  <div class="indicator" onclick="currentSlide(2)"></div>
+  <div class="indicator" onclick="currentSlide(3)"></div>
+  <div class="indicator" onclick="currentSlide(4)"></div>
+</div>
+```
+
   </section>
 
   <section class="ask-ai">
-    <img src="bg1.jpg" alt="You and Echo" class="ai-logo"/>
+    <img src="images/ai-logo.jpg" alt="You and Echo" class="ai-logo"/>
     <h2>Ask AI</h2>
     <p>Ask Echo a question with your voice and hear her response.</p>
     <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
-    <div id="ai-response"></div>
+    <div id="ai-response">Click the button above and speak your question to Echo!</div>
   </section>
 
   <section class="spotify-section">
     <h2>🎧 Listen on Spotify</h2>
-    <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
+    <p>Explore Skyboi Formidable's music directly on Spotify.</p>
     <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=foiMAx6AStGtfy8ZvaeUow" class="cta-button" target="_blank">Visit Spotify</a>
   </section>
 
@@ -217,33 +355,116 @@
   </footer>
 
   <script>
-    const welcomeVoice = new SpeechSynthesisUtterance("What if our voices carried more than words? Welcome to Skybound Media. Echo is listening.");
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const indicators = document.querySelectorAll('.indicator');
+    
+    // Auto-advance slideshow
+    setInterval(() => {
+      changeSlide(1);
+    }, 6000);
+
+    function showSlide(n) {
+      slides[currentSlideIndex].classList.remove('active');
+      indicators[currentSlideIndex].classList.remove('active');
+      
+      currentSlideIndex = (n + slides.length) % slides.length;
+      
+      slides[currentSlideIndex].classList.add('active');
+      indicators[currentSlideIndex].classList.add('active');
+    }
+
+    function changeSlide(direction) {
+      showSlide(currentSlideIndex + direction);
+    }
+
+    function currentSlide(n) {
+      showSlide(n - 1);
+    }
+
+    async function startVoiceAI() {
+      try {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        document.getElementById('ai-response').innerText = "🎤 Listening... Speak now!";
+        recognition.start();
+
+        recognition.onresult = async function(event) {
+          const transcript = event.results[0][0].transcript.trim();
+          document.getElementById('ai-response').innerText = `You said: "${transcript}"\n\n🤔 Echo is thinking...`;
+
+          if (transcript.toLowerCase().includes("stop talking")) {
+            speechSynthesis.cancel();
+            document.getElementById('ai-response').innerText = "Echo has been interrupted.";
+            return;
+          }
+
+          try {
+            // Call your secure Netlify function
+            const response = await fetch('/.netlify/functions/chat', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ message: transcript })
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            
+            if (data.success) {
+              document.getElementById('ai-response').innerText = `🎯 Echo: ${data.response}`;
+              speechSynthesis.cancel();
+              speakResponse(data.response);
+            } else {
+              throw new Error(data.error || 'Unknown error');
+            }
+
+          } catch (error) {
+            console.error("Echo AI error:", error);
+            document.getElementById('ai-response').innerText = `❌ Echo couldn't respond: ${error.message}. Try again!`;
+          }
+        };
+
+        recognition.onerror = function(event) {
+          console.error("Speech recognition error:", event.error);
+          document.getElementById('ai-response').innerText = `🎤 Speech recognition error: ${event.error}. Try again!`;
+        };
+
+        recognition.onend = function() {
+          // Recognition session ended
+        };
+
+      } catch (error) {
+        console.error("Voice AI error:", error);
+        document.getElementById('ai-response').innerText = "🎤 Voice recognition not supported in your browser. Try Chrome or Edge.";
+      }
+    }
+
+    // Welcome voice (keeping the safe parts)
+    const welcomeVoice = new SpeechSynthesisUtterance("What if our voices carried more than words? Welcome to Skybound Media.");
     welcomeVoice.lang = 'en-US';
     welcomeVoice.rate = 1;
     welcomeVoice.pitch = 1.1;
 
-    const interruptCommand = "stop talking";
-
-    function getEchoVoice() {
-      return new Promise((resolve) => {
-        const voices = speechSynthesis.getVoices();
-        if (voices.length) {
-          resolve(voices);
-        } else {
-          speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
-        }
-      });
-    }
-
     async function speakResponse(text) {
-      const voices = await getEchoVoice();
+      const voices = speechSynthesis.getVoices() || [];
       const voice = voices.find(v => v.lang.includes("en") && v.name.toLowerCase().includes("female")) || voices[0];
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.voice = voice;
-      utter.pitch = 1.1;
-      utter.rate = 1;
-      utter.volume = 1;
-      speechSynthesis.speak(utter);
+      
+      if (voice) {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.voice = voice;
+        utter.pitch = 1.1;
+        utter.rate = 1;
+        utter.volume = 1;
+        speechSynthesis.speak(utter);
+      }
     }
 
     window.onload = () => {
@@ -253,54 +474,33 @@
       }, 1000);
     }
 
-    async function startVoiceAI() {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'en-US';
-      recognition.continuous = true;
-      recognition.interimResults = false;
-      recognition.start();
-
-      recognition.onresult = async function(event) {
-        const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
-        document.getElementById('ai-response').innerText = `You said: ${transcript}`;
-
-        if (transcript.includes(interruptCommand)) {
-          speechSynthesis.cancel();
-          document.getElementById('ai-response').innerText = "Echo has been interrupted.";
-          return;
-        }
-
-        try {
-          const reply = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer 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"
-            },
-            body: JSON.stringify({
-              model: "llama3-70b-8192",
-              messages: [
-                { role: "system", content: "You are Echo, a wise, confident female AI who responds with clarity." },
-                { role: "user", content: transcript }
-              ]
-            })
-          });
-
-          const data = await reply.json();
-          const responseText = data.choices[0].message.content;
-          document.getElementById('ai-response').innerText = responseText;
-          speechSynthesis.cancel();
-          speakResponse(responseText);
-        } catch (err) {
-          console.error("Echo voice error:", err);
-          document.getElementById('ai-response').innerText = "Echo couldn’t speak. Try again.";
-        }
-      };
-
-      recognition.onerror = function(err) {
-        console.error("Speech recognition error:", err);
-      };
+    // TODO: Implement secure AI functionality
+    // Create a backend endpoint (e.g., /api/chat) that:
+    // 1. Receives the user's message
+    // 2. Calls the Groq API with your secure API key
+    // 3. Returns the response to your frontend
+    
+    async function secureAIRequest(message) {
+      // Example of how to implement this securely:
+      /*
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ message: message })
+        });
+        
+        const data = await response.json();
+        return data.response;
+      } catch (error) {
+        console.error('AI request failed:', error);
+        return 'Sorry, I cannot respond right now.';
+      }
+      */
     }
   </script>
+
 </body>
 </html>
