@@ -3,176 +3,217 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skybound Media</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet"/>
+  <title>Echo Unfiltered | Skybound Media</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: black;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      font-family: 'Cinzel', serif;
+      background: black;
+      overflow: hidden;
       color: white;
-      font-family: 'Pirata One', cursive;
-      overflow-x: hidden;
     }
 
-    .background-slideshow {
+    .slideshow {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       z-index: -1;
     }
 
-    .background-slideshow img {
+    .slideshow img {
+      position: absolute;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      position: absolute;
       opacity: 0;
       transition: opacity 2s ease-in-out;
     }
 
-    .background-slideshow img.active {
+    .slideshow img.active {
       opacity: 1;
     }
 
     .center-text {
       position: absolute;
-      top: 35%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       font-size: 3em;
+      font-weight: bold;
       color: white;
       text-align: center;
-      letter-spacing: 2px;
-      animation: flyIn 3s ease-in-out forwards;
+      white-space: nowrap;
     }
 
-    @keyframes flyIn {
+    .fly-in span {
+      display: inline-block;
+      opacity: 0;
+      animation: flyin 1.2s forwards;
+    }
+
+    @keyframes flyin {
       0% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5) rotate(-720deg);
+        transform: translate(var(--x), var(--y)) scale(2);
       }
       100% {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        transform: translate(0, 0) scale(1);
       }
+    }
+
+    .content {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      background: #fff;
+      color: #000;
+      border: none;
+      cursor: pointer;
+    }
+
+    #echo-image {
+      max-width: 300px;
+      margin-top: 20px;
+    }
+
+    #response {
+      margin: 15px 0;
+      font-size: 1.1em;
     }
 
     .services {
       position: absolute;
-      top: 10px;
-      left: 20px;
-      font-family: Arial, sans-serif;
+      bottom: 10px;
+      right: 20px;
+      font-size: 0.9em;
     }
 
     .services ul {
       list-style: none;
-      padding: 0;
     }
 
     .services li {
-      margin: 10px 0;
-      font-size: 1em;
-    }
-
-    .services li::before {
-      content: '🎧 ';
-    }
-
-    .services li:nth-child(2)::before { content: '🎬 '; }
-    .services li:nth-child(3)::before { content: '🛸 '; }
-    .services li:nth-child(4)::before { content: '🧠 '; }
-
-    .ask-ai {
-      position: absolute;
-      bottom: 100px;
-      width: 100%;
-      text-align: center;
-      font-family: Arial, sans-serif;
-    }
-
-    .ask-ai img {
-      width: 250px;
-      height: 250px;
-      object-fit: cover;
-      border-radius: 15px;
-      border: 2px solid white;
-    }
-
-    .ask-ai h2 {
-      margin: 20px 0 10px;
-      font-size: 2em;
-    }
-
-    .ask-ai p {
-      font-size: 1em;
-    }
-
-    .ask-btn {
-      margin-top: 15px;
-      padding: 12px 24px;
-      font-size: 1em;
-      background: crimson;
-      border: none;
-      color: white;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .error {
-      margin-top: 10px;
-      color: lime;
-      font-weight: bold;
+      margin-bottom: 5px;
     }
   </style>
 </head>
 <body>
-  <div class="background-slideshow">
+  <div class="slideshow">
     <img src="bg1.jpg" class="active" />
     <img src="bg2.jpg" />
     <img src="bg3.jpg" />
     <img src="bg4.jpg" />
   </div>
 
+  <div class="center-text fly-in" id="flyText"></div>
+
+  <div class="content">
+    <button onclick="window.open('https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR?si=0O2J6VX1RM2WpfaBC-8Ypw', '_blank')">🎵 Listen on Spotify</button>
+    <button onclick="window.open('https://www.youtube.com/@SkyboiFormidable', '_blank')">📺 Watch on YouTube</button>
+    <button onclick="window.open('https://formidable9.github.io/echo-battle-arena/', '_blank')">🎤 Echo Battle Arena</button>
+    <br/><br/>
+    <img id="echo-image" src="echo-user.jpg" alt="Echo and User" />
+    <div id="response"></div>
+    <button onclick="stopSpeaking()">🛑 Stop Echo</button>
+  </div>
+
   <div class="services">
+    <strong>Services:</strong>
     <ul>
-      <li>Music Production</li>
-      <li>Video Editing</li>
-      <li>Drone Piloting</li>
+      <li>Website Creation</li>
+      <li>Music Promotion</li>
+      <li>AI Integration</li>
       <li>Conversational AI</li>
     </ul>
   </div>
 
-  <div class="center-text">Welcome to Skybound Media</div>
-
-  <div class="ask-ai">
-    <h2>Ask AI</h2>
-    <div>
-      <img src="you-and-echo.jpg" alt="You and Echo" onerror="this.src='https://via.placeholder.com/250?text=Echo+Unfiltered'"/>
-    </div>
-    <p>Ask Echo a question with your voice and hear her response.</p>
-    <button class="ask-btn" onclick="handleVoice()">Ask with Your Voice</button>
-    <div id="errorMessage" class="error"></div>
-  </div>
-
   <script>
-    let slideIndex = 0;
-    const slides = document.querySelectorAll(".background-slideshow img");
-    setInterval(() => {
-      slides[slideIndex].classList.remove("active");
-      slideIndex = (slideIndex + 1) % slides.length;
-      slides[slideIndex].classList.add("active");
-    }, 5000);
+    const greetings = [
+      "What if our voices carried more than words? Welcome to Skybound Media.",
+    ];
+    const brandingIntro = "You're now connected to Skyboi Formidable's Skybound Media — your portal into music, consciousness, and the future of AI.";
+    const brandingOutro = "This has been Skybound Media with Skyboi Formidable. Stay inspired, stay connected.";
 
-    function handleVoice() {
-      const errorBox = document.getElementById('errorMessage');
-      errorBox.innerText = "❌ Echo couldn't respond: HTTP error! status: 405. Try again!";
+    const slides = document.querySelectorAll(".slideshow img");
+    let current = 0;
+
+    function rotateSlides() {
+      slides[current].classList.remove("active");
+      current = (current + 1) % slides.length;
+      slides[current].classList.add("active");
     }
+    setInterval(rotateSlides, 6000);
+
+    function animateFlyText(text) {
+      const container = document.getElementById('flyText');
+      container.innerHTML = "";
+      [...text].forEach((char, i) => {
+        const span = document.createElement("span");
+        span.textContent = char;
+        const angle = Math.random() * 2 * Math.PI;
+        span.style.setProperty('--x', `${Math.cos(angle) * 300}px`);
+        span.style.setProperty('--y', `${Math.sin(angle) * 300}px`);
+        span.style.animationDelay = `${i * 0.07}s`;
+        container.appendChild(span);
+      });
+    }
+
+    animateFlyText("Welcome to Skybound Media");
+
+    // Voice recognition setup
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.continuous = true;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    const synth = window.speechSynthesis;
+    let currentUtterance = null;
+
+    function speak(text) {
+      if (synth.speaking) synth.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.voice = [...synth.getVoices()].find(v => v.lang === 'en-US' && v.name.includes("Google")) || synth.getVoices()[0];
+      utterance.pitch = 1.1;
+      utterance.rate = 1
+              const fail = "Sorry, something went wrong. Try again shortly.";
+        document.getElementById("response").textContent = fail;
+        speak(fail);
+      });
+    }
+
+    // Auto start voice recognition
+    recognition.onresult = (event) => {
+      const transcript = event.results[event.results.length - 1][0].transcript.trim();
+      askEcho(transcript);
+    };
+
+    recognition.onerror = (e) => {
+      console.error("Recognition error:", e);
+    };
+
+    recognition.onend = () => {
+      recognition.start(); // restart for continuous listening
+    };
+
+    recognition.start();
+
+    // Initial intro voice
+    window.onload = () => {
+      const welcome = greetings[0];
+      document.getElementById("response").textContent = welcome;
+      speak(welcome);
+    };
   </script>
 </body>
 </html>
+      
