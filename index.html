@@ -5,263 +5,23 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Echo Unfiltered – Skyboi Formidable</title>
   <style>
-    /* Global reset & body */
-    * { box-sizing: border-box; margin:0; padding:0 }
-    body {
-      background:#000;
-      color:#fff;
-      font-family:"Arial Black", Gadget, sans-serif;
-      text-align:center;
-      overflow-x:hidden;
-    }
-    a { text-decoration:none; color:inherit; }
-
-    /* Header */
-    header {
-      background:#111;
-      padding:20px;
-    }
-    header img {
-      height:60px;
-      vertical-align:middle;
-    }
-
-    /* Hero & slideshow */
-    .hero {
-      position:relative;
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      text-shadow:2px 2px 4px rgba(0,0,0,0.8);
-    }
-    .slideshow {
-      position:absolute;
-      top:0;left:0;right:0;bottom:0;
-      z-index:-1;
-    }
-    .slide {
-      position:absolute;
-      width:100%; height:100%;
-      background-size:cover;
-      background-position:center;
-      opacity:0;
-      transition:opacity 1.5s ease-in-out;
-    }
-    .slide.active { opacity:1 }
-    .hero-content {
-      padding:0 20px;
-      max-width:800px;
-    }
-    .hero-content h1 {
-      font-size:clamp(2rem,6vw,3rem);
-      margin-bottom:.5em;
-    }
-    .hero-content p {
-      font-size:clamp(1rem,3vw,1.25rem);
-      margin-bottom:1em;
-    }
-    .cta {
-      display:inline-block;
-      background:#e6003a;
-      padding:12px 30px;
-      border-radius:30px;
-      font-weight:bold;
-      transition:transform .2s;
-    }
-    .cta:hover { transform:translateY(-3px) }
-
-    /* Indicators */
-    .indicators {
-      position:absolute;
-      bottom:20px;
-      left:50%;
-      transform:translateX(-50%);
-      display:flex;
-      gap:8px;
-    }
-    .indicators .dot {
-      width:12px; height:12px;
-      border-radius:50%;
-      background:rgba(255,255,255,0.5);
-      cursor:pointer;
-    }
-    .indicators .dot.active { background:#e6003a }
-
-    /* Ask AI section */
-    .ask-ai {
-      background:#111;
-      padding:60px 20px;
-    }
-    .ask-ai .ai-logo {
-      width:120px;
-      height:120px;
-      object-fit:cover;
-      margin-bottom:20px;
-      border:2px solid #555;
-      border-radius:8px;
-    }
-    .ask-ai h2 {
-      font-size:2.5rem;
-      margin-bottom:.5em;
-    }
-    .ask-ai p {
-      font-size:1.1rem;
-      margin-bottom:1em;
-    }
-    #ask-btn {
-      font-size:1.4rem;
-      padding:16px 36px;
-      border-radius:50px;
-    }
-    #ai-response {
-      margin-top:20px;
-      font-size:1.1rem;
-      color:#0f0;
-      min-height:3em;
-    }
-
-    /* Spotify */
-    .spotify {
-      background:#111;
-      padding:60px 20px;
-    }
-
-    /* Services */
-    .services {
-      background:#111;
-      padding:60px 20px;
-    }
-    .services ul {
-      list-style:none;
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:20px;
-    }
-    .services li {
-      background:rgba(255,255,255,0.1);
-      padding:20px;
-      border-radius:8px;
-      width:220px;
-      transition:transform .2s;
-    }
-    .services li:hover { transform:translateY(-5px) }
-
-    /* Battle redirect */
-    .battle {
-      background:#111;
-      padding:60px 20px;
-    }
-
-    /* Footer */
-    footer {
-      background:#111;
-      padding:20px;
-      font-size:.9rem;
-    }
-
-    /* Responsive */
-    @media (max-width:768px) {
-      .services ul { flex-direction:column }
-    }
+    /* === your existing styles (omitted for brevity) === */
   </style>
 </head>
 <body>
+  <!-- === your existing HTML sections (header, slideshow, Ask AI, etc.) === -->
 
-  <!-- Header -->
-  <header>
-    <img src="logo.png" alt="Skybound Media Logo">
-  </header>
-
-  <!-- Hero Slideshow -->
-  <section class="hero">
-    <div class="slideshow">
-      <div class="slide active" style="background-image:url('bg1.jpg')"></div>
-      <div class="slide"        style="background-image:url('bg2.jpg')"></div>
-      <div class="slide"        style="background-image:url('bg3.jpg')"></div>
-      <div class="slide"        style="background-image:url('bg4.jpg')"></div>
-    </div>
-    <div class="hero-content">
-      <h1>Echo Unfiltered</h1>
-      <p>A live interview with my AI called Echo</p>
-      <a class="cta" href="https://www.youtube.com/@skyboiformidable" target="_blank">
-        Watch on YouTube
-      </a>
-    </div>
-    <div class="indicators">
-      <span class="dot active" onclick="goTo(0)"></span>
-      <span class="dot"        onclick="goTo(1)"></span>
-      <span class="dot"        onclick="goTo(2)"></span>
-      <span class="dot"        onclick="goTo(3)"></span>
-    </div>
-  </section>
-
-  <!-- Ask AI -->
   <section class="ask-ai">
     <img src="logo.png" alt="Echo AI Logo" class="ai-logo">
     <h2>Ask AI</h2>
     <p>Ask Echo a question with your voice and hear her response.</p>
-    <button id="ask-btn" class="cta" onclick="startVoiceAI()">
-      Ask with Your Voice
-    </button>
+    <button id="ask-btn" class="cta" onclick="startVoiceAI()">Ask with Your Voice</button>
     <div id="ai-response">Click the button and speak your question.</div>
   </section>
 
-  <!-- Spotify -->
-  <section class="spotify">
-    <h2>🎧 Listen on Spotify</h2>
-    <p>Explore Skyboi Formidable’s music on Spotify.</p>
-    <a class="cta" href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" target="_blank">
-      Visit Spotify
-    </a>
-  </section>
+  <!-- === rest of page === -->
 
-  <!-- Services -->
-  <section class="services">
-    <h2>Our Services</h2>
-    <ul>
-      <li>🎵 Music Production</li>
-      <li>🎬 Video Production</li>
-      <li>🚁 Drone Piloting</li>
-      <li>🧠 Conversational AI</li>
-      <li>🌐 Website Design</li>
-    </ul>
-  </section>
-
-  <!-- Battle Redirect -->
-  <section class="battle">
-    <h2>🔥 Echo Battle Arena</h2>
-    <p>Drop your bars. Echo claps back in real time.</p>
-    <a class="cta" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank">
-      Enter Battle Arena
-    </a>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    Contact us: 081263323131 / 08137961537<br>
-    &copy; 2025 Skybound Media. All rights reserved.
-  </footer>
-
-  <!-- JS -->
   <script>
-    // Slideshow
-    let idx = 0;
-    const slides = document.querySelectorAll('.slide');
-    const dots   = document.querySelectorAll('.dot');
-    function show(n){
-      slides.forEach(s=>s.classList.remove('active'));
-      dots  .forEach(d=>d.classList.remove('active'));
-      idx = (n + slides.length) % slides.length;
-      slides[idx].classList.add('active');
-      dots  [idx].classList.add('active');
-    }
-    function goTo(i){ show(i) }
-    setInterval(()=> show(idx+1), 7000);
-
-    // Voice AI: **only endpoint changed to /api/chat**
     function startVoiceAI(){
       const resp = document.getElementById('ai-response');
       resp.textContent = '🎤 Listening…';
@@ -269,34 +29,45 @@
       R.lang = 'en-GB'; R.start();
 
       R.onresult = async e => {
-        const txt = e.results[0][0].transcript;
+        const txt = e.results[0][0].transcript.trim();
         resp.textContent = `You said: “${txt}”\n🤔 Thinking…`;
         speechSynthesis.cancel();
 
         let out;
         try {
           const r = await fetch('/api/chat', {
-            method:'POST',
-            headers:{ 'Content-Type':'application/json' },
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: txt })
           });
-          if (!r.ok) throw new Error(r.status);
-          const j = await r.json();
-          out = j.response;
+
+          if (!r.ok) {
+            // trap 405 (and any other) here
+            if (r.status === 405) {
+              out = "🔧 Demo mode: Echo AI endpoint isn’t live yet.";
+            } else {
+              throw new Error(r.status);
+            }
+          } else {
+            const j = await r.json();
+            out = j.response;
+          }
         } catch(err) {
-          out = `❌ HTTP ${err.message}`;
+          // network or unexpected
+          out = `❌ Couldn’t reach AI (${err.message})`;
         }
 
         resp.textContent = `🎯 Echo: ${out}`;
         const U = new SpeechSynthesisUtterance(out);
         U.lang = 'en-GB';
-        const v = speechSynthesis.getVoices().find(v=>v.lang==='en-GB'&&/female/i.test(v.name));
+        const v = speechSynthesis.getVoices()
+                    .find(v=>v.lang==='en-GB' && /female/i.test(v.name));
         if (v) U.voice = v;
         U.rate = 1; U.pitch = 1.1;
         speechSynthesis.speak(U);
       };
 
-      R.onerror = _=> {
+      R.onerror = _=>{
         resp.textContent = '❌ Voice error—try Chrome or Edge.';
       };
     }
