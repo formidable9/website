@@ -225,7 +225,7 @@
   </footer>
 
   <script>
-    const welcomeLine = "What if our voices carried more than words? Welcome to the official skybound media website. Echo is listening.";
+    const welcomeLine = "What if our voices carried more than words? welcome to skybound media official website, Echo is listening.";
     const interruptCommand = "stop talking";
 
     const welcomeVoice = new SpeechSynthesisUtterance(welcomeLine);
@@ -252,10 +252,6 @@
       speechSynthesis.speak(utter);
     }
 
-    function processTranscript(transcript) {
-      return transcript.trim();
-    }
-
     window.onload = () => {
       setTimeout(() => {
         speechSynthesis.cancel();
@@ -273,7 +269,7 @@
         body: JSON.stringify({
           model: "llama3-70b-8192",
           messages: [
-            { role: "system", content: "You are Echo, a confident and intelligent female AI with memory. Speak like you know Skyboi and his world." },
+            { role: "system", content: "You are Echo, a confident and intelligent female AI who responds clearly and naturally." },
             { role: "user", content: message }
           ]
         })
@@ -290,9 +286,9 @@
       recognition.start();
 
       recognition.onresult = async function(event) {
-        const transcript = event.results[event.results.length - 1][0].transcript;
+        const transcript = event.results[event.results.length - 1][0].transcript.trim();
         document.getElementById('ai-response').innerText = `You said: ${transcript}`;
-        if (transcript.toLowerCase().includes(interruptCommand)) {
+        if (transcript.includes(interruptCommand)) {
           speechSynthesis.cancel();
           document.getElementById('ai-response').innerText = "Echo has been interrupted.";
           return;
