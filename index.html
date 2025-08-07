@@ -227,8 +227,7 @@
   <script>
     const welcomeLine = "What if our voices carried more than words? Welcome to the official skybound media website. Echo is listening.";
     const interruptCommand = "stop talking";
-    const skyboiTriggers = ["skyboi", "kaiboi", "skyboy", "scarbolt", "moon"];
-    
+
     const welcomeVoice = new SpeechSynthesisUtterance(welcomeLine);
     welcomeVoice.lang = 'en-US';
     welcomeVoice.rate = 1;
@@ -254,11 +253,7 @@
     }
 
     function processTranscript(transcript) {
-      const text = transcript.toLowerCase();
-      if (skyboiTriggers.some(name => text.includes(name))) {
-        return "You’re speaking to the creator, Skyboi. Echo recognizes the energy.";
-      }
-      return text;
+      return transcript.trim();
     }
 
     window.onload = () => {
@@ -295,15 +290,14 @@
       recognition.start();
 
       recognition.onresult = async function(event) {
-        const transcript = event.results[event.results.length - 1][0].transcript.trim();
-        const processed = processTranscript(transcript);
+        const transcript = event.results[event.results.length - 1][0].transcript;
         document.getElementById('ai-response').innerText = `You said: ${transcript}`;
-        if (transcript.includes(interruptCommand)) {
+        if (transcript.toLowerCase().includes(interruptCommand)) {
           speechSynthesis.cancel();
           document.getElementById('ai-response').innerText = "Echo has been interrupted.";
           return;
         }
-        const reply = await fetchEchoReply(processed);
+        const reply = await fetchEchoReply(transcript);
         document.getElementById('ai-response').innerText = reply;
         speechSynthesis.cancel();
         speakResponse(reply);
@@ -314,8 +308,7 @@
       const input = document.getElementById("text-input").value.trim();
       if (!input) return;
       document.getElementById('ai-response').innerText = "Thinking...";
-      const processed = processTranscript(input);
-      const reply = await fetchEchoReply(processed);
+      const reply = await fetchEchoReply(input);
       document.getElementById('ai-response').innerText = reply;
       speechSynthesis.cancel();
       speakResponse(reply);
