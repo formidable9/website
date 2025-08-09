@@ -1,6 +1,6 @@
 // ------- BACKEND ENDPOINTS (Render - LIVE) -------
-const API_URL    = "https://echo-back-end.onrender.com/api/ask";
-const HEALTH_URL = "https://echo-back-end.onrender.com/";
+const API_URL    = "const API_URL = "https://echo-back-end-jfsx.onrender.com/api/ask";
+const HEALTH_URL = "const API_URL = "https://echo-back-end-jfsx.onrender.com/";
 
 // ------- UTIL -------
 const $ = (sel) => document.querySelector(sel);
@@ -15,6 +15,8 @@ async function askEcho(prompt) {
   const ctrl = new AbortController();
   const timeout = setTimeout(() => ctrl.abort(), 30000); // 30s guard
 
+  l
+  
   const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
