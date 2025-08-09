@@ -1,5 +1,7 @@
+// /api/ask.js  — Vercel serverless function
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
+
   try {
     const prompt = (req.body?.prompt || "").toString();
     if (!prompt) return res.status(400).json({ error: "Send JSON: { prompt: '...' }" });
@@ -20,14 +22,16 @@ export default async function handler(req, res) {
     });
 
     if (!r.ok) {
-      const txt = await r.text().catch(()=> "");
+      const txt = await r.text().catch(() => "");
       return res.status(502).json({ error: `Groq ${r.status}: ${txt}` });
     }
+
     const data = await r.json();
-    res.status(200).json({
+    return res.status(200).json({
       choices: [{ message: { content: data?.choices?.[0]?.message?.content || "…" } }]
     });
   } catch (e) {
-    res.status(500).json({ error: "Server error" });
+    console.error(e);
+    return res.status(500).json({ error: "Server error" });
   }
 }
