@@ -1,6 +1,5 @@
 // ------- BACKEND ENDPOINTS (Render - LIVE) -------
-const API_URL    = "const API_URL = "https://echo-back-end-jfsx.onrender.com/api/ask";
-const HEALTH_URL = "const API_URL = "https://echo-back-end-jfsx.onrender.com/";
+const API_URL    = "/api/ask";
 
 // ------- UTIL -------
 const $ = (sel) => document.querySelector(sel);
