@@ -259,13 +259,11 @@
       }, 1000);
     }
 
+    // ======= ONLY CHANGE: route through your Netlify function (no API key in browser) =======
     async function fetchEchoReply(message) {
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      const response = await fetch("https://effervescent-snickerdoodle-a3914a.netlify.app/.netlify/functions/groq-proxy", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer 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"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "llama3-70b-8192",
           messages: [
@@ -288,8 +286,9 @@ Unique Qualities: Ability to switch and multitask like a superhuman — jack of 
         })
       });
       const data = await response.json();
-      return data.choices[0].message.content;
+      return data?.choices?.[0]?.message?.content || "No response.";
     }
+    // ========================================================================================
 
     async function startVoiceAI() {
       const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
