@@ -11,12 +11,12 @@
       --accent1:#dc143c;--accent2:#ff6b6b;--good:#39ff14;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+      font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
     a{color:inherit}
     header{padding:20px;text-align:center}
     .logo{max-width:150px}
 
-    /* HERO SLIDESHOW */
     .hero{
       min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
       padding:80px 20px;text-align:center;background-size:cover;background-position:center;
@@ -38,14 +38,12 @@
     .hero h1{font-size:clamp(2rem,6vw,3rem);margin:0 0 1rem}
     .hero p{font-size:clamp(1rem,3vw,1.2rem);margin:0 0 1rem}
 
-    /* BUTTONS */
     .cta-button{
       margin-top:20px;background:linear-gradient(90deg,var(--accent1),var(--accent2));
       color:#fff;padding:12px 24px;border:none;border-radius:30px;text-decoration:none;
       font-weight:700;cursor:pointer;display:inline-block
     }
 
-    /* PANELS */
     .ask-ai,.spotify-section,.services,.arena{background:var(--panel);padding:60px 20px;text-align:center}
     .ask-ai h2,.spotify-section h2,.services h2,.arena h2{font-size:2.5em;margin:0 0 10px}
     .ask-ai p,.spotify-section p{font-size:1.1em;margin:0 0 20px}
@@ -53,7 +51,6 @@
 
     footer{background:var(--panel);color:var(--muted);padding:20px;text-align:center;font-size:.95em}
 
-    /* SERVICES GRID */
     .service-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
     .service-item{background:rgba(255,255,255,.1);padding:20px;border-radius:10px;width:220px;text-align:left}
     .service-item h3{margin:0 0 8px;font-size:1.2em}
@@ -64,7 +61,6 @@
       .service-item{width:100%;max-width:320px}
     }
 
-    /* AI output */
     #ai-response{font-size:1.1em;color:var(--good);margin-top:20px;white-space:pre-wrap}
     .field-row{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
     .text-input{padding:10px;border-radius:8px;border:1px solid #333;background:#0b0b0b;color:#fff;width:min(700px,90%)}
@@ -143,36 +139,36 @@
   </footer>
 
   <script>
-    // Welcome voice
+    // ===== Welcome TTS =====
     const welcomeLine = "What if our voices carried more than words? Welcome to Skybound Media official website. Echo is listening.";
     const interruptCommand = "stop talking";
     const welcomeVoice = new SpeechSynthesisUtterance(welcomeLine);
-    welcomeVoice.lang = 'en-US'; welcomeVoice.rate = 1; welcomeVoice.pitch = 1.1;
+    welcomeVoice.lang='en-US'; welcomeVoice.rate=1; welcomeVoice.pitch=1.1;
 
     async function getEchoVoice(){
       return new Promise((resolve)=>{
         const v = speechSynthesis.getVoices();
-        if(v.length) resolve(v); else speechSynthesis.onvoiceschanged=()=>resolve(speechSynthesis.getVoices());
+        if(v.length) resolve(v); else speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
       });
     }
     async function speakResponse(text){
       try{
         const voices = await getEchoVoice();
         const voice = voices.find(v=>v.lang?.includes("en") && v.name?.toLowerCase().includes("female")) || voices[0];
-        const u = new SpeechSynthesisUtterance(text); u.voice=voice; u.pitch=1.1; u.rate=1; u.volume=1; speechSynthesis.speak(u);
-      }catch(e){}
+        const u = new SpeechSynthesisUtterance(text);
+        u.voice=voice; u.pitch=1.1; u.rate=1; u.volume=1; speechSynthesis.speak(u);
+      }catch(_) {}
     }
     window.addEventListener('load', ()=>{
       setTimeout(()=>{ speechSynthesis.cancel(); speakResponse(welcomeVoice.text); }, 600);
       autoWake();
     });
 
-    // BACKEND (your live one)
-    const API_URL   = "https://echo-back-end.onrender.com/api/ask";
-    const HEALTH_URL= "https://echo-back-end.onrender.com/";
+    // ===== Backend endpoints (LIVE) =====
+    const API_URL    = "https://echo-back-end-jfsx.onrender.com/api/ask";
+    const HEALTH_URL = "https://echo-back-end-jfsx.onrender.com/";
 
-    // auto-wake free Render instance
-    async function autoWake(){ try{ await fetch(HEALTH_URL,{cache:"no-store"});}catch(e){} }
+    async function autoWake(){ try{ await fetch(HEALTH_URL,{cache:"no-store"});}catch(_){} }
 
     async function fetchEchoReply(message){
       const resp = await fetch(API_URL,{
@@ -181,38 +177,53 @@
         body: JSON.stringify({ prompt: message })
       });
       if(!resp.ok){
-        const t = await resp.text().catch(()=> "");
-        throw new Error(`Backend ${resp.status}: ${t||'error'}`);
+        const txt = await resp.text().catch(()=> "");
+        throw new Error(`Backend ${resp.status}: ${txt||"error"}`);
       }
       const data = await resp.json();
       return data?.choices?.[0]?.message?.content || "No response.";
     }
 
+    // ===== Voice flow =====
     function startVoiceAI(){
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
       if(!SR){ document.getElementById('ai-response').innerText="Voice not supported on this device."; return; }
-      const recognition = new SR(); recognition.lang='en-US'; recognition.continuous=false; recognition.interimResults=false; recognition.start();
+      const recognition = new SR();
+      recognition.lang='en-US'; recognition.continuous=false; recognition.interimResults=false;
+      recognition.start();
+
       recognition.onresult = async (e)=>{
         const transcript = e.results[e.results.length-1][0].transcript.trim();
         document.getElementById('ai-response').innerText = `You said: ${transcript}`;
-        if(transcript.toLowerCase().includes(interruptCommand)){ speechSynthesis.cancel(); document.getElementById('ai-response').innerText="Echo has been interrupted."; return; }
+        if(transcript.toLowerCase().includes(interruptCommand)){
+          speechSynthesis.cancel();
+          document.getElementById('ai-response').innerText="Echo has been interrupted.";
+          return;
+        }
         try{
           document.getElementById('ai-response').innerText="Thinking...";
           const reply = await fetchEchoReply(transcript);
-          document.getElementById('ai-response').innerText=reply; speechSynthesis.cancel(); speakResponse(reply);
-        }catch(_){ document.getElementById('ai-response').innerText="Backend offline. Try again shortly."; }
+          document.getElementById('ai-response').innerText=reply;
+          speechSynthesis.cancel(); speakResponse(reply);
+        }catch(_){
+          document.getElementById('ai-response').innerText="Backend offline. Try again shortly.";
+        }
       };
       recognition.onerror = ()=>{ document.getElementById('ai-response').innerText="Voice recognition error. Try again."; };
     }
 
+    // ===== Text flow =====
     async function askByText(){
       const input = document.getElementById("text-input").value.trim();
-      if(!input) return;
+      if (!input) return;
       document.getElementById('ai-response').innerText="Thinking...";
       try{
         const reply = await fetchEchoReply(input);
-        document.getElementById('ai-response').innerText=reply; speechSynthesis.cancel(); speakResponse(reply);
-      }catch(_){ document.getElementById('ai-response').innerText="Backend offline. Try again shortly."; }
+        document.getElementById('ai-response').innerText=reply;
+        speechSynthesis.cancel(); speakResponse(reply);
+      }catch(_){
+        document.getElementById('ai-response').innerText="Backend offline. Try again shortly.";
+      }
     }
 
     document.getElementById('voiceBtn').addEventListener('click', startVoiceAI);
