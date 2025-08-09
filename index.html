@@ -6,158 +6,68 @@
   <title>Echo Unfiltered – Skyboi Formidable</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: #000;
-      color: #fff;
+    :root{
+      --bg:#000;--panel:#111;--text:#fff;--muted:#ccc;
+      --accent1:#dc143c;--accent2:#ff6b6b;--good:#39ff14;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:inherit}
+    header{padding:20px;text-align:center}
+    .logo{max-width:150px}
+
+    /* HERO SLIDESHOW */
+    .hero{
+      min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:80px 20px;text-align:center;background-size:cover;background-position:center;
+      animation:slideShow 60s infinite;
+    }
+    @keyframes slideShow{
+      0%{background-image:url('bg1.jpg')}
+      10%{background-image:url('bg2.jpg')}
+      20%{background-image:url('bg3.jpg')}
+      30%{background-image:url('bg4.jpg')}
+      40%{background-image:url('bg5.jpg')}
+      50%{background-image:url('bg6.jpg')}
+      60%{background-image:url('bg7.jpg')}
+      70%{background-image:url('bg8.jpg')}
+      80%{background-image:url('bg9.jpg')}
+      90%{background-image:url('bg10.jpg')}
+      100%{background-image:url('bg1.jpg')}
+    }
+    .hero h1{font-size:clamp(2rem,6vw,3rem);margin:0 0 1rem}
+    .hero p{font-size:clamp(1rem,3vw,1.2rem);margin:0 0 1rem}
+
+    /* BUTTONS */
+    .cta-button{
+      margin-top:20px;background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:#fff;padding:12px 24px;border:none;border-radius:30px;text-decoration:none;
+      font-weight:700;cursor:pointer;display:inline-block
     }
 
-    header {
-      padding: 20px;
-      text-align: center;
+    /* PANELS */
+    .ask-ai,.spotify-section,.services,.arena{background:var(--panel);padding:60px 20px;text-align:center}
+    .ask-ai h2,.spotify-section h2,.services h2,.arena h2{font-size:2.5em;margin:0 0 10px}
+    .ask-ai p,.spotify-section p{font-size:1.1em;margin:0 0 20px}
+    .ai-logo{width:200px;border-radius:10px;margin-bottom:20px}
+
+    footer{background:var(--panel);color:var(--muted);padding:20px;text-align:center;font-size:.95em}
+
+    /* SERVICES GRID */
+    .service-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+    .service-item{background:rgba(255,255,255,.1);padding:20px;border-radius:10px;width:220px;text-align:left}
+    .service-item h3{margin:0 0 8px;font-size:1.2em}
+    .service-item p{margin:0;font-size:1em;color:#e9e9e9}
+
+    @media (max-width:600px){
+      .service-list{flex-direction:column;align-items:center}
+      .service-item{width:100%;max-width:320px}
     }
 
-    .logo {
-      max-width: 150px;
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px;
-      text-align: center;
-      background-size: cover;
-      background-position: center;
-      animation: slideShow 60s infinite;
-    }
-
-    @keyframes slideShow {
-      0% { background-image: url('bg1.jpg'); }
-      10% { background-image: url('bg2.jpg'); }
-      20% { background-image: url('bg3.jpg'); }
-      30% { background-image: url('bg4.jpg'); }
-      40% { background-image: url('bg5.jpg'); }
-      50% { background-image: url('bg6.jpg'); }
-      60% { background-image: url('bg7.jpg'); }
-      70% { background-image: url('bg8.jpg'); }
-      80% { background-image: url('bg9.jpg'); }
-      90% { background-image: url('bg10.jpg'); }
-      100% { background-image: url('bg1.jpg'); }
-    }
-
-    .hero h1 {
-      font-size: clamp(2rem, 6vw, 3rem);
-      margin-bottom: 1rem;
-      max-width: 90%;
-    }
-
-    .hero p {
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      max-width: 90%;
-      margin: 0 auto;
-      margin-bottom: 1rem;
-    }
-
-    .cta-button {
-      margin-top: 20px;
-      background: linear-gradient(90deg, #dc143c, #ff6b6b);
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .ask-ai, .spotify-section {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .ask-ai h2, .spotify-section h2 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-
-    .ask-ai p, .spotify-section p {
-      font-size: 1.1em;
-      margin-bottom: 20px;
-    }
-
-    .ai-logo {
-      width: 200px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      background-color: #111;
-      color: #ccc;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.9em;
-    }
-
-    .services {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .services h2 {
-      font-size: 2.5em;
-      margin-bottom: 1rem;
-    }
-
-    .service-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .service-item {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 8px;
-      width: 220px;
-    }
-
-    .service-item h3 {
-      margin: 0 0 10px;
-      font-size: 1.3em;
-    }
-
-    .service-item p {
-      font-size: 1em;
-    }
-
-    @media (max-width: 600px) {
-      .service-list {
-        flex-direction: column;
-        align-items: center;
-      }
-      .service-item {
-        width: 100%;
-        max-width: 280px;
-      }
-    }
-
-    #ai-response {
-      font-size: 1.1em;
-      color: lime;
-      margin-top: 20px;
-      white-space: pre-wrap;
-    }
+    /* AI output */
+    #ai-response{font-size:1.1em;color:var(--good);margin-top:20px;white-space:pre-wrap}
+    .field-row{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+    .text-input{padding:10px;border-radius:8px;border:1px solid #333;background:#0b0b0b;color:#fff;width:min(700px,90%)}
   </style>
 </head>
 
@@ -169,26 +79,33 @@
   <section class="hero">
     <h1>Echo Unfiltered</h1>
     <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank">Watch on YouTube</a>
+    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank" rel="noopener">Watch on YouTube</a>
   </section>
 
-  <section class="ask-ai">
+  <section class="ask-ai" id="ask">
     <img src="bg1.jpg" alt="You and Echo" class="ai-logo"/>
     <h2>Ask AI</h2>
     <p>Ask Echo a question with your voice or text and hear her response.</p>
-    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
-    <input type="text" id="text-input" placeholder="Or type your question here" style="margin-top:10px;padding:10px;border-radius:5px;width:60%;">
-    <button class="cta-button" onclick="askByText()">Send</button>
+
+    <div class="field-row" style="margin-bottom:12px">
+      <button class="cta-button" id="voiceBtn">Ask with Your Voice</button>
+    </div>
+
+    <div class="field-row">
+      <input type="text" id="text-input" class="text-input" placeholder="Or type your question here" />
+      <button class="cta-button" id="sendBtn">Send</button>
+    </div>
+
     <div id="ai-response"></div>
   </section>
 
   <section class="spotify-section">
     <h2>🎧 Listen on Spotify</h2>
     <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="cta-button" target="_blank">Visit Spotify</a>
+    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="cta-button" target="_blank" rel="noopener">Visit Spotify</a>
   </section>
 
-  <section class="services">
+  <section class="services" id="services">
     <h2>Our Services</h2>
     <ul class="service-list">
       <li class="service-item">
@@ -214,10 +131,10 @@
     </ul>
   </section>
 
-  <section class="ask-ai">
+  <section class="arena">
     <h2>🔥 Echo Battle Arena</h2>
     <p>Enter the arena and freestyle against Echo.</p>
-    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank">Enter Battle Arena</a>
+    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" rel="noopener">Enter Battle Arena</a>
   </section>
 
   <footer>
@@ -226,7 +143,8 @@
   </footer>
 
   <script>
-    const welcomeLine = "What if our voices carried more than words? welcome to skybound media official website, Echo is listening.";
+    /* ===== Welcome voice line ===== */
+    const welcomeLine = "What if our voices carried more than words? Welcome to Skybound Media official website. Echo is listening.";
     const interruptCommand = "stop talking";
 
     const welcomeVoice = new SpeechSynthesisUtterance(welcomeLine);
@@ -243,26 +161,33 @@
     }
 
     async function speakResponse(text) {
-      const voices = await getEchoVoice();
-      const voice = voices.find(v => v.lang.includes("en") && v.name.toLowerCase().includes("female")) || voices[0];
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.voice = voice;
-      utter.pitch = 1.1;
-      utter.rate = 1;
-      utter.volume = 1;
-      speechSynthesis.speak(utter);
+      try{
+        const voices = await getEchoVoice();
+        const voice = voices.find(v => v.lang?.includes("en") && v.name?.toLowerCase().includes("female")) || voices[0];
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.voice = voice; utter.pitch = 1.1; utter.rate = 1; utter.volume = 1;
+        speechSynthesis.speak(utter);
+      }catch(e){ /* ignore TTS errors */ }
     }
 
-    window.onload = () => {
+    /* ===== Backend config (UPDATED) ===== */
+    const API_URL = "https://echo-back-end.onrender.com/api/ask"; // Render backend
+    const HEALTH_URL = "https://echo-back-end.onrender.com/";     // for auto-wake
+
+    // wake server on page load to avoid cold start delay
+    async function autoWake(){
+      try { await fetch(HEALTH_URL, { cache:"no-store" }); } catch(e) {}
+    }
+
+    window.addEventListener('load', () => {
       setTimeout(() => {
         speechSynthesis.cancel();
         speakResponse(welcomeVoice.text);
-      }, 1000);
-    }
+      }, 600);
+      autoWake();
+    });
 
-    // ====== ONLY CHANGE: route all AI calls to your Render backend ======
-    const API_URL = "https://echo-back-end.onrender.com/api/ask";
-
+    /* ===== Core request to backend ===== */
     async function fetchEchoReply(message) {
       const resp = await fetch(API_URL, {
         method: "POST",
@@ -270,19 +195,23 @@
         body: JSON.stringify({ prompt: message }) // backend accepts {prompt}
       });
       if (!resp.ok) {
-        const t = await resp.text();
-        throw new Error(`Backend ${resp.status}: ${t}`);
+        const t = await resp.text().catch(()=> "");
+        throw new Error(`Backend ${resp.status}: ${t || 'error'}`);
       }
       const data = await resp.json();
-      // Groq returns choices[0].message.content
       return data?.choices?.[0]?.message?.content || "No response.";
     }
-    // ================================================================
 
-    async function startVoiceAI() {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    /* ===== Voice input ===== */
+    function startVoiceAI() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        document.getElementById('ai-response').innerText = "Voice input not supported on this device.";
+        return;
+      }
+      const recognition = new SpeechRec();
       recognition.lang = 'en-US';
-      recognition.continuous = true;
+      recognition.continuous = false;
       recognition.interimResults = false;
       recognition.start();
 
@@ -295,16 +224,20 @@
           return;
         }
         try {
+          document.getElementById('ai-response').innerText = "Thinking...";
           const reply = await fetchEchoReply(transcript);
           document.getElementById('ai-response').innerText = reply;
-          speechSynthesis.cancel();
-          speakResponse(reply);
+          speechSynthesis.cancel(); speakResponse(reply);
         } catch (e) {
           document.getElementById('ai-response').innerText = "Backend offline. Try again shortly.";
         }
       };
+      recognition.onerror = () => {
+        document.getElementById('ai-response').innerText = "Voice recognition error. Try again.";
+      };
     }
 
+    /* ===== Text input ===== */
     async function askByText() {
       const input = document.getElementById("text-input").value.trim();
       if (!input) return;
@@ -312,12 +245,15 @@
       try {
         const reply = await fetchEchoReply(input);
         document.getElementById('ai-response').innerText = reply;
-        speechSynthesis.cancel();
-        speakResponse(reply);
+        speechSynthesis.cancel(); speakResponse(reply);
       } catch (e) {
         document.getElementById('ai-response').innerText = "Backend offline. Try again shortly.";
       }
     }
+
+    // hook buttons
+    document.getElementById('voiceBtn').addEventListener('click', startVoiceAI);
+    document.getElementById('sendBtn').addEventListener('click', askByText);
   </script>
 </body>
 </html>
