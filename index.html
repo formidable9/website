@@ -2,307 +2,124 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Echo Unfiltered – Skyboi Formidable</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo Unfiltered</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: #000;
-      color: #fff;
-    }
-
-    header {
-      padding: 20px;
-      text-align: center;
-    }
-
-    .logo {
-      max-width: 150px;
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px;
-      text-align: center;
-      background-size: cover;
-      background-position: center;
-      animation: slideShow 60s infinite;
-    }
-
-    @keyframes slideShow {
-      0% { background-image: url('bg1.jpg'); }
-      10% { background-image: url('bg2.jpg'); }
-      20% { background-image: url('bg3.jpg'); }
-      30% { background-image: url('bg4.jpg'); }
-      40% { background-image: url('bg5.jpg'); }
-      50% { background-image: url('bg6.jpg'); }
-      60% { background-image: url('bg7.jpg'); }
-      70% { background-image: url('bg8.jpg'); }
-      80% { background-image: url('bg9.jpg'); }
-      90% { background-image: url('bg10.jpg'); }
-      100% { background-image: url('bg1.jpg'); }
-    }
-
-    .hero h1 {
-      font-size: clamp(2rem, 6vw, 3rem);
-      margin-bottom: 1rem;
-      max-width: 90%;
-    }
-
-    .hero p {
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      max-width: 90%;
-      margin: 0 auto;
-      margin-bottom: 1rem;
-    }
-
-    .cta-button {
-      margin-top: 20px;
-      background: linear-gradient(90deg, #dc143c, #ff6b6b);
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .ask-ai, .spotify-section {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .ask-ai h2, .spotify-section h2 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-
-    .ask-ai p, .spotify-section p {
-      font-size: 1.1em;
-      margin-bottom: 20px;
-    }
-
-    .ai-logo {
-      width: 200px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      background-color: #111;
-      color: #ccc;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.9em;
-    }
-
-    .services {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .services h2 {
-      font-size: 2.5em;
-      margin-bottom: 1rem;
-    }
-
-    .service-list {
-      list-style: none;
       padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: black;
+      color: white;
+      text-align: center;
+    }
+    header {
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 2.5em;
       margin: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
     }
-
-    .service-item {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 8px;
-      width: 220px;
+    .voice-btn {
+      background: linear-gradient(90deg, #dc143c, #ff6b6b);
+      border: none;
+      padding: 15px 30px;
+      border-radius: 50px;
+      color: white;
+      font-size: 1.2em;
+      cursor: pointer;
+      margin: 20px auto;
+      display: block;
     }
-
-    .service-item h3 {
-      margin: 0 0 10px;
-      font-size: 1.3em;
-    }
-
-    .service-item p {
-      font-size: 1em;
-    }
-
-    @media (max-width: 600px) {
-      .service-list {
-        flex-direction: column;
-        align-items: center;
-      }
-      .service-item {
-        width: 100%;
-        max-width: 280px;
-      }
-    }
-
-    #ai-response {
+    .response {
       font-size: 1.1em;
-      color: lime;
       margin-top: 20px;
+    }
+    .thinking {
+      color: lime;
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+    .input-container {
+      margin: 20px 0;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: none;
+      width: 60%;
+    }
+    button.send-btn {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin-left: 10px;
+      border: none;
+      border-radius: 5px;
+      background: crimson;
+      color: white;
+      cursor: pointer;
     }
   </style>
 </head>
-
 <body>
   <header>
-    <img src="Logo.PNG" alt="Echo Unfiltered logo" class="logo" />
+    <h1>Ask Echo a question</h1>
+    <p>Speak or type and hear her response</p>
+    <button id="voiceBtn" class="voice-btn">Ask with Your Voice</button>
+    <div class="input-container">
+      <input type="text" id="textInput" placeholder="Type your question here">
+      <button class="send-btn" onclick="sendText()">Send</button>
+    </div>
+    <div id="status" class="thinking"></div>
+    <div id="response" class="response"></div>
   </header>
 
-  <section class="hero">
-    <h1>Echo Unfiltered</h1>
-    <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank">Watch on YouTube</a>
-  </section>
-
-  <section class="ask-ai">
-    <img src="bg1.jpg" alt="You and Echo" class="ai-logo"/>
-    <h2>Ask AI</h2>
-    <p>Ask Echo a question with your voice or text and hear her response.</p>
-    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
-    <input type="text" id="text-input" placeholder="Or type your question here" style="margin-top:10px;padding:10px;border-radius:5px;width:60%;">
-    <button class="cta-button" onclick="askByText()">Send</button>
-    <div id="ai-response"></div>
-  </section>
-
-  <section class="spotify-section">
+  <section>
     <h2>🎧 Listen on Spotify</h2>
-    <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="cta-button" target="_blank">Visit Spotify</a>
+    <a href="https://spotify.com" target="_blank">Open Spotify</a>
   </section>
-
-  <section class="services">
-    <h2>Our Services</h2>
-    <ul class="service-list">
-      <li class="service-item">
-        <h3>Music Production</h3>
-        <p>Professional music production services tailored to your vision.</p>
-      </li>
-      <li class="service-item">
-        <h3>Video Production</h3>
-        <p>High-quality video creation from concept to final cut.</p>
-      </li>
-      <li class="service-item">
-        <h3>Drone Pilot</h3>
-        <p>Aerial cinematography and photography with licensed drone operators.</p>
-      </li>
-      <li class="service-item">
-        <h3>Hip Hop Beats with African Fusion</h3>
-        <p>Unique hip hop beats blending African rhythms available for purchase.</p>
-      </li>
-      <li class="service-item">
-        <h3>Website Design</h3>
-        <p>Creative and responsive website design to showcase your brand.</p>
-      </li>
-    </ul>
-  </section>
-
-  <section class="ask-ai">
-    <h2>🔥 Echo Battle Arena</h2>
-    <p>Enter the arena and freestyle against Echo.</p>
-    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank">Enter Battle Arena</a>
-  </section>
-
-  <footer>
-    Contact us: 081263323131, 08137961537<br/>
-    &copy; 2025 Skybound Media. All rights reserved.
-  </footer>
 
   <script>
-    const welcomeLine = "What if our voices carried more than words? welcome to skybound media official website, Echo is listening.";
-    const interruptCommand = "stop talking";
+    const backendURL = "https://0f03bc61-8ba2-4e75-a2e2-226d7570f5b3-00-3tcxupf4nliud.worf.replit.dev";
 
-    const welcomeVoice = new SpeechSynthesisUtterance(welcomeLine);
-    welcomeVoice.lang = 'en-US';
-    welcomeVoice.rate = 1;
-    welcomeVoice.pitch = 1.1;
-
-    async function getEchoVoice() {
-      return new Promise((resolve) => {
-        const voices = speechSynthesis.getVoices();
-        if (voices.length) resolve(voices);
-        else speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
-      });
+    async function sendText() {
+      const text = document.getElementById("textInput").value.trim();
+      if (!text) return;
+      document.getElementById("status").textContent = "Thinking...";
+      document.getElementById("response").textContent = "";
+      
+      try {
+        const res = await fetch(backendURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: text })
+        });
+        const data = await res.json();
+        document.getElementById("status").textContent = "";
+        document.getElementById("response").textContent = data.reply || "No response";
+      } catch (err) {
+        document.getElementById("status").textContent = "Error connecting to backend.";
+        console.error(err);
+      }
     }
 
-    async function speakResponse(text) {
-      const voices = await getEchoVoice();
-      const voice = voices.find(v => v.lang.includes("en") && v.name.toLowerCase().includes("female")) || voices[0];
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.voice = voice;
-      utter.pitch = 1.1;
-      utter.rate = 1;
-      utter.volume = 1;
-      speechSynthesis.speak(utter);
-    }
-
-    window.onload = () => {
-      setTimeout(() => {
-        speechSynthesis.cancel();
-        speakResponse(welcomeVoice.text);
-      }, 1000);
-    }
-
-    // >>> ONLY CHANGE: send your question to Replit backend as {prompt}
-    async function fetchEchoReply(message) {
-      const response = await fetch("https://0f03bc61-8ba2-4e75-a2e2-226d7570f5b3-00-3tcxupf4nliud.worf.replit.dev/api/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: message })
-      });
-      const data = await response.json();
-      // Groq format: choices[0].message.content
-      return data?.choices?.[0]?.message?.content || "No response.";
-    }
-    // <<< END CHANGE
-
-    async function startVoiceAI() {
+    document.getElementById("voiceBtn").addEventListener("click", () => {
       const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'en-US';
-      recognition.continuous = true;
-      recognition.interimResults = false;
+      recognition.lang = "en-US";
       recognition.start();
-
-      recognition.onresult = async function(event) {
-        const transcript = event.results[event.results.length - 1][0].transcript.trim();
-        document.getElementById('ai-response').innerText = `You said: ${transcript}`;
-        if (transcript.includes(interruptCommand)) {
-          speechSynthesis.cancel();
-          document.getElementById('ai-response').innerText = "Echo has been interrupted.";
-          return;
-        }
-        const reply = await fetchEchoReply(transcript);
-        document.getElementById('ai-response').innerText = reply;
-        speechSynthesis.cancel();
-        speakResponse(reply);
+      recognition.onresult = async (event) => {
+        const text = event.results[0][0].transcript;
+        document.getElementById("textInput").value = text;
+        sendText();
       };
-    }
-
-    async function askByText() {
-      const input = document.getElementById("text-input").value.trim();
-      if (!input) return;
-      document.getElementById('ai-response').innerText = "Thinking...";
-      const reply = await fetchEchoReply(input);
-      document.getElementById('ai-response').innerText = reply;
-      speechSynthesis.cancel();
-      speakResponse(reply);
-    }
+      recognition.onerror = (err) => {
+        console.error("Voice error:", err);
+      };
+    });
   </script>
 </body>
 </html>
