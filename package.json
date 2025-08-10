@@ -2,13 +2,8 @@
   "name": "echo-website",
   "private": true,
   "version": "1.0.0",
-  "description": "Echo Unfiltered — static site + Vercel serverless API",
-  "engines": { "node": ">=18" },
+  "description": "Skyboi Formidable - Echo Unfiltered (static site + Vercel functions)",
   "scripts": {
-    "dev": "vercel dev --listen 3000",
-    "start": "vercel dev --listen 3000"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT"
+    "start": "vercel dev"
+  }
 }
