@@ -1,11 +1,12 @@
 // ===== BACKEND ENDPOINTS (Vercel – LIVE) =====
-const BASE_URL   = "https://website-nu-lovat-85.vercel.app";
+// If Vercel changes your URL again, just update this one line.
+const BASE_URL   = "https://website-git-main-skyboi-formidables-projects.vercel.app";
 const API_URL    = `${BASE_URL}/api/ask`;
 const HEALTH_URL = `${BASE_URL}/api/health`;
 
 // ===== UTIL =====
 const $   = (sel) => document.querySelector(sel);
-const out = (t)    => ($("#ai-response").innerText = t);
+const out = (t)    => { const el = $("#ai-response"); if (el) el.innerText = t; };
 
 // Wake the functions so the first call isn’t slow
 async function autoWake() {
@@ -23,9 +24,7 @@ async function askEcho(prompt) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt }),
     signal: ctrl.signal
-  }).catch((e) => {
-    throw new Error("Network error: " + (e?.message || "failed"));
-  });
+  }).catch((e) => { throw new Error("Network error: " + (e?.message || "failed")); });
 
   clearTimeout(timeout);
 
@@ -37,6 +36,7 @@ async function askEcho(prompt) {
   const data = await res.json().catch(() => ({}));
   return (
     data?.choices?.[0]?.message?.content ||
+    data?.text ||
     data?.answer ||
     "No response."
   );
@@ -67,14 +67,12 @@ function startVoiceAI() {
     }
   };
 
-  recognition.onerror = () => {
-    out("Voice recognition error. Try again.");
-  };
+  recognition.onerror = () => out("Voice recognition error. Try again.");
 }
 
 // ===== Text flow =====
 async function sendText() {
-  const inputEl = $("#text-input");
+  const inputEl = document.getElementById("text-input");
   const msg = (inputEl?.value || "").trim();
   if (!msg) return;
 
@@ -99,5 +97,5 @@ function speak(text) {
 }
 
 // ===== Wire up buttons =====
-$("#voiceBtn")?.addEventListener("click", startVoiceAI);
-$("#sendBtn")?.addEventListener("click", sendText);
+document.getElementById("voiceBtn")?.addEventListener("click", startVoiceAI);
+document.getElementById("sendBtn")?.addEventListener("click", sendText);
