@@ -1,13 +1,16 @@
-// --- Frontend wiring for Echo on Vercel ---
+// ===== Echo frontend (Vercel) =====
 
-// endpoints (relative to the same Vercel domain)
+// Endpoints (same domain on Vercel)
 const API_URL = "/api/ask";
 const HEALTH_URL = "/api/health";
 
+// Helpers
 const $ = (sel) => document.querySelector(sel);
-const out = (t) => ($("#ai-response").innerText = t);
+const out = (t) => { const el = $("#ai-response"); if (el) el.textContent = t; };
 
-// Speak in a pleasant female EN voice when available
+// ---------- Welcome TTS (the line you want) ----------
+const welcomeLine =
+  "What if our voices carried more than words? Welcome to Skybound Media official website. Echo is listening.";
 async function getVoicesOnce() {
   return new Promise((resolve) => {
     const v = speechSynthesis.getVoices();
@@ -18,69 +21,87 @@ async function getVoicesOnce() {
 async function speak(text) {
   try {
     const voices = await getVoicesOnce();
-    const voice = voices.find(
-      v => v.lang?.includes("en") && v.name?.toLowerCase().includes("female")
-    ) || voices[0];
+    const voice =
+      voices.find(v => v.lang?.includes("en") && v.name?.toLowerCase().includes("female")) ||
+      voices[0];
     const u = new SpeechSynthesisUtterance(text);
     u.voice = voice; u.pitch = 1.05; u.rate = 1; u.volume = 1;
-    speechSynthesis.cancel(); speechSynthesis.speak(u);
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
   } catch {}
 }
-
-// Wake the function once so first call isn’t slow
 window.addEventListener("load", async () => {
+  // Say the welcome line shortly after load
+  setTimeout(() => speak(welcomeLine), 600);
+  // Warm up backend so first call isn't slow
   try { await fetch(HEALTH_URL, { cache: "no-store" }); } catch {}
 });
 
-// Core call
+// ---------- Core call to backend ----------
 async function askEcho(prompt) {
+  if (!prompt || !prompt.trim()) return "Say something first 🙂";
+
+  // 30s timeout guard
   const ctrl = new AbortController();
-  const timeout = setTimeout(() => ctrl.abort(), 30000);
+  const timer = setTimeout(() => ctrl.abort(), 30000);
 
-  const r = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt }),
-    signal: ctrl.signal
-  }).catch((e) => {
-    throw new Error(e?.message || "Network error");
-  });
-
-  clearTimeout(timeout);
-
-  if (!r.ok) {
-    const txt = await r.text().catch(()=>"");
-    throw new Error(`Backend ${r.status}: ${txt || "error"}`);
+  let res;
+  try {
+    res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt }),
+      signal: ctrl.signal
+    });
+  } catch (e) {
+    clearTimeout(timer);
+    throw new Error("Network error, try again.");
   }
-  const data = await r.json().catch(() => ({}));
-  return data?.choices?.[0]?.message?.content || "No response.";
+
+  clearTimeout(timer);
+
+  if (!res.ok) {
+    const msg = await res.text().catch(() => "");
+    throw new Error(`Backend ${res.status}: ${msg || "error"}`);
+  }
+
+  const data = await res.json().catch(() => ({}));
+  return (
+    data?.choices?.[0]?.message?.content ||
+    data?.text ||
+    data?.answer ||
+    "No response."
+  );
 }
 
-// Text flow
+// ---------- Text flow ----------
 async function askByText() {
-  const input = $("#text-input").value.trim();
-  if (!input) return;
-  out("Thinking…");
+  const input = $("#text-input");
+  const msg = (input?.value || "").trim();
+  if (!msg) return;
+
+  out("Thinking...");
   try {
-    const reply = await askEcho(input);
+    const reply = await askEcho(msg);
     out(reply);
     speak(reply);
-  } catch {
+  } catch (e) {
     out("Backend offline. Try again shortly.");
   }
 }
 
-// Voice flow
+// ---------- Voice flow ----------
 function askByVoice() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return out("Voice not supported on this device.");
+  if (!SR) { out("Voice not supported on this device."); return; }
+
   const rec = new SR();
   rec.lang = "en-US"; rec.continuous = false; rec.interimResults = false;
   rec.start();
 
   rec.onresult = async (e) => {
     const transcript = e.results[e.results.length - 1][0].transcript.trim();
-    out(`You said: ${transcript}\nThinking…`);
+    out(`You said: ${transcript}\nThinking...`);
     try {
       const reply = await askEcho(transcript);
       out(reply);
@@ -92,5 +113,6 @@ function askByVoice() {
   rec.onerror = () => out("Voice recognition error. Try again.");
 }
 
-$("#voiceBtn").addEventListener("click", askByVoice);
-$("#sendBtn").addEventListener("click", askByText);
+// Wire up buttons
+$("#sendBtn")?.addEventListener("click", askByText);
+$("#voiceBtn")?.addEventListener("click", askByVoice);
