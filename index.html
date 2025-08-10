@@ -22,18 +22,19 @@
       padding:80px 20px;text-align:center;background-size:cover;background-position:center;
       animation:slideShow 60s infinite;
     }
+    /* Use your repo’s UPPERCASE image names (BG1.jpg … BG10.jpg) */
     @keyframes slideShow{
-      0%{background-image:url('bg1.jpg')}
-      10%{background-image:url('bg2.jpg')}
-      20%{background-image:url('bg3.jpg')}
-      30%{background-image:url('bg4.jpg')}
-      40%{background-image:url('bg5.jpg')}
-      50%{background-image:url('bg6.jpg')}
-      60%{background-image:url('bg7.jpg')}
-      70%{background-image:url('bg8.jpg')}
-      80%{background-image:url('bg9.jpg')}
-      90%{background-image:url('bg10.jpg')}
-      100%{background-image:url('bg1.jpg')}
+      0%{background-image:url('BG1.jpg')}
+      10%{background-image:url('BG2.jpg')}
+      20%{background-image:url('BG3.jpg')}
+      30%{background-image:url('BG4.jpg')}
+      40%{background-image:url('BG5.jpg')}
+      50%{background-image:url('BG6.jpg')}
+      60%{background-image:url('BG7.jpg')}
+      70%{background-image:url('BG8.jpg')}
+      80%{background-image:url('BG9.jpg')}
+      90%{background-image:url('BG10.jpg')}
+      100%{background-image:url('BG1.jpg')}
     }
     .hero h1{font-size:clamp(2rem,6vw,3rem);margin:0 0 1rem}
     .hero p{font-size:clamp(1rem,3vw,1.2rem);margin:0 0 1rem}
@@ -69,7 +70,8 @@
 
 <body>
   <header>
-    <img src="Logo.PNG" alt="Echo Unfiltered logo" class="logo" />
+    <!-- your file is lowercase 'logo.png' -->
+    <img src="logo.png" alt="Echo Unfiltered logo" class="logo" />
   </header>
 
   <section class="hero">
@@ -79,7 +81,8 @@
   </section>
 
   <section class="ask-ai" id="ask">
-    <img src="bg1.jpg" alt="You and Echo" class="ai-logo"/>
+    <!-- just a decorative image; any BG*.jpg works -->
+    <img src="BG1.jpg" alt="You and Echo" class="ai-logo"/>
     <h2>Ask AI</h2>
     <p>Ask Echo a question with your voice or text and hear her response.</p>
 
@@ -164,9 +167,9 @@
       autoWake();
     });
 
-    // ===== Backend endpoints (LIVE) =====
-    const API_URL    = "https://echo-back-end-jfsx.onrender.com/api/ask";
-    const HEALTH_URL = "https://echo-back-end-jfsx.onrender.com/";
+    // ===== Call your Vercel backend =====
+    const API_URL    = "/api/ask";
+    const HEALTH_URL = "/api/health";
 
     async function autoWake(){ try{ await fetch(HEALTH_URL,{cache:"no-store"});}catch(_){} }
 
@@ -184,7 +187,6 @@
       return data?.choices?.[0]?.message?.content || "No response.";
     }
 
-    // ===== Voice flow =====
     function startVoiceAI(){
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
       if(!SR){ document.getElementById('ai-response').innerText="Voice not supported on this device."; return; }
@@ -212,7 +214,6 @@
       recognition.onerror = ()=>{ document.getElementById('ai-response').innerText="Voice recognition error. Try again."; };
     }
 
-    // ===== Text flow =====
     async function askByText(){
       const input = document.getElementById("text-input").value.trim();
       if (!input) return;
