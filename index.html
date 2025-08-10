@@ -5,103 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Echo Unfiltered – Skyboi Formidable</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    :root{
-      --bg:#000;--panel:#111;--text:#fff;--muted:#ccc;
-      --accent1:#dc143c;--accent2:#ff6b6b;--good:#39ff14;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
-      font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-    a{color:inherit}
-    header{padding:20px;text-align:center}
-    .logo{max-width:150px}
-
-    .hero{
-      min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-      padding:80px 20px;text-align:center;background-size:cover;background-position:center;
-      animation:slideShow 60s infinite;
-    }
-    /* Use your repo’s UPPERCASE image names (BG1.jpg … BG10.jpg) */
-    @keyframes slideShow{
-      0%{background-image:url('BG1.jpg')}
-      10%{background-image:url('BG2.jpg')}
-      20%{background-image:url('BG3.jpg')}
-      30%{background-image:url('BG4.jpg')}
-      40%{background-image:url('BG5.jpg')}
-      50%{background-image:url('BG6.jpg')}
-      60%{background-image:url('BG7.jpg')}
-      70%{background-image:url('BG8.jpg')}
-      80%{background-image:url('BG9.jpg')}
-      90%{background-image:url('BG10.jpg')}
-      100%{background-image:url('BG1.jpg')}
-    }
-    .hero h1{font-size:clamp(2rem,6vw,3rem);margin:0 0 1rem}
-    .hero p{font-size:clamp(1rem,3vw,1.2rem);margin:0 0 1rem}
-
-    .cta-button{
-      margin-top:20px;background:linear-gradient(90deg,var(--accent1),var(--accent2));
-      color:#fff;padding:12px 24px;border:none;border-radius:30px;text-decoration:none;
-      font-weight:700;cursor:pointer;display:inline-block
-    }
-
-    .ask-ai,.spotify-section,.services,.arena{background:var(--panel);padding:60px 20px;text-align:center}
-    .ask-ai h2,.spotify-section h2,.services h2,.arena h2{font-size:2.5em;margin:0 0 10px}
-    .ask-ai p,.spotify-section p{font-size:1.1em;margin:0 0 20px}
-    .ai-logo{width:200px;border-radius:10px;margin-bottom:20px}
-
-    footer{background:var(--panel);color:var(--muted);padding:20px;text-align:center;font-size:.95em}
-
-    .service-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
-    .service-item{background:rgba(255,255,255,.1);padding:20px;border-radius:10px;width:220px;text-align:left}
-    .service-item h3{margin:0 0 8px;font-size:1.2em}
-    .service-item p{margin:0;font-size:1em;color:#e9e9e9}
-
-    @media (max-width:600px){
-      .service-list{flex-direction:column;align-items:center}
-      .service-item{width:100%;max-width:320px}
-    }
-
-    #ai-response{font-size:1.1em;color:var(--good);margin-top:20px;white-space:pre-wrap}
-    .field-row{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
-    .text-input{padding:10px;border-radius:8px;border:1px solid #333;background:#0b0b0b;color:#fff;width:min(700px,90%)}
-  </style>
 </head>
 
 <body>
-  <header>
-    <!-- your file is lowercase 'logo.png' -->
+  <header class="site-header">
+    <!-- NOTE: filename is case sensitive on Vercel. Keep exactly "Logo.png". -->
     <img src="logo.png" alt="Echo Unfiltered logo" class="logo" />
   </header>
 
   <section class="hero">
     <h1>Echo Unfiltered</h1>
     <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank" rel="noopener">Watch on YouTube</a>
+    <a href="https://www.youtube.com/@skyboiformidable" class="btn" target="_blank" rel="noopener">Watch on YouTube</a>
   </section>
 
-  <section class="ask-ai" id="ask">
-    <!-- just a decorative image; any BG*.jpg works -->
-    <img src="BG1.jpg" alt="You and Echo" class="ai-logo"/>
+  <section class="ask" id="ask">
+    <img src="bg1.jpg" alt="Echo" class="ai-logo"/>
     <h2>Ask AI</h2>
     <p>Ask Echo a question with your voice or text and hear her response.</p>
 
-    <div class="field-row" style="margin-bottom:12px">
-      <button class="cta-button" id="voiceBtn">Ask with Your Voice</button>
+    <div class="row">
+      <button class="btn" id="voiceBtn">Ask with Your Voice</button>
     </div>
 
-    <div class="field-row">
+    <div class="row">
       <input type="text" id="text-input" class="text-input" placeholder="Or type your question here" />
-      <button class="cta-button" id="sendBtn">Send</button>
+      <button class="btn" id="sendBtn">Send</button>
     </div>
 
-    <div id="ai-response"></div>
+    <pre id="ai-response" class="response"></pre>
   </section>
 
-  <section class="spotify-section">
+  <section class="spotify">
     <h2>🎧 Listen on Spotify</h2>
     <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="cta-button" target="_blank" rel="noopener">Visit Spotify</a>
+    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="btn" target="_blank" rel="noopener">Visit Spotify</a>
   </section>
 
   <section class="services" id="services">
@@ -109,7 +47,7 @@
     <ul class="service-list">
       <li class="service-item">
         <h3>Music Production</h3>
-        <p>Professional music production services tailored to your vision.</p>
+        <p>Professional music production tailored to your vision.</p>
       </li>
       <li class="service-item">
         <h3>Video Production</h3>
@@ -117,15 +55,15 @@
       </li>
       <li class="service-item">
         <h3>Drone Pilot</h3>
-        <p>Aerial cinematography and photography with licensed drone operators.</p>
+        <p>Aerial cinematography and photography.</p>
       </li>
       <li class="service-item">
         <h3>Hip Hop Beats with African Fusion</h3>
-        <p>Unique hip hop beats blending African rhythms available for purchase.</p>
+        <p>Unique beats blending African rhythms.</p>
       </li>
       <li class="service-item">
         <h3>Website Design</h3>
-        <p>Creative and responsive website design to showcase your brand.</p>
+        <p>Creative, responsive websites to showcase your brand.</p>
       </li>
     </ul>
   </section>
@@ -133,102 +71,14 @@
   <section class="arena">
     <h2>🔥 Echo Battle Arena</h2>
     <p>Enter the arena and freestyle against Echo.</p>
-    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" rel="noopener">Enter Battle Arena</a>
+    <a class="btn" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" rel="noopener">Enter Battle Arena</a>
   </section>
 
-  <footer>
+  <footer class="site-footer">
     Contact us: 081263323131, 08137961537<br/>
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
 
-  <script>
-    // ===== Welcome TTS =====
-    const welcomeLine = "What if our voices carried more than words? Welcome to Skybound Media official website. Echo is listening.";
-    const interruptCommand = "stop talking";
-    const welcomeVoice = new SpeechSynthesisUtterance(welcomeLine);
-    welcomeVoice.lang='en-US'; welcomeVoice.rate=1; welcomeVoice.pitch=1.1;
-
-    async function getEchoVoice(){
-      return new Promise((resolve)=>{
-        const v = speechSynthesis.getVoices();
-        if(v.length) resolve(v); else speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
-      });
-    }
-    async function speakResponse(text){
-      try{
-        const voices = await getEchoVoice();
-        const voice = voices.find(v=>v.lang?.includes("en") && v.name?.toLowerCase().includes("female")) || voices[0];
-        const u = new SpeechSynthesisUtterance(text);
-        u.voice=voice; u.pitch=1.1; u.rate=1; u.volume=1; speechSynthesis.speak(u);
-      }catch(_) {}
-    }
-    window.addEventListener('load', ()=>{
-      setTimeout(()=>{ speechSynthesis.cancel(); speakResponse(welcomeVoice.text); }, 600);
-      autoWake();
-    });
-
-    // ===== Call your Vercel backend =====
-    const API_URL    = "/api/ask";
-    const HEALTH_URL = "/api/health";
-
-    async function autoWake(){ try{ await fetch(HEALTH_URL,{cache:"no-store"});}catch(_){} }
-
-    async function fetchEchoReply(message){
-      const resp = await fetch(API_URL,{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ prompt: message })
-      });
-      if(!resp.ok){
-        const txt = await resp.text().catch(()=> "");
-        throw new Error(`Backend ${resp.status}: ${txt||"error"}`);
-      }
-      const data = await resp.json();
-      return data?.choices?.[0]?.message?.content || "No response.";
-    }
-
-    function startVoiceAI(){
-      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if(!SR){ document.getElementById('ai-response').innerText="Voice not supported on this device."; return; }
-      const recognition = new SR();
-      recognition.lang='en-US'; recognition.continuous=false; recognition.interimResults=false;
-      recognition.start();
-
-      recognition.onresult = async (e)=>{
-        const transcript = e.results[e.results.length-1][0].transcript.trim();
-        document.getElementById('ai-response').innerText = `You said: ${transcript}`;
-        if(transcript.toLowerCase().includes(interruptCommand)){
-          speechSynthesis.cancel();
-          document.getElementById('ai-response').innerText="Echo has been interrupted.";
-          return;
-        }
-        try{
-          document.getElementById('ai-response').innerText="Thinking...";
-          const reply = await fetchEchoReply(transcript);
-          document.getElementById('ai-response').innerText=reply;
-          speechSynthesis.cancel(); speakResponse(reply);
-        }catch(_){
-          document.getElementById('ai-response').innerText="Backend offline. Try again shortly.";
-        }
-      };
-      recognition.onerror = ()=>{ document.getElementById('ai-response').innerText="Voice recognition error. Try again."; };
-    }
-
-    async function askByText(){
-      const input = document.getElementById("text-input").value.trim();
-      if (!input) return;
-      document.getElementById('ai-response').innerText="Thinking...";
-      try{
-        const reply = await fetchEchoReply(input);
-        document.getElementById('ai-response').innerText=reply;
-        speechSynthesis.cancel(); speakResponse(reply);
-      }catch(_){
-        document.getElementById('ai-response').innerText="Backend offline. Try again shortly.";
-      }
-    }
-
-    document.getElementById('voiceBtn').addEventListener('click', startVoiceAI);
-    document.getElementById('sendBtn').addEventListener('click', askByText);
-  </script>
+  <script src="index.js"></script>
 </body>
 </html>
