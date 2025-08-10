@@ -1,205 +1,34 @@
-/* Base styles */
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: "Poppins", sans-serif;
-  color: #ffffff;
+:root{
+  --bg:#000;--panel:#111;--text:#fff;--muted:#ccc;
+  --accent1:#dc143c;--accent2:#ff6b6b;--good:#39ff14;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+.btn{margin-top:16px;background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#fff;padding:12px 24px;border:none;border-radius:30px;font-weight:700;cursor:pointer;display:inline-block}
+.site-header{padding:20px;text-align:center}
+.logo{max-width:150px}
+
+.hero{
+  min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 20px;text-align:center;
 }
 
-/* Hero section styles */
-.hero {
-  position: relative;
-  min-height: 100vh;
-  background-image: url("Background%20.PNG");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; /* Scales the background to cover the whole area [oai_citation:0‡w3schools.com](https://www.w3schools.com/howto/howto_css_full_page.asp#:~:text=%2F,image%3A%20url%28%22img_girl.jpg) */
-  background-attachment: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0 1rem;
-  overflow: hidden;
-  padding-top: 150px; /* Space for the logo at the top */
-}
+.ask,.spotify,.services,.arena{background:var(--panel);padding:60px 20px;text-align:center}
+.ask h2,.spotify h2,.services h2,.arena h2{font-size:2.2em;margin:0 0 10px}
+.ask p,.spotify p{font-size:1.1em;margin:0 0 20px}
+.ai-logo{width:200px;border-radius:10px;margin-bottom:16px}
 
-/* Dark overlay for better text contrast */
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 0;
-}
+.row{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+.text-input{padding:10px;border-radius:8px;border:1px solid #333;background:#0b0b0b;color:#fff;width:min(700px,90%)}
+.response{font-size:1.05em;color:var(--good);margin-top:18px;white-space:pre-wrap}
 
-/* Logo positioning */
-.logo {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 160px;
-  height: auto;
-  z-index: 2;
-  animation: fadeInDown 1s ease-out;
-}
+.service-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+.service-item{background:rgba(255,255,255,.08);padding:20px;border-radius:10px;width:220px;text-align:left}
+.service-item h3{margin:0 0 8px;font-size:1.2em}
+.service-item p{margin:0;font-size:1em;color:#e9e9e9}
+@media (max-width:600px){.service-list{flex-direction:column;align-items:center}.service-item{width:100%;max-width:320px}}
 
-/* Main content area */
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 800px;
-}
-
-/* Typography styles */
-.title {
-  font-size: 3rem;
-  margin: 0;
-  animation: fadeInUp 1.4s ease-out both;
-}
-
-.subtitle {
-  font-size: 1.5rem;
-  margin: 0.5rem 0 1.5rem 0;
-  font-weight: 300;
-  animation: fadeInUp 1.6s ease-out both;
-}
-
-.contact {
-  margin: 0.3rem 0;
-  font-size: 1rem;
-  animation: fadeInUp 1.8s ease-out both;
-}
-
-.contact a {
-  color: #ffd1b3;
-  text-decoration: none;
-}
-
-/* Call-to-action button */
-.cta-button {
-  display: inline-block;
-  margin-top: 1.5rem;
-  padding: 0.8rem 2rem;
-  background-color: #ff5722;
-  color: #ffffff;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1rem;
-  animation: fadeInUp 2s ease-out both;
-  transition: background-color 0.3s ease;
-}
-
-.cta-button:hover {
-  background-color: #e64a19;
-}
-
-/* Fade-in & slide-up animations using @keyframes */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .title {
-    font-size: 2.4rem;
-  }
-  .subtitle {
-    font-size: 1.2rem;
-  }
-  .contact {
-    font-size: 0.9rem;
-  }
-  .logo {
-    width: 130px;
-  }
-}
-
-@media (max-width: 480px) {
-  .title {
-    font-size: 2rem;
-  }
-  .subtitle {
-    font-size: 1rem;
-  }
-  .contact {
-    font-size: 0.8rem;
-  }
-  .cta-button {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.5rem;
-  }
-  /* Use scroll attachment on mobile for better performance */
-  .hero {
-    background-attachment: scroll;
-  }
-}/* Fancy animation for the call-to-action button */
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.7);
-  }
-  70% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 10px rgba(255, 87, 34, 0);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(255, 87, 34, 0);
-  }
-}
-
-/* Apply pulse animation to the CTA button */
-.cta-button {
-  animation: pulse 3s infinite;
-}
-
-/* Ask AI section styles */
-.ask-ai {
-  text-align: center;
-  padding: 2rem 1rem;
-  background: rgba(0, 0, 0, 0.5);
-  margin-top: 2rem;
-  border-radius: 8px;
-}
-
-.ask-ai h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.ask-ai p {
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.ai-logo {
-  width: 150px;
-  height: auto;
-  display: block;
-  margin: 0 auto 1rem auto;
-]
+.site-footer{background:var(--panel);color:var(--muted);padding:20px;text-align:center;font-size:.95em}
