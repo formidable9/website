@@ -116,3 +116,11 @@ function askByVoice() {
 // Wire up buttons
 $("#sendBtn")?.addEventListener("click", askByText);
 $("#voiceBtn")?.addEventListener("click", askByVoice);
+// ----- Hero background rotator (non-blocking) -----
+(() => {
+  const slides = ["bg1.jpg","bg2.jpg","bg3.jpg","bg4.jpg","bg5.jpg","bg6.jpg","bg7.jpg"];
+  let i = 0;
+  function setHero(url){ document.documentElement.style.setProperty('--hero', `url('${url}')`); }
+  setHero(slides[0]);
+  setInterval(() => { i = (i + 1) % slides.length; setHero(slides[i]); }, 6000);
+})();
