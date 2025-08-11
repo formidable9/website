@@ -1,194 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Echo Unfiltered – Skyboi Formidable</title>
+// ===== Echo Frontend (Vercel backend) =====
 
-  <!-- Google AdSense: keep placeholders until approval -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
+// API endpoints on the same Vercel deployment
+const API_URL = "/api/ask";
+const HEALTH_URL = "/api/health";
 
-  <style>
-    :root{
-      --bg:#000; --panel:#111; --border:#222; --text:#fff; --muted:#b9b9b9;
-      --accent1:#dc143c; --accent2:#ff6b6b; --max:1100px;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    a{color:inherit;text-decoration:none}
+// DOM helpers
+const $ = (sel) => document.querySelector(sel);
+const out = (t) => {
+  const el = $("#ai-response");
+  if (el) el.textContent = t;
+};
 
-    /* Header */
-    .site-header{padding:20px;border-bottom:1px solid rgba(255,255,255,.06);background:#050505}
-    .header-inner{max-width:var(--max);margin:0 auto;display:flex;justify-content:center}
-    .logo{max-width:150px;height:auto}
+// Welcome line
+const welcomeLine =
+  "What if our voices carried more than words? Welcome to Skybound Media's official website. Echo is listening.";
 
-    /* HERO (CSS slideshow like original) */
-    .hero{
-      min-height:100vh;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      padding:80px 20px;text-align:center;
-      background-size:cover;background-position:center;
-      animation:slideShow 56s infinite;
-      max-width:var(--max);margin:0 auto 26px;border-radius:14px;overflow:hidden;
-    }
-    /* Use bg1…bg7 (lowercase) in repo root */
-    @keyframes slideShow{
-      0%   { background-image:url('bg1.jpg'); }
-      16%  { background-image:url('bg2.jpg'); }
-      32%  { background-image:url('bg3.jpg'); }
-      48%  { background-image:url('bg4.jpg'); }
-      64%  { background-image:url('bg5.jpg'); }
-      80%  { background-image:url('bg6.jpg'); }
-      100% { background-image:url('bg7.jpg'); }
-    }
-    .hero h1{font-size:clamp(2rem,6vw,3rem);margin:0 0 1rem;max-width:90%}
-    .hero p{font-size:clamp(1rem,3vw,1.2rem);max-width:90%;margin:0 auto 1rem}
-    .cta-button{
-      margin-top:20px;background:linear-gradient(90deg,var(--accent1),var(--accent2));
-      color:#fff;padding:12px 24px;border:none;border-radius:30px;font-weight:700;cursor:pointer;display:inline-block
-    }
+// Voice setup
+async function getVoicesOnce() {
+  return new Promise((resolve) => {
+    const v = speechSynthesis.getVoices();
+    if (v.length) return resolve(v);
+    speechSynthesis.onvoiceschanged = () =>
+      resolve(speechSynthesis.getVoices());
+  });
+}
 
-    /* Panels (centered) */
-    .panel, .spotify-section, .services, .ask-ai, .site-footer{
-      max-width:var(--max);margin:0 auto 26px;padding:60px 20px;text-align:center;
-      background:#111;border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.30);
-    }
-    .panel h2, .spotify-section h2{font-size:2.2rem;margin:0 0 10px}
-    .panel p, .spotify-section p{font-size:1.1rem;margin:0 0 18px;color:var(--muted)}
+async function speak(text) {
+  try {
+    const voices = await getVoicesOnce();
+    const voice =
+      voices.find(
+        (v) => v.lang?.includes("en") && v.name?.toLowerCase().includes("female")
+      ) || voices[0];
+    const u = new SpeechSynthesisUtterance(text);
+    u.voice = voice;
+    u.pitch = 1.05;
+    u.rate = 1;
+    u.volume = 1;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  } catch (err) {
+    console.error("Speech synthesis error:", err);
+  }
+}
 
-    /* Ask AI */
-    .ai-logo{width:200px;max-width:85%;display:block;margin:0 auto 16px;border-radius:10px}
-    .controls{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0}
-    .text-input{
-      flex:1;min-width:260px;max-width:600px;background:#0b0b0b;border:1px solid var(--border);color:#eaeaea;
-      border-radius:10px;padding:12px 14px;font-size:16px;outline:none
-    }
-    #ai-response{
-      font-size:1.05rem;color:#a6f3b7;background:#0b0b0b;border:1px solid var(--border);
-      padding:12px;border-radius:12px;margin-top:16px;min-height:40px;white-space:pre-wrap
-    }
+// Fire welcome line after load + warm backend
+window.addEventListener("load", async () => {
+  setTimeout(() => speak(welcomeLine), 600);
+  try {
+    await fetch(HEALTH_URL, { cache: "no-store" });
+  } catch {
+    console.warn("Backend health check failed");
+  }
+});
 
-    /* Services */
-    .services h2{margin-bottom:1rem}
-    .service-list{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
-    .service-item{background:rgba(255,255,255,.08);padding:20px;border-radius:8px;width:220px;text-align:left}
-    .service-item h3{margin:0 0 10px;font-size:1.1rem}
-    .service-item p{margin:0;color:#e9e9e9}
+// Call backend
+async function askEcho(prompt) {
+  if (!prompt || !prompt.trim()) return "Say something first 🙂";
 
-    /* Ads */
-    .ad-wrap{background:#0b0b0b;padding:16px;border-radius:12px;margin:18px auto 0;max-width:900px}
-    .ad-wrap ins{display:block !important}
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 30000);
 
-    /* Footer */
-    .site-footer{background:#111;color:#ccc;padding:20px 20px 40px;border:1px solid var(--border);border-radius:16px;margin-bottom:60px}
+  let res;
+  try {
+    res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt }),
+      signal: ctrl.signal,
+    });
+  } catch (e) {
+    clearTimeout(timer);
+    throw new Error("Network error, try again.");
+  }
 
-    /* Mobile */
-    @media (max-width:600px){
-      .panel, .spotify-section, .services, .ask-ai{padding:40px 16px;border-radius:12px}
-      .cta-button{width:100%}
-      .logo{max-width:140px}
-    }
-  </style>
-</head>
+  clearTimeout(timer);
 
-<body>
-  <!-- Header -->
-  <header class="site-header">
-    <div class="header-inner">
-      <!-- file must be exactly logo.png (lowercase) in repo root -->
-      <img src="logo.png" alt="Echo Unfiltered logo" class="logo" />
-    </div>
-  </header>
+  if (!res.ok) {
+    const msg = await res.text().catch(() => "");
+    throw new Error(`Backend ${res.status}: ${msg || "error"}`);
+  }
 
-  <!-- HERO (CSS slideshow) -->
-  <section class="hero">
-    <h1>Echo Unfiltered</h1>
-    <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank" rel="noopener">Watch on YouTube</a>
+  const data = await res.json().catch(() => ({}));
+  return (
+    data?.choices?.[0]?.message?.content ||
+    data?.text ||
+    data?.answer ||
+    "No response."
+  );
+}
 
-    <!-- Ad block #1 -->
-    <div class="ad-wrap">
-      <ins class="adsbygoogle"
-           data-ad-client="ca-pub-0000000000000000"
-           data-ad-slot="1111111111"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-    </div>
-  </section>
+// Text-based question
+async function askByText() {
+  const input = $("#text-input");
+  const msg = (input?.value || "").trim();
+  if (!msg) return;
 
-  <!-- Ask AI -->
-  <section class="ask-ai panel" id="ask">
-    <!-- small image above AI section -->
-    <img src="bg1.jpg" alt="You and Echo" class="ai-logo"/>
-    <h2>Ask AI</h2>
-    <p>Ask Echo a question with your text and see her response.</p>
+  out("Thinking...");
+  try {
+    const reply = await askEcho(msg);
+    out(reply);
+    speak(reply);
+  } catch (e) {
+    out("Backend offline. Try again shortly.");
+  }
+}
 
-    <div class="controls">
-      <input type="text" id="text-input" class="text-input" placeholder="Type your question here"/>
-      <button class="cta-button" id="sendBtn">Send</button>
-    </div>
-
-    <pre id="ai-response"></pre>
-  </section>
-
-  <!-- Spotify -->
-  <section class="spotify-section panel">
-    <h2>🎧 Listen on Spotify</h2>
-    <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="cta-button" target="_blank" rel="noopener">Visit Spotify</a>
-  </section>
-
-  <!-- Services -->
-  <section class="services panel" id="services">
-    <h2>Our Services</h2>
-    <ul class="service-list">
-      <li class="service-item">
-        <h3>Music Production</h3>
-        <p>Professional music production services tailored to your vision.</p>
-      </li>
-      <li class="service-item">
-        <h3>Video Production</h3>
-        <p>High-quality video creation from concept to final cut.</p>
-      </li>
-      <li class="service-item">
-        <h3>Drone Pilot</h3>
-        <p>Aerial cinematography and photography with licensed drone operators.</p>
-      </li>
-      <li class="service-item">
-        <h3>Hip Hop Beats with African Fusion</h3>
-        <p>Unique beats blending African rhythms available for purchase.</p>
-      </li>
-      <li class="service-item">
-        <h3>Website Design</h3>
-        <p>Creative and responsive website design to showcase your brand.</p>
-      </li>
-    </ul>
-
-    <!-- Ad block #2 -->
-    <div class="ad-wrap">
-      <ins class="adsbygoogle"
-           data-ad-client="ca-pub-0000000000000000"
-           data-ad-slot="2222222222"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-    </div>
-  </section>
-
-  <!-- Arena -->
-  <section class="ask-ai panel">
-    <h2>🔥 Echo Battle Arena</h2>
-    <p>Enter the arena and freestyle against Echo.</p>
-    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" rel="noopener">Enter Battle Arena</a>
-  </section>
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    Contact us: 081263323131, 08137961537<br/>
-    &copy; 2025 Skybound Media. All rights reserved.
-  </footer>
-
-  <!-- Frontend logic (separate file) -->
-  <script src="index.js"></script>
-  <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
-</body>
-</html>
+// Wire up Send button
+$("#sendBtn")?.addEventListener("click", askByText);
