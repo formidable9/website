@@ -1,110 +1,72 @@
-// ===== Echo Frontend (Vercel backend) =====
+// ===== Frontend (runs in browser) =====
 
-// API endpoints on the same Vercel deployment
-const API_URL = "/api/ask";
-const HEALTH_URL = "/api/health";
+// Our backend lives on the same domain in Vercel:
+const API_URL = "/api/ask";   // <— DO NOT change this
 
-// DOM helpers
 const $ = (sel) => document.querySelector(sel);
-const out = (t) => {
-  const el = $("#ai-response");
-  if (el) el.textContent = t;
-};
+const statusEl = $("#status");
+const answerEl = $("#answer");
+const inputEl  = $("#prompt");
+const sendBtn  = $("#send");
 
-// Welcome line
-const welcomeLine =
-  "What if our voices carried more than words? Welcome to Skybound Media's official website. Echo is listening.";
-
-// Voice setup
-async function getVoicesOnce() {
-  return new Promise((resolve) => {
-    const v = speechSynthesis.getVoices();
-    if (v.length) return resolve(v);
-    speechSynthesis.onvoiceschanged = () =>
-      resolve(speechSynthesis.getVoices());
-  });
-}
-
-async function speak(text) {
-  try {
-    const voices = await getVoicesOnce();
-    const voice =
-      voices.find(
-        (v) => v.lang?.includes("en") && v.name?.toLowerCase().includes("female")
-      ) || voices[0];
-    const u = new SpeechSynthesisUtterance(text);
-    u.voice = voice;
-    u.pitch = 1.05;
-    u.rate = 1;
-    u.volume = 1;
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
-  } catch (err) {
-    console.error("Speech synthesis error:", err);
-  }
-}
-
-// Fire welcome line after load + warm backend
-window.addEventListener("load", async () => {
-  setTimeout(() => speak(welcomeLine), 600);
-  try {
-    await fetch(HEALTH_URL, { cache: "no-store" });
-  } catch {
-    console.warn("Backend health check failed");
-  }
+// Quick warm-up on page load so free cold starts feel faster
+window.addEventListener("load", () => {
+  // Fire and forget; if it fails, we just stay quiet
+  fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt: "ping" })
+  }).catch(() => {});
 });
 
-// Call backend
-async function askEcho(prompt) {
-  if (!prompt || !prompt.trim()) return "Say something first 🙂";
+sendBtn.addEventListener("click", askEcho);
+inputEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") askEcho();
+});
 
+async function askEcho() {
+  const text = inputEl.value.trim();
+  if (!text) {
+    inputEl.focus();
+    return;
+  }
+
+  // UI state
+  sendBtn.disabled = true;
+  statusEl.textContent = "Thinking…";
+  answerEl.textContent = "";
+
+  // Timeout guard so we never hang forever
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 30000);
+  const timeout = setTimeout(() => ctrl.abort(), 30000); // 30s
 
-  let res;
   try {
-    res = await fetch(API_URL, {
+    const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt }),
-      signal: ctrl.signal,
+      body: JSON.stringify({ prompt: text }),
+      signal: ctrl.signal
     });
-  } catch (e) {
-    clearTimeout(timer);
-    throw new Error("Network error, try again.");
-  }
 
-  clearTimeout(timer);
+    clearTimeout(timeout);
 
-  if (!res.ok) {
-    const msg = await res.text().catch(() => "");
-    throw new Error(`Backend ${res.status}: ${msg || "error"}`);
-  }
+    if (!res.ok) {
+      // Read any text error from server for easier debugging
+      const msg = await res.text().catch(() => "");
+      throw new Error(`Backend error (${res.status}). ${msg}`);
+    }
 
-  const data = await res.json().catch(() => ({}));
-  return (
-    data?.choices?.[0]?.message?.content ||
-    data?.text ||
-    data?.answer ||
-    "No response."
-  );
-}
-
-// Text-based question
-async function askByText() {
-  const input = $("#text-input");
-  const msg = (input?.value || "").trim();
-  if (!msg) return;
-
-  out("Thinking...");
-  try {
-    const reply = await askEcho(msg);
-    out(reply);
-    speak(reply);
-  } catch (e) {
-    out("Backend offline. Try again shortly.");
+    const data = await res.json();
+    const reply = data?.text || "No response.";
+    answerEl.textContent = reply;
+    statusEl.textContent = "OK";
+  } catch (err) {
+    const offline = (err && (err.name === "AbortError")) ? "timeout" : "network";
+    statusEl.textContent = offline === "timeout"
+      ? "Backend timeout. Try again."
+      : "Backend offline. Try again shortly.";
+    answerEl.textContent = (err && err.message) ? err.message : "";
+  } finally {
+    sendBtn.disabled = false;
   }
 }
-
-// Wire up Send button
-$("#sendBtn")?.addEventListener("click", askByText);
