@@ -2,76 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skybound Media — Echo Unfiltered</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Echo Unfiltered — Skybound Media</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <!-- Header -->
   <header class="site-header">
-    <img src="logo.png" alt="Skybound Media" class="logo"/>
+    <img src="logo.png" alt="Skybound Media" class="logo" />
   </header>
 
-  <!-- Big rotating hero banner -->
-  <div class="hero" aria-label="Skybound Media banner"></div>
-
-  <!-- Ask AI -->
-  <section class="panel ask" id="ask">
-    <h2>Ask AI</h2>
-    <p>Ask Echo a question with your voice or text and hear her response.</p>
-
-    <div class="row">
-      <button class="btn" id="voiceBtn">Ask with Your Voice</button>
-    </div>
-
-    <div class="row">
-      <input type="text" id="text-input" class="text-input" placeholder="Or type your question here"/>
-      <button class="btn" id="sendBtn">Send</button>
-    </div>
-
-    <pre id="ai-response" class="response"></pre>
+  <!-- BIG HERO (smart dissolve) -->
+  <section class="hero" aria-label="Skybound Media banner">
+    <div class="hero-layer hero-a"></div>
+    <div class="hero-layer hero-b"></div>
+    <div class="hero-gradient"></div>
   </section>
 
-  <!-- Spotify -->
-  <section class="panel spotify">
-    <h2>🎧 Listen on Spotify</h2>
-    <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="btn" target="_blank" rel="noopener">Visit Spotify</a>
-  </section>
+  <main>
+    <!-- Ask AI (with little image on top) -->
+    <section class="panel ask" id="ask">
+      <img src="bg1.jpg" alt="Echo" class="ai-logo" />
+      <h2>Ask AI</h2>
+      <p>Ask Echo a question with your voice or text and hear her response.</p>
 
-  <!-- Services -->
-  <section class="panel services" id="services">
-    <h2>Our Services</h2>
-    <ul class="service-list">
-      <li class="service-item">
-        <h3>Music Production</h3>
-        <p>Professional music production tailored to your vision.</p>
-      </li>
-      <li class="service-item">
-        <h3>Video Production</h3>
-        <p>High-quality video creation from concept to final cut.</p>
-      </li>
-      <li class="service-item">
-        <h3>Drone Pilot</h3>
-        <p>Aerial cinematography and photography.</p>
-      </li>
-      <li class="service-item">
-        <h3>Hip Hop Beats with African Fusion</h3>
-        <p>Unique beats blending African rhythms.</p>
-      </li>
-      <li class="service-item">
-        <h3>Website Design</h3>
-        <p>Creative, responsive websites to showcase your brand.</p>
-      </li>
-    </ul>
-  </section>
+      <div class="row">
+        <button class="btn" id="voiceBtn">Ask with Your Voice</button>
+      </div>
 
-  <!-- Arena -->
-  <section class="panel arena">
-    <h2>🔥 Echo Battle Arena</h2>
-    <p>Enter the arena and freestyle against Echo.</p>
-    <a class="btn" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" rel="noopener">Enter Battle Arena</a>
-  </section>
+      <div class="row">
+        <input type="text" id="text-input" class="text-input" placeholder="Or type your question here" />
+        <button class="btn" id="sendBtn">Send</button>
+      </div>
+
+      <pre id="ai-response" class="response"></pre>
+    </section>
+
+    <!-- Spotify -->
+    <section class="panel spotify">
+      <h2>🎧 Listen on Spotify</h2>
+      <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
+      <a class="btn" href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" target="_blank" rel="noopener">Visit Spotify</a>
+    </section>
+
+    <!-- Services -->
+    <section class="panel services" id="services">
+      <h2>Our Services</h2>
+      <ul class="service-list">
+        <li class="service-item">
+          <h3>Music Production</h3>
+          <p>Professional music production tailored to your vision.</p>
+        </li>
+        <li class="service-item">
+          <h3>Video Production</h3>
+          <p>High-quality video creation from concept to final cut.</p>
+        </li>
+        <li class="service-item">
+          <h3>Drone Pilot</h3>
+          <p>Aerial cinematography and photography.</p>
+        </li>
+        <li class="service-item">
+          <h3>Hip Hop Beats with African Fusion</h3>
+          <p>Unique beats blending African rhythms.</p>
+        </li>
+        <li class="service-item">
+          <h3>Website Design</h3>
+          <p>Creative, responsive websites to showcase your brand.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Arena -->
+    <section class="panel arena">
+      <h2>🔥 Echo Battle Arena</h2>
+      <p>Enter the arena and freestyle against Echo.</p>
+      <a class="btn" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" rel="noopener">Enter Battle Arena</a>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer class="site-footer">
