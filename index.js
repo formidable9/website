@@ -1,72 +1,103 @@
-// ===== Frontend (runs in browser) =====
+// ===== BACKEND ENDPOINTS (Vercel – LIVE) =====
+const BASE_URL   = "https://website-nu-lovat-85.vercel.app";
+const API_URL    = `${BASE_URL}/api/ask`;
+const HEALTH_URL = `${BASE_URL}/api/health`;
 
-// Our backend lives on the same domain in Vercel:
-const API_URL = "/api/ask";   // <— DO NOT change this
+// ===== UTIL =====
+const $   = (sel) => document.querySelector(sel);
+const out = (t)    => ($("#ai-response").innerText = t);
 
-const $ = (sel) => document.querySelector(sel);
-const statusEl = $("#status");
-const answerEl = $("#answer");
-const inputEl  = $("#prompt");
-const sendBtn  = $("#send");
+// Wake the functions so the first call isn’t slow
+async function autoWake() {
+  try { await fetch(HEALTH_URL, { cache: "no-store" }); } catch {}
+}
+window.addEventListener("load", autoWake);
 
-// Quick warm-up on page load so free cold starts feel faster
-window.addEventListener("load", () => {
-  // Fire and forget; if it fails, we just stay quiet
-  fetch(API_URL, {
+// ===== Core call to your backend =====
+async function askEcho(prompt) {
+  const ctrl = new AbortController();
+  const timeout = setTimeout(() => ctrl.abort(), 30000); // 30s guard
+
+  const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt: "ping" })
-  }).catch(() => {});
-});
+    body: JSON.stringify({ prompt }),
+    signal: ctrl.signal
+  }).catch((e) => {
+    throw new Error("Network error: " + (e?.message || "failed"));
+  });
 
-sendBtn.addEventListener("click", askEcho);
-inputEl.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") askEcho();
-});
+  clearTimeout(timeout);
 
-async function askEcho() {
-  const text = inputEl.value.trim();
-  if (!text) {
-    inputEl.focus();
-    return;
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`Backend ${res.status}: ${txt || "error"}`);
   }
 
-  // UI state
-  sendBtn.disabled = true;
-  statusEl.textContent = "Thinking…";
-  answerEl.textContent = "";
+  const data = await res.json().catch(() => ({}));
+  return (
+    data?.choices?.[0]?.message?.content ||
+    data?.answer ||
+    "No response."
+  );
+}
 
-  // Timeout guard so we never hang forever
-  const ctrl = new AbortController();
-  const timeout = setTimeout(() => ctrl.abort(), 30000); // 30s
+// ===== Voice flow =====
+function startVoiceAI() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { out("Voice not supported on this device."); return; }
 
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: text }),
-      signal: ctrl.signal
-    });
+  const recognition = new SR();
+  recognition.lang = "en-US";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.start();
 
-    clearTimeout(timeout);
+  recognition.onresult = async (e) => {
+    const transcript = e.results[e.results.length - 1][0].transcript.trim();
+    out(`You said: ${transcript}`);
 
-    if (!res.ok) {
-      // Read any text error from server for easier debugging
-      const msg = await res.text().catch(() => "");
-      throw new Error(`Backend error (${res.status}). ${msg}`);
+    try {
+      out("Thinking...");
+      const reply = await askEcho(transcript);
+      out(reply);
+      speak(reply);
+    } catch (err) {
+      out("Backend offline. Try again shortly.");
     }
+  };
 
-    const data = await res.json();
-    const reply = data?.text || "No response.";
-    answerEl.textContent = reply;
-    statusEl.textContent = "OK";
+  recognition.onerror = () => {
+    out("Voice recognition error. Try again.");
+  };
+}
+
+// ===== Text flow =====
+async function sendText() {
+  const inputEl = $("#text-input");
+  const msg = (inputEl?.value || "").trim();
+  if (!msg) return;
+
+  out("Thinking...");
+  try {
+    const reply = await askEcho(msg);
+    out(reply);
+    speak(reply);
   } catch (err) {
-    const offline = (err && (err.name === "AbortError")) ? "timeout" : "network";
-    statusEl.textContent = offline === "timeout"
-      ? "Backend timeout. Try again."
-      : "Backend offline. Try again shortly.";
-    answerEl.textContent = (err && err.message) ? err.message : "";
-  } finally {
-    sendBtn.disabled = false;
+    out("Backend offline. Try again shortly.");
   }
 }
+
+// ===== Simple TTS =====
+function speak(text) {
+  try {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US"; u.rate = 1; u.pitch = 1.05;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  } catch {}
+}
+
+// ===== Wire up buttons =====
+$("#voiceBtn")?.addEventListener("click", startVoiceAI);
+$("#sendBtn")?.addEventListener("click", sendText);
