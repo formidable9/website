@@ -1,35 +1,75 @@
 :root{
-  --bg:#000; --panel:#111; --text:#fff; --muted:#c7c7c7;
-  --accent1:#dc143c; --accent2:#ff6b6b;
-  --good:#2bd66b; --bad:#ff4d4d;
-  --max:1100px;
+  --bg:#000; --panel:#111; --text:#fff; --muted:#b9b9b9;
+  --accent:#dc143c;
+  --hero:url('bg1.jpg');
 }
 
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
 a{color:inherit;text-decoration:none}
-.btn{margin-top:16px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;padding:12px 24px;border:none;border-radius:999px;display:inline-block;cursor:pointer}
-.site-header{padding:20px;text-align:center}
-.logo{max-width:150px;height:auto}
 
-/* --- Panels are full width, content centered --- */
-.panel{background:var(--panel)}
-.panel + .panel{border-top:1px solid #1a1a1a}
-.panel .container{max-width:var(--max);padding:32px 20px;margin:0 auto}
+.container{max-width:1100px;margin:0 auto;padding:28px 18px}
 
-/* Hero (background image swapped by JS) */
-.hero{min-height:70vh;display:flex;align-items:center;justify-content:center;background-size:cover;background-position:center}
-.hero .container{text-align:center;background:rgba(0,0,0,.35);backdrop-filter:saturate(120%) blur(1px);border-radius:12px;padding:28px}
+.logo{height:52px;display:block;margin:14px auto}
 
-/* Ask block */
-.ask .row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
-.text-input{flex:1;min-width:220px;padding:12px 14px;border-radius:10px;border:1px solid #333;background:#0f0f0f;color:#fff}
-.response{white-space:pre-wrap;border:1px solid #222;background:#0d0d0d;border-radius:10px;padding:12px;margin-top:14px;min-height:40px}
-.response.ok{color:var(--good)} .response.err{color:var(--bad)}
+.site-header{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)}
 
-/* Services */
-.services .service-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:0;margin:0}
-.services .service-item{background:#0f0f0f;border:1px solid #1f1f1f;border-radius:12px;padding:16px}
+/* HERO */
+.hero{
+  position:relative;
+  min-height:62vh;
+  background-image:var(--hero);
+  background-size:cover;background-position:center;
+  display:grid;place-items:center;
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.65) 70%, rgba(0,0,0,.85) 100%);
+}
+.hero-inner{
+  position:relative; z-index:1; text-align:center; padding:22px;
+}
+.hero h1{font-size:42px;margin:0 0 8px}
+.hero p{margin:0 0 16px;color:var(--muted)}
 
-/* Footer */
-.site-footer{padding:28px 20px;text-align:center;color:var(--muted);font-size:.9rem}
+/* CARDS */
+.card{
+  background:#0f0f0f;border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;padding:22px;margin:18px auto;max-width:760px;
+}
+.card h2{margin:0 0 8px}
+.card p{margin:0 0 14px;color:var(--muted)}
+
+.btn{
+  display:inline-block; margin-top:8px;
+  background:linear-gradient(90deg,#ff5a6a,#ff6161);
+  color:#fff; padding:12px 22px; border:none; border-radius:26px; font-weight:600; cursor:pointer;
+}
+.btn:active{transform:translateY(1px)}
+
+.controls{margin:8px 0}
+.controls.row{display:flex;gap:10px;align-items:center}
+.text-input{
+  flex:1;min-width:0;border:1px solid rgba(255,255,255,.12);
+  background:#0a0a0a;color:#fff;padding:12px 14px;border-radius:10px;
+}
+.response{
+  margin-top:10px; white-space:pre-wrap;
+  color:#7dff7d; background:#0b0b0b; border:1px solid rgba(255,255,255,.06);
+  padding:12px;border-radius:10px; min-height:20px;
+}
+
+/* SERVICES */
+.service-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.service-list li{padding:12px;border:1px solid rgba(255,255,255,.06);border-radius:10px;background:#0c0c0c}
+.service-list h3{margin:0 0 6px;font-size:18px}
+
+/* FOOTER */
+.site-footer{padding:26px 18px 40px;text-align:center;color:#8d8d8d;font-size:14px;border-top:1px solid rgba(255,255,255,.06)}
+
+/* MOBILE TWEAKS */
+@media (max-width:560px){
+  .hero h1{font-size:34px}
+  .controls.row{flex-direction:column;align-items:stretch}
+  .btn{width:100%;text-align:center}
+}
