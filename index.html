@@ -5,189 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Echo Unfiltered – Skyboi Formidable</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: #000;
-      color: #fff;
-    }
 
-    header {
-      padding: 20px;
-      text-align: center;
-    }
-
-    .logo {
-      max-width: 150px;
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px;
-      text-align: center;
-      background-size: cover;
-      background-position: center;
-      animation: slideShow 60s infinite;
-    }
-
-    @keyframes slideShow {
-      0% { background-image: url('bg1.jpg'); }
-      10% { background-image: url('bg2.jpg'); }
-      20% { background-image: url('bg3.jpg'); }
-      30% { background-image: url('bg4.jpg'); }
-      40% { background-image: url('bg5.jpg'); }
-      50% { background-image: url('bg6.jpg'); }
-      60% { background-image: url('bg7.jpg'); }
-      70% { background-image: url('bg8.jpg'); }
-      80% { background-image: url('bg9.jpg'); }
-      90% { background-image: url('bg10.jpg'); }
-      100% { background-image: url('bg1.jpg'); }
-    }
-
-    .hero h1 {
-      font-size: clamp(2rem, 6vw, 3rem);
-      margin-bottom: 1rem;
-      max-width: 90%;
-    }
-
-    .hero p {
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      max-width: 90%;
-      margin: 0 auto;
-      margin-bottom: 1rem;
-    }
-
-    .cta-button {
-      margin-top: 20px;
-      background: linear-gradient(90deg, #dc143c, #ff6b6b);
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .ask-ai, .spotify-section {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .ask-ai h2, .spotify-section h2 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-
-    .ask-ai p, .spotify-section p {
-      font-size: 1.1em;
-      margin-bottom: 20px;
-    }
-
-    .ai-logo {
-      width: 200px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      background-color: #111;
-      color: #ccc;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.9em;
-    }
-
-    .services {
-      background-color: #111;
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .services h2 {
-      font-size: 2.5em;
-      margin-bottom: 1rem;
-    }
-
-    .service-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .service-item {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 8px;
-      width: 220px;
-    }
-
-    .service-item h3 {
-      margin: 0 0 10px;
-      font-size: 1.3em;
-    }
-
-    .service-item p {
-      font-size: 1em;
-    }
-
-    @media (max-width: 600px) {
-      .service-list {
-        flex-direction: column;
-        align-items: center;
-      }
-      .service-item {
-        width: 100%;
-        max-width: 280px;
-      }
-    }
-
-    #ai-response {
-      font-size: 1.1em;
-      color: lime;
-      margin-top: 20px;
-    }
-  </style>
+  <!-- Google AdSense: PLACEHOLDER client ID (replace after approval) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <header>
-    <img src="Logo.PNG" alt="Echo Unfiltered logo" class="logo" />
+  <header class="site-header">
+    <!-- Vercel is case-sensitive. Keep this lowercase and ensure the file is named exactly logo.png -->
+    <img src="logo.png" alt="Echo Unfiltered logo" class="logo" />
   </header>
 
-  <section class="hero">
-    <h1>Echo Unfiltered</h1>
-    <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank">Watch on YouTube</a>
+  <!-- HERO (smart dissolve handled by index.js) -->
+  <section class="hero" aria-label="Skybound Media banner">
+    <div class="hero-layer hero-a"></div>
+    <div class="hero-layer hero-b"></div>
+    <div class="hero-gradient"></div>
+
+    <div class="hero-inner">
+      <h1>Echo Unfiltered</h1>
+      <p>A live interview with my AI called Echo</p>
+      <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank" rel="noopener">Watch on YouTube</a>
+
+      <!-- Ad block #1 (PLACEHOLDER SLOT ID) -->
+      <div class="ad-wrap">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-0000000000000000"
+             data-ad-slot="1111111111"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      </div>
+    </div>
   </section>
 
-  <section class="ask-ai">
+  <section class="ask-ai panel">
+    <!-- small image above Ask AI -->
     <img src="bg1.jpg" alt="You and Echo" class="ai-logo"/>
     <h2>Ask AI</h2>
     <p>Ask Echo a question with your voice or text and hear her response.</p>
-    <button class="cta-button" onclick="startVoiceAI()">Ask with Your Voice</button>
-    <input type="text" id="text-input" placeholder="Or type your question here" style="margin-top:10px;padding:10px;border-radius:5px;width:60%;">
-    <button class="cta-button" onclick="askByText()">Send</button>
-    <div id="ai-response"></div>
+
+    <div class="row">
+      <button class="cta-button" id="voiceBtn">Ask with Your Voice</button>
+    </div>
+
+    <div class="row">
+      <input type="text" id="text-input" class="text-input" placeholder="Or type your question here" />
+      <button class="cta-button" id="sendBtn">Send</button>
+    </div>
+
+    <pre id="ai-response" class="response"></pre>
   </section>
 
-  <section class="spotify-section">
+  <section class="spotify-section panel">
     <h2>🎧 Listen on Spotify</h2>
     <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="cta-button" target="_blank">Visit Spotify</a>
+    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="cta-button" target="_blank" rel="noopener">Visit Spotify</a>
   </section>
 
-  <section class="services">
+  <section class="services panel" id="services">
     <h2>Our Services</h2>
     <ul class="service-list">
       <li class="service-item">
@@ -211,117 +87,31 @@
         <p>Creative and responsive website design to showcase your brand.</p>
       </li>
     </ul>
+
+    <!-- Ad block #2 (PLACEHOLDER SLOT ID) -->
+    <div class="ad-wrap">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-0000000000000000"
+           data-ad-slot="2222222222"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
   </section>
 
-  <section class="ask-ai">
+  <section class="ask-ai panel">
     <h2>🔥 Echo Battle Arena</h2>
     <p>Enter the arena and freestyle against Echo.</p>
-    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank">Enter Battle Arena</a>
+    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" rel="noopener">Enter Battle Arena</a>
   </section>
 
-  <footer>
+  <footer class="site-footer">
     Contact us: 081263323131, 08137961537<br/>
     &copy; 2025 Skybound Media. All rights reserved.
   </footer>
 
-  <script>
-    const welcomeLine = "What if our voices carried more than words? welcome to skybound media official website, Echo is listening.";
-    const interruptCommand = "stop talking";
-
-    const welcomeVoice = new SpeechSynthesisUtterance(welcomeLine);
-    welcomeVoice.lang = 'en-US';
-    welcomeVoice.rate = 1;
-    welcomeVoice.pitch = 1.1;
-
-    async function getEchoVoice() {
-      return new Promise((resolve) => {
-        const voices = speechSynthesis.getVoices();
-        if (voices.length) resolve(voices);
-        else speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
-      });
-    }
-
-    async function speakResponse(text) {
-      const voices = await getEchoVoice();
-      const voice = voices.find(v => v.lang.includes("en") && v.name.toLowerCase().includes("female")) || voices[0];
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.voice = voice;
-      utter.pitch = 1.1;
-      utter.rate = 1;
-      utter.volume = 1;
-      speechSynthesis.speak(utter);
-    }
-
-    window.onload = () => {
-      setTimeout(() => {
-        speechSynthesis.cancel();
-        speakResponse(welcomeVoice.text);
-      }, 1000);
-    }
-
-    async function fetchEchoReply(message) {
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer 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"
-        },
-        body: JSON.stringify({
-          model: "llama3-70b-8192",
-          messages: [
-            {
-              role: "system",
-              content: `You are Echo, a confident and intelligent female AI who responds clearly and naturally. If asked about "Skyboi Formidable", use this info:
-Name: Skyboi Formidable
-Location: Abuja, Nigeria
-Genre: Hip hop and dancehall
-Known For: Music production, video production, drone piloting, music performance, and other crazy talents
-Active Since: 2010
-Style: A blend of fast rap (lyrical chopper), dancehall, and Afrobeat fusion
-Collaborations: Rimi Sava, Li, and many more
-Popular Tracks: "Leader", "God of War", "Let Me Through" (new album)
-Achievements: Master-level producer, CEO of Skybound Media, one of the fastest rappers in his region
-Unique Qualities: Ability to switch and multitask like a superhuman — jack of all trades, master of all.`
-            },
-            { role: "user", content: message }
-          ]
-        })
-      });
-      const data = await response.json();
-      return data.choices[0].message.content;
-    }
-
-    async function startVoiceAI() {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'en-US';
-      recognition.continuous = true;
-      recognition.interimResults = false;
-      recognition.start();
-
-      recognition.onresult = async function(event) {
-        const transcript = event.results[event.results.length - 1][0].transcript.trim();
-        document.getElementById('ai-response').innerText = `You said: ${transcript}`;
-        if (transcript.includes(interruptCommand)) {
-          speechSynthesis.cancel();
-          document.getElementById('ai-response').innerText = "Echo has been interrupted.";
-          return;
-        }
-        const reply = await fetchEchoReply(transcript);
-        document.getElementById('ai-response').innerText = reply;
-        speechSynthesis.cancel();
-        speakResponse(reply);
-      };
-    }
-
-    async function askByText() {
-      const input = document.getElementById("text-input").value.trim();
-      if (!input) return;
-      document.getElementById('ai-response').innerText = "Thinking...";
-      const reply = await fetchEchoReply(input);
-      document.getElementById('ai-response').innerText = reply;
-      speechSynthesis.cancel();
-      speakResponse(reply);
-    }
-  </script>
+  <!-- Your existing secure frontend logic lives in index.js (calls /api/ask, no key in browser) -->
+  <script src="index.js"></script>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </body>
 </html>
