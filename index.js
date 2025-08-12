@@ -1,57 +1,63 @@
-// ===== Echo frontend (Vercel) =====
+// ===== Echo Frontend (Vercel) — text in, spoken reply out (female voice) =====
 
-// Endpoints (same domain on Vercel)
 const API_URL = "/api/ask";
-const HEALTH_URL = "/api/health";
+const HEALTH_URL = "/api/health"; // optional
 
-// Helpers
-const $ = (sel) => document.querySelector(sel);
-const out = (t) => {
-  const el = $("#ai-response");
-  if (el) el.textContent = t;
-};
+// ---------- DOM helpers ----------
+const $  = (s) => document.querySelector(s);
+const out = (t) => { const el = $("#ai-response"); if (el) el.textContent = t; };
 
-// ---------- Welcome TTS ----------
-const welcomeLine =
-  "what if our voices are more than word. Welcome to skyboundmedia official website. i am Echo your a.i assistant and am listening.";
+// ---------- TTS: mobile-safe priming + female voice pick ----------
+let ttsReady = false;
+
 async function getVoicesOnce() {
   return new Promise((resolve) => {
     const v = speechSynthesis.getVoices();
     if (v.length) return resolve(v);
-    speechSynthesis.onvoiceschanged = () =>
-      resolve(speechSynthesis.getVoices());
+    speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
   });
 }
-async function speak(text) {
-  try {
-    const voices = await getVoicesOnce();
-    const voice =
-      voices.find(
-        (v) => v.lang?.includes("en") && v.name?.toLowerCase().includes("female")
-      ) || voices[0];
-    const u = new SpeechSynthesisUtterance(text);
-    u.voice = voice;
-    u.pitch = 1.05;
-    u.rate = 1;
-    u.volume = 1;
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
-  } catch {}
-}
-window.addEventListener("load", async () => {
-  // Say the welcome line shortly after load
-  setTimeout(() => speak(welcomeLine), 600);
-  // Warm up backend so first call isn't slow
-  try {
-    await fetch(HEALTH_URL, { cache: "no-store" });
-  } catch {}
-});
 
-// ---------- Core call to backend ----------
+async function primeTTS() {
+  // iOS/Android need a user gesture before audio; call this on first Send tap
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (Ctx) { const ctx = new Ctx(); await ctx.resume().catch(() => {}); }
+  } catch {}
+  await getVoicesOnce();
+  ttsReady = true;
+}
+
+function pickFemaleVoice(voices) {
+  // Prefer common female voices on phones first, otherwise any English, else fallback
+  const preferredNames = ["Samantha","Ava","Allison","Victoria","Eloquence","Google UK English Female","Google US English"];
+  return (
+    voices.find(v => preferredNames.includes(v.name)) ||
+    voices.find(v => v.name?.toLowerCase().includes("female")) ||
+    voices.find(v => v.lang?.toLowerCase().startsWith("en")) ||
+    voices[0]
+  );
+}
+
+async function speak(text) {
+  if (!ttsReady || !text) return;        // must be primed by a user tap first
+  try { speechSynthesis.cancel(); } catch {}
+  const voices = await getVoicesOnce();
+  const voice = pickFemaleVoice(voices);
+
+  const u = new SpeechSynthesisUtterance(text);
+  u.voice = voice;
+  u.rate = 1;          // keep near 1 on mobile
+  u.pitch = 1.05;
+  u.volume = 1;
+
+  setTimeout(() => speechSynthesis.speak(u), 0);  // nudge iOS to start
+}
+
+// ---------- Backend call ----------
 async function askEcho(prompt) {
   if (!prompt || !prompt.trim()) return "Say something first 🙂";
 
-  // 30s timeout guard
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 30000);
 
@@ -63,71 +69,49 @@ async function askEcho(prompt) {
       body: JSON.stringify({ prompt }),
       signal: ctrl.signal
     });
-  } catch (e) {
+  } catch {
     clearTimeout(timer);
-    throw new Error("Network error, try again.");
+    throw new Error("Network error");
   }
-
   clearTimeout(timer);
 
   if (!res.ok) {
-    const msg = await res.text().catch(() => "");
-    throw new Error(`Backend ${res.status}: ${msg || "error"}`);
+    const txt = await res.text().catch(() => "");
+    throw new Error(txt || `Backend ${res.status}`);
   }
 
-  const data = await res.json().catch(() => ({}));
-  return (
-    data?.choices?.[0]?.message?.content ||
-    data?.text ||
-    data?.answer ||
-    "No response."
-  );
+  const ct = res.headers.get("content-type") || "";
+  if (ct.includes("application/json")) {
+    const j = await res.json().catch(() => ({}));
+    return j?.choices?.[0]?.message?.content || j?.answer || j?.text || "No response.";
+  } else {
+    return await res.text();
+  }
 }
 
-// ---------- Text flow ----------
-async function askByText() {
+// ---------- UI handlers ----------
+async function handleSend() {
   const input = $("#text-input");
   const msg = (input?.value || "").trim();
   if (!msg) return;
 
   out("Thinking...");
   try {
+    // first user tap primes audio so phones can speak
+    if (!ttsReady) await primeTTS();
+
     const reply = await askEcho(msg);
     out(reply);
-    speak(reply);
+    speak(reply);            // will speak on phone after priming
   } catch (e) {
-    out("Backend offline. Try again shortly.");
+    out(`Backend offline. Try again shortly.\n${e.message || ""}`);
   }
 }
 
-// ---------- Voice flow ----------
-function askByVoice() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    out("Voice not supported on this device.");
-    return;
-  }
+$("#sendBtn")?.addEventListener("click", handleSend);
+$("#text-input")?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") handleSend();
+});
 
-  const rec = new SR();
-  rec.lang = "en-US";
-  rec.continuous = false;
-  rec.interimResults = false;
-  rec.start();
-
-  rec.onresult = async (e) => {
-    const transcript = e.results[e.results.length - 1][0].transcript.trim();
-    out(`You said: ${transcript}\nThinking...`);
-    try {
-      const reply = await askEcho(transcript);
-      out(reply);
-      speak(reply);
-    } catch {
-      out("Backend offline. Try again shortly.");
-    }
-  };
-  rec.onerror = () => out("Voice recognition error. Try again.");
-}
-
-// Wire up buttons
-$("#sendBtn")?.addEventListener("click", askByText);
-$("#voiceBtn")?.addEventListener("click", askByVoice);
+// Optional: warm backend so first call is faster
+fetch(HEALTH_URL, { method: "GET", cache: "no-store" }).catch(() => {});
