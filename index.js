@@ -13,7 +13,7 @@ const out = (t) => {
 
 // ---------- Welcome TTS ----------
 const welcomeLine =
-  "Welcome to skyboundmedia official website. i am Echo your ai assistant and am listening.";
+  "what if our voices are more than word. Welcome to skyboundmedia official website. i am Echo your a.i assistant and am listening.";
 async function getVoicesOnce() {
   return new Promise((resolve) => {
     const v = speechSynthesis.getVoices();
