@@ -30,17 +30,30 @@
       background-size:cover;background-position:center;
       animation:slideShow 56s infinite;
       max-width:var(--max);margin:0 auto 26px;border-radius:14px;overflow:hidden;
+    
     }
-    /* Use bg1…bg7 (lowercase) in repo root */
-    @keyframes slideShow{
-      0%   { background-image:url('bg1.jpg'); }
-      16%  { background-image:url('bg2.jpg'); }
-      32%  { background-image:url('bg3.jpg'); }
-      48%  { background-image:url('bg4.jpg'); }
-      64%  { background-image:url('bg5.jpg'); }
-      80%  { background-image:url('bg6.jpg'); }
-      100% { background-image:url('bg7.jpg'); }
-    }
+    /* Slideshow: uses bg1.jpg ... bg10.jpg (lowercase) */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:80px 20px;text-align:center;
+  background-size:cover;background-position:center;
+  animation:slideShow 60s infinite; /* change 60s to taste */
+  max-width:var(--max);margin:0 auto 26px;border-radius:14px;overflow:hidden;
+}
+@keyframes slideShow{
+  0%   { background-image:url('bg1.jpg'); }
+  10%  { background-image:url('bg2.jpg'); }
+  20%  { background-image:url('bg3.jpg'); }
+  30%  { background-image:url('bg4.jpg'); }
+  40%  { background-image:url('bg5.jpg'); }
+  50%  { background-image:url('bg6.jpg'); }
+  60%  { background-image:url('bg7.jpg'); }
+  70%  { background-image:url('bg8.jpg'); }
+  80%  { background-image:url('bg9.jpg'); }
+  90%  { background-image:url('bg10.jpg'); }
+  100% { background-image:url('bg1.jpg'); }
+}
     .hero h1{font-size:clamp(2rem,6vw,3rem);margin:0 0 1rem;max-width:90%}
     .hero p{font-size:clamp(1rem,3vw,1.2rem);max-width:90%;margin:0 auto 1rem}
     .cta-button{
