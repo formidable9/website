@@ -2,206 +2,210 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Echo Unfiltered – Skyboi Formidable</title>
+  <meta name="description" content="Ask Echo anything and explore Skyboi Formidable’s work at Skybound Media." />
+  <link rel="canonical" href="https://www.skyboundmedia.live/">
+  <link rel="icon" href="logo.png">
 
-  <!-- Google AdSense: keep placeholders until approval -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
+  <!-- Preload hero images (lowercase file names) -->
+  <link rel="preload" as="image" href="bg1.jpg">
+  <link rel="preload" as="image" href="bg2.jpg">
+  <link rel="preload" as="image" href="bg3.jpg">
+  <link rel="preload" as="image" href="bg4.jpg">
+  <link rel="preload" as="image" href="bg5.jpg">
+  <link rel="preload" as="image" href="bg6.jpg">
+  <link rel="preload" as="image" href="bg7.jpg">
+  <link rel="preload" as="image" href="bg8.jpg">
+  <link rel="preload" as="image" href="bg9.jpg">
+  <link rel="preload" as="image" href="bg10.jpg">
 
   <style>
     :root{
-      --bg:#000; --panel:#111; --border:#222; --text:#fff; --muted:#b9b9b9;
-      --accent1:#dc143c; --accent2:#ff6b6b; --max:1100px;
+      --bg:#000; --panel:#111; --text:#fff; --muted:#cfcfcf;
+      --accent1:#dc143c; --accent2:#ff6b6b; --ring:#2ee178;
+      --max:1100px;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+      font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
     a{color:inherit;text-decoration:none}
 
-    /* Header */
-    .site-header{padding:20px;border-bottom:1px solid rgba(255,255,255,.06);background:#050505}
-    .header-inner{max-width:var(--max);margin:0 auto;display:flex;justify-content:center}
+    .site-header{padding:20px;text-align:center}
     .logo{max-width:150px;height:auto}
 
-    /* HERO (CSS slideshow like original) */
+    /* ====== HERO with crossfade ====== */
+    .hero-wrap{max-width:var(--max);margin:0 auto 24px;border-radius:14px;overflow:hidden}
     .hero{
-      min-height:100vh;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      padding:80px 20px;text-align:center;
-      background-size:cover;background-position:center;
-      animation:slideShow 56s infinite;
-      max-width:var(--max);margin:0 auto 26px;border-radius:14px;overflow:hidden;
-    
+      position:relative;
+      height:70vh; min-height:420px;
+      display:flex;align-items:center;justify-content:center;
+      text-align:center;
+      isolation:isolate; /* make z-index local */
     }
-    /* Slideshow: uses bg1.jpg ... bg10.jpg (lowercase) */
-.hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:80px 20px;text-align:center;
-  background-size:cover;background-position:center;
-  animation:slideShow 60s infinite; /* change 60s to taste */
-  max-width:var(--max);margin:0 auto 26px;border-radius:14px;overflow:hidden;
-}
-@keyframes slideShow{
-  0%   { background-image:url('bg1.jpg'); }
-  10%  { background-image:url('bg2.jpg'); }
-  20%  { background-image:url('bg3.jpg'); }
-  30%  { background-image:url('bg4.jpg'); }
-  40%  { background-image:url('bg5.jpg'); }
-  50%  { background-image:url('bg6.jpg'); }
-  60%  { background-image:url('bg7.jpg'); }
-  70%  { background-image:url('bg8.jpg'); }
-  80%  { background-image:url('bg9.jpg'); }
-  90%  { background-image:url('bg10.jpg'); }
-  100% { background-image:url('bg1.jpg'); }
-}
-    .hero h1{font-size:clamp(2rem,6vw,3rem);margin:0 0 1rem;max-width:90%}
-    .hero p{font-size:clamp(1rem,3vw,1.2rem);max-width:90%;margin:0 auto 1rem}
+    .hero-layer{
+      position:absolute; inset:0;
+      background-position:center; background-size:cover;
+      opacity:0; transition:opacity 1.6s ease;  /* crossfade */
+      will-change:opacity;
+    }
+    .hero-layer.show{opacity:1}
+    .hero-content{position:relative; z-index:2; padding:24px}
+    .hero h1{font-size:clamp(2rem,6vw,3rem);margin:0 0 8px;text-shadow:0 2px 18px rgba(0,0,0,.65)}
+    .hero p{font-size:clamp(1rem,3vw,1.2rem);margin:0 0 16px;text-shadow:0 2px 12px rgba(0,0,0,.55)}
     .cta-button{
-      margin-top:20px;background:linear-gradient(90deg,var(--accent1),var(--accent2));
-      color:#fff;padding:12px 24px;border:none;border-radius:30px;font-weight:700;cursor:pointer;display:inline-block
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:#fff;border:none;border-radius:30px;padding:12px 24px;font-weight:700;cursor:pointer
     }
 
-    /* Panels (centered) */
-    .panel, .spotify-section, .services, .ask-ai, .site-footer{
-      max-width:var(--max);margin:0 auto 26px;padding:60px 20px;text-align:center;
-      background:#111;border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.30);
-    }
-    .panel h2, .spotify-section h2{font-size:2.2rem;margin:0 0 10px}
-    .panel p, .spotify-section p{font-size:1.1rem;margin:0 0 18px;color:var(--muted)}
+    /* Panels */
+    .panel{background:var(--panel);max-width:var(--max);margin:0 auto 24px;padding:24px;border-radius:16px}
+    .panel h2{font-size:clamp(1.8rem,5vw,2.4rem);margin:0 0 6px}
+    .panel p{color:var(--muted);margin:0 0 16px;font-size:clamp(1rem,2.4vw,1.15rem)}
 
     /* Ask AI */
-    .ai-logo{width:200px;max-width:85%;display:block;margin:0 auto 16px;border-radius:10px}
-    .controls{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0}
+    .ai-logo{width:180px;height:auto;border-radius:10px;margin:0 auto 14px;display:block}
+    .row{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap}
     .text-input{
-      flex:1;min-width:260px;max-width:600px;background:#0b0b0b;border:1px solid var(--border);color:#eaeaea;
-      border-radius:10px;padding:12px 14px;font-size:16px;outline:none
+      flex:1 1 520px;max-width:720px;min-width:260px;
+      background:#0d0d0d;color:#fff;border:1px solid #222;border-radius:10px;padding:14px 16px;outline:none
     }
-    #ai-response{
-      font-size:1.05rem;color:#a6f3b7;background:#0b0b0b;border:1px solid var(--border);
-      padding:12px;border-radius:12px;margin-top:16px;min-height:40px;white-space:pre-wrap
+    .btn{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:#fff;border:none;border-radius:30px;padding:14px 26px;font-weight:700;cursor:pointer
+    }
+    .response{
+      margin-top:16px;background:#0b0b0b;border:1px solid #232323;color:var(--ring);
+      padding:16px;border-radius:12px;min-height:34px;white-space:pre-wrap
     }
 
     /* Services */
-    .services h2{margin-bottom:1rem}
-    .service-list{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
-    .service-item{background:rgba(255,255,255,.08);padding:20px;border-radius:8px;width:220px;text-align:left}
-    .service-item h3{margin:0 0 10px;font-size:1.1rem}
-    .service-item p{margin:0;color:#e9e9e9}
+    .service-list{list-style:none;margin:0;padding:0;display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .service-item{background:#0b0b0b;border:1px solid #222;border-radius:12px;padding:16px;text-align:left}
 
-    /* Ads */
-    .ad-wrap{background:#0b0b0b;padding:16px;border-radius:12px;margin:18px auto 0;max-width:900px}
-    .ad-wrap ins{display:block !important}
-
-    /* Footer */
-    .site-footer{background:#111;color:#ccc;padding:20px 20px 40px;border:1px solid var(--border);border-radius:16px;margin-bottom:60px}
-
-    /* Mobile */
-    @media (max-width:600px){
-      .panel, .spotify-section, .services, .ask-ai{padding:40px 16px;border-radius:12px}
-      .cta-button{width:100%}
-      .logo{max-width:140px}
-    }
+    .site-footer{background:#0b0b0b;color:#ccc;text-align:center;padding:22px;font-size:.95rem}
   </style>
 </head>
 
 <body>
-  <!-- Header -->
   <header class="site-header">
-    <div class="header-inner">
-      <!-- file must be exactly logo.png (lowercase) in repo root -->
-      <img src="logo.png" alt="Echo Unfiltered logo" class="logo" />
-    </div>
+    <img src="logo.png" alt="Skybound Media logo" class="logo" />
   </header>
 
-  <!-- HERO (CSS slideshow) -->
-  <section class="hero">
-    <h1>Echo Unfiltered</h1>
-    <p>A live interview with my AI called Echo</p>
-    <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank" rel="noopener">Watch on YouTube</a>
+  <!-- HERO -->
+  <div class="hero-wrap">
+    <section class="hero" id="hero">
+      <div class="hero-layer" id="h0"></div>
+      <div class="hero-layer" id="h1"></div>
 
-    <!-- Ad block #1 -->
-    <div class="ad-wrap">
-      <ins class="adsbygoogle"
-           data-ad-client="ca-pub-0000000000000000"
-           data-ad-slot="1111111111"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-    </div>
-  </section>
+      <div class="hero-content">
+        <h1>Echo Unfiltered</h1>
+        <p>A live interview with my AI called Echo</p>
+        <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank" rel="noopener">Watch on YouTube</a>
+      </div>
+    </section>
+  </div>
 
-  <!-- Ask AI -->
-  <section class="ask-ai panel" id="ask">
-    <!-- small image above AI section -->
-    <img src="bg1.jpg" alt="You and Echo" class="ai-logo"/>
+  <!-- ASK AI -->
+  <section class="panel" id="ask">
+    <img src="bg1.jpg" alt="Echo" class="ai-logo" />
     <h2>Ask AI</h2>
     <p>Ask Echo a question with your text and see her response.</p>
 
-    <div class="controls">
-      <input type="text" id="text-input" class="text-input" placeholder="Type your question here"/>
-      <button class="cta-button" id="sendBtn">Send</button>
+    <div class="row">
+      <input id="text-input" class="text-input" placeholder="What do you want to ask?" />
+      <button id="sendBtn" class="btn">Send</button>
     </div>
 
-    <pre id="ai-response"></pre>
+    <pre id="ai-response" class="response"></pre>
   </section>
 
-  <!-- Spotify -->
-  <section class="spotify-section panel">
+  <!-- SPOTIFY -->
+  <section class="panel">
     <h2>🎧 Listen on Spotify</h2>
     <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
-    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="cta-button" target="_blank" rel="noopener">Visit Spotify</a>
+    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="btn" target="_blank" rel="noopener">Visit Spotify</a>
   </section>
 
-  <!-- Services -->
-  <section class="services panel" id="services">
+  <!-- SERVICES -->
+  <section class="panel" id="services">
     <h2>Our Services</h2>
     <ul class="service-list">
       <li class="service-item">
         <h3>Music Production</h3>
-        <p>Professional music production services tailored to your vision.</p>
+        <p>Professional music production tailored to your vision.</p>
       </li>
       <li class="service-item">
         <h3>Video Production</h3>
-        <p>High-quality video creation from concept to final cut.</p>
+        <p>High‑quality video creation from concept to final cut.</p>
       </li>
       <li class="service-item">
         <h3>Drone Pilot</h3>
-        <p>Aerial cinematography and photography with licensed drone operators.</p>
+        <p>Aerial cinematography and photography.</p>
       </li>
       <li class="service-item">
         <h3>Hip Hop Beats with African Fusion</h3>
-        <p>Unique beats blending African rhythms available for purchase.</p>
+        <p>Unique beats blending African rhythms.</p>
       </li>
       <li class="service-item">
         <h3>Website Design</h3>
-        <p>Creative and responsive website design to showcase your brand.</p>
+        <p>Creative, responsive websites to showcase your brand.</p>
       </li>
     </ul>
-
-    <!-- Ad block #2 -->
-    <div class="ad-wrap">
-      <ins class="adsbygoogle"
-           data-ad-client="ca-pub-0000000000000000"
-           data-ad-slot="2222222222"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-    </div>
   </section>
 
-  <!-- Arena -->
-  <section class="ask-ai panel">
+  <!-- ARENA -->
+  <section class="panel">
     <h2>🔥 Echo Battle Arena</h2>
     <p>Enter the arena and freestyle against Echo.</p>
-    <a class="cta-button" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" rel="noopener">Enter Battle Arena</a>
+    <a class="btn" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" rel="noopener">Enter Battle Arena</a>
   </section>
 
-  <!-- Footer -->
   <footer class="site-footer">
-    Contact us: 081263323131, 08137961537<br/>
-    &copy; 2025 Skybound Media. All rights reserved.
+    Contact: 081263323131, 08137961537<br>
+    © 2025 Skybound Media. All rights reserved.
   </footer>
 
-  <!-- Frontend logic (separate file) -->
-  <script src="index.js"></script>
-  <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <!-- Crossfade slideshow (no backend keys; safe) -->
+  <script>
+    // Image list (lowercase). Feel free to trim/extend.
+    const HERO_IMAGES = [
+      "bg1.jpg","bg2.jpg","bg3.jpg","bg4.jpg","bg5.jpg",
+      "bg6.jpg","bg7.jpg","bg8.jpg","bg9.jpg","bg10.jpg"
+    ];
+
+    // Preload (prevents blanks)
+    (function preload(list){
+      list.forEach(src => { const i=new Image(); i.src=src; });
+    })(HERO_IMAGES);
+
+    // Crossfade between two layers
+    document.addEventListener("DOMContentLoaded", () => {
+      const a = document.getElementById("h0");
+      const b = document.getElementById("h1");
+      const layers = [a,b];
+      let idx = 0, cur = 0;
+
+      function show(layer, src){
+        layer.style.backgroundImage = `url('${src}')`;
+        requestAnimationFrame(() => layer.classList.add("show"));
+      }
+      function hide(layer){ layer.classList.remove("show"); }
+
+      // init
+      show(layers[cur], HERO_IMAGES[idx]);
+
+      setInterval(() => {
+        idx = (idx + 1) % HERO_IMAGES.length;
+        const next = 1 - cur;
+        show(layers[next], HERO_IMAGES[idx]);
+        hide(layers[cur]);
+        cur = next;
+      }, 5600); // ~5.6s per frame (same pace you liked)
+    });
+  </script>
+
+  <!-- Your existing ask/health logic (talks to /api/ask). Keep your current index.js file. -->
+  <script src="index.js" defer></script>
 </body>
 </html>
