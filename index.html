@@ -78,7 +78,23 @@
     
     
     
-    .response{
+   
+      .nav-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .nav-links a:hover {
+    color: var(--accent1);
+  }
+.response{
       margin-top:16px;background:#0b0b0b;border:1px solid #232323;color:var(--ring);
       padding:16px;border-radius:12px;min-height:34px;white-space:pre-wrap
     }
@@ -93,6 +109,17 @@
 
 <body>
   <header class="site-header">
+
+        <img src="logo.png" alt="Skybound Media logo" class="logo" />
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+
     <img src="logo.png" alt="
       Skybound Medi
       a logo" class="logo" />
@@ -177,10 +204,19 @@
   </section>
 
   <footer class="site-footer">
-    Contact: 081263323131, 08137961537<br>
-    © 2025 Skybound Media. All rights reserved.
-  </footer>
 
+        
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  <  <p>Contact: 081263323131, 08137961537</p>
+  <p>&copy; 2025 Skybound Media. All rights reserved.</p>
+</footer>
   <!-- Crossfade slideshow (no backend keys; safe) -->
   <script>
     // Image list (lowercase). Feel free to trim/extend.
