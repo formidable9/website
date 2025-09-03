@@ -1,27 +1,256 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skybound Media</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Echo Unfiltered – Skyboi Formidable</title>
+  <meta name="description" content="Ask Echo anything and explore Skyboi Formidable’s work at Skybound Media." />
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XTXCHGPMHL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-XTXCHGPMHL');
   </script>
 
   <!-- Google AdSense (placeholder) -->
   <!-- Replace ca-pub-XXXXXXXXXXXXXXXX with your actual AdSense publisher ID once you have one -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"></script>
+
+  <link rel="icon" href="logo.png">
+
+  <!-- Preload hero images (lowercase file names) -->
+  <link rel="preload" as="image" href="bg1.jpg">
+  <link rel="preload" as="image" href="bg2.jpg">
+  <link rel="preload" as="image" href="bg3.jpg">
+  <link rel="preload" as="image" href="bg4.jpg">
+  <link rel="preload" as="image" href="bg5.jpg">
+  <link rel="preload" as="image" href="bg6.jpg">
+  <link rel="preload" as="image" href="bg7.jpg">
+  <link rel="preload" as="image" href="bg8.jpg">
+  <link rel="preload" as="image" href="bg9.jpg">
+  <link rel="preload" as="image" href="bg10.jpg">
+
+  <style>
+    :root{
+      --bg:#000; --panel:#111; --text:#fff; --muted:#cfcfcf;
+      --accent1:#dc143c; --accent2:#ff6b6b; --ring:#2ee178;
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+      font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+
+    .site-header{padding:20px;text-align:center}
+    .logo{max-width:150px;height:auto}
+
+    /* ====== HERO with crossfade ====== */
+    .hero-wrap{max-width:var(--max);margin:0 auto 24px;border-radius:14px;overflow:hidden}
+    .hero{
+      position:relative;
+      height:70vh; min-height:420px;
+
+      display:flex;align-items:center;justify-content:center;
+      text-align:center;
+      isolation:isolate; /* make z-index local */
+    }
+    .hero-layer{
+      position:absolute; inset:0;
+      background-position:center; background-size:cover;
+      opacity:0; transition:opacity 1.6s ease;  /* crossfade */
+      will-change:opacity;
+    }
+    .hero-layer.show{opacity:1}
+    .hero-content{position:relative; z-index:2; padding:24px}
+    .hero h1{font-size:clamp(2rem,6vw,3rem);margin:0 0 8px;text-shadow:0 2px 18px rgba(0,0,0,.65)}
+    .hero p{font-size:clamp(1rem,3vw,1.2rem);margin:0 0 16px;text-shadow:0 2px 12px rgba(0,0,0,.55)}
+    .cta-button{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:#fff;border:none;border-radius:30px;padding:12px 24px;font-weight:700;cursor:pointer
+    }
+
+    /* Panels */
+    .panel{background:var(--panel);max-width:var(--max);margin:0 auto 24px;padding:24px;border-radius:16px}
+    .panel h2{font-size:clamp(1.8rem,5vw,2.4rem);margin:0 0 6px}
+    .panel p{color:var(--muted);margin:0 0 16px;font-size:clamp(1rem,2.4vw,1.15rem)}
+
+    /* Ask AI */
+    .ai-logo{width:180px;height:auto;border-radius:10px;margin:0 auto 14px;display:block}
+    .row{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap}
+    .text-input{
+      flex:1 1 520px;max-width:720px;min-width:260px;
+      background:#0d0d0d;color:#fff;border:1px solid #222;border-radius:10px;padding:14px 16px;outline:none
+    }
+    .btn{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:#fff;border:none;border-radius:30px;padding:14px 26px;font-weight:700;cursor:pointer
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .nav-links a:hover {
+      color: var(--accent1);
+    }
+    .response{
+      margin-top:16px;background:#0b0b0b;border:1px solid #232323;color:var(--ring);
+      padding:16px;border-radius:12px;min-height:34px;white-space:pre-wrap
+    }
+
+    /* Services */
+    .service-list{list-style:none;margin:0;padding:0;display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .service-item{background:#0b0b0b;border:1px solid #222;border-radius:12px;padding:16px;text-align:left}
+
+    .site-footer{background:#0b0b0b;color:#ccc;text-align:center;padding:22px;font-size:.95rem}
+  </style>
 </head>
+
 <body>
-  <!-- TODO: Add your site content here -->
-  <h1>Welcome to Skybound Media</h1>
-  <p>Your content goes here.</p>
+  <header class="site-header">
+    <img src="logo.png" alt="Skybound Media logo" class="logo" />
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero-wrap">
+    <section class="hero" id="hero">
+      <div class="hero-layer" id="h0"></div>
+      <div class="hero-layer" id="h1"></div>
+
+      <div class="hero-content">
+        <h1>Echo Unfiltered</h1>
+        <p>A live interview with my AI called Echo</p>
+        <a href="https://www.youtube.com/@skyboiformidable" class="cta-button" target="_blank" rel="noopener">Watch on YouTube</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- ASK AI -->
+  <section class="panel" id="ask">
+    <img src="bg1.jpg" alt="Echo" class="ai-logo" />
+    <h2>Ask AI</h2>
+    <p>Ask Echo a question with your text and see her response.</p>
+
+    <div class="row">
+      <input id="text-input" class="text-input" placeholder="What do you want to ask?" />
+      <button id="sendBtn" class="btn">Send</button>
+    </div>
+
+    <pre id="ai-response" class="response"></pre>
+  </section>
+
+  <!-- SPOTIFY -->
+  <section class="panel">
+    <h2> Listen on Spotify</h2>
+    <p>Explore Skyboi Formidable’s music directly on Spotify.</p>
+    <a href="https://open.spotify.com/artist/22EPuAH2XLNMkZMQCMsYAR" class="btn" target="_blank" rel="noopener">Visit Spotify</a>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="panel" id="services">
+    <h2>Our Services</h2>
+    <ul class="service-list">
+      <li class="service-item">
+        <h3>Music Production</h3>
+        <p>Professional music production tailored to your vision.</p>
+      </li>
+      <li class="service-item">
+        <h3>Video Production</h3>
+        <p>High‑quality video creation from concept to final cut.</p>
+      </li>
+      <li class="service-item">
+        <h3>Drone Pilot</h3>
+        <p>Aerial cinematography and photography.</p>
+      </li>
+      <li class="service-item">
+        <h3>Hip Hop Beats with African Fusion</h3>
+        <p>Unique beats blending African rhythms.</p>
+      </li>
+      <li class="service-item">
+        <h3>Website Design</h3>
+        <p>Creative, responsive websites to showcase your brand.</p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ARENA -->
+  <section class="panel">
+    <h2> Echo Battle Arena</h2>
+    <p>Enter the arena and freestyle against Echo.</p>
+    <a class="btn" href="https://formidable9.github.io/ECHO-BATTLE-RAP/" target="_blank" rel="noopener">Enter Battle Arena</a>
+  </section>
+
+  <footer class="site-footer">
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+    <p>Contact: 081263323131, 08137961537</p>
+    <p>&copy; 2025 Skybound Media. All rights reserved.</p>
+  </footer>
+
+  <!-- Crossfade slideshow (no backend keys; safe) -->
+  <script>
+    // Image list (lowercase). Feel free to trim/extend.
+    const HERO_IMAGES = [
+      "bg1.jpg","bg2.jpg","bg3.jpg","bg4.jpg","bg5.jpg",
+      "bg6.jpg","bg7.jpg","bg8.jpg","bg9.jpg","bg10.jpg"
+    ];
+
+    // Preload (prevents blanks)
+    (function preload(list){
+      list.forEach(src => { const i=new Image(); i.src=src; });
+    })(HERO_IMAGES);
+
+    // Crossfade between two layers
+    document.addEventListener("DOMContentLoaded", () => {
+      const a = document.getElementById("h0");
+      const b = document.getElementById("h1");
+      const layers = [a,b];
+      let idx = 0, cur = 0;
+
+      function show(layer, src){
+        layer.style.backgroundImage = `url('${src}')`;
+        requestAnimationFrame(() => layer.classList.add("show"));
+      }
+      function hide(layer){ layer.classList.remove("show"); }
+
+      // init
+      show(layers[cur], HERO_IMAGES[idx]);
+
+      setInterval(() => {
+        idx = (idx + 1) % HERO_IMAGES.length;
+        const next = 1 - cur;
+        show(layers[next], HERO_IMAGES[idx]);
+        hide(layers[cur]);
+        cur = next;
+      }, 5600); // ~5.6s per frame (same pace you liked)
+    });
+  </script>
+
+  <!-- Your existing ask/health logic (talks to /api/ask). Keep your current index.js file. -->
+  <script src="index.js" defer></script>
 </body>
 </html>
