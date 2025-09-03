@@ -56,7 +56,7 @@ Only share links when relevant to the user’s request. No markdown, no code fen
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "llama3-70b-8192",
+    model: "llama-3.3-70b-versatile",
         temperature: 0.6,
         max_tokens: 512,
         messages: [
