@@ -179,12 +179,23 @@
   </script>
 
   <script src="index.js" defer></script>
-
-<script>
+  
+  <script>
   window.addEventListener('DOMContentLoaded', () => {
     const aiResponse = document.getElementById('ai-response');
+    const introText = "Echo: What if our voices are more than words? Welcome to Skybound Media official website. I am Echo. What would you like to know?";
+
     if (aiResponse) {
-      aiResponse.textContent = "Echo: What if our voices are more than words? Welcome to Skybound Media official website. I am Echo. What would you like to know?";
+      aiResponse.textContent = introText;
+    }
+
+    // Speak the intro
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(introText);
+      utterance.lang = 'en-GB'; // British female voice
+      utterance.pitch = 1;
+      utterance.rate = 1;
+      speechSynthesis.speak(utterance);
     }
   });
 </script>
